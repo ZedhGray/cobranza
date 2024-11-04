@@ -3,8 +3,8 @@ import logging
 from logging.handlers import RotatingFileHandler
 import json
 import os
-from database import get_clients_data, get_ventas_data  # Cambiamos get_saldos_data por get_ventas_data
-
+from database import get_clients_data, get_ventas_data
+from data_processor import update_combined_json, update_line_json, combine_client_sales_data
 
 def setup_logging():
     logger = logging.getLogger()
@@ -48,34 +48,19 @@ def main():
         setup_logging()
         logging.info("=== Iniciando actualización de datos ===")
         
-        # Procesar datos de clientes
-        logging.info("Obteniendo datos de clientes...")
-        clients_data = get_clients_data()
+        # Procesar datos combinados
+        combined_data = combine_client_sales_data()
+        update_combined_json(combined_data)
         
-        if clients_data:
-            logging.info(f"Datos de clientes obtenidos exitosamente. Procesando {len(clients_data)} registros...")
-            update_json_data(clients_data, 'clientes_data.json')
-            logging.info("Datos de clientes actualizados exitosamente")
-        else:
-            logging.warning("No se obtuvieron datos de clientes")
-
-        # Procesar datos de ventas (antes era saldos)
-        logging.info("Obteniendo datos de ventas...")
-        ventas_data = get_ventas_data()
+        # Actualizar datos de "timeline"
+        update_line_json(combined_data)
         
-        if ventas_data:
-            logging.info(f"Datos de ventas obtenidos exitosamente. Procesando {len(ventas_data)} registros...")
-            update_json_data(ventas_data, 'ventas_data.json')  # Cambiamos el nombre del archivo
-            logging.info("Datos de ventas actualizados exitosamente")
-        else:
-            logging.warning("No se obtuvieron datos de ventas")
-            
         logging.info("=== Proceso completado ===")
             
     except Exception as e:
         logging.error(f"Error en el proceso principal: {e}")
         logging.info("=== Proceso completado con errores ===")
         raise
-
+        
 if __name__ == "__main__":
     main()
