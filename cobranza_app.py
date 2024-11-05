@@ -3,15 +3,25 @@ from tkinter import ttk
 from PIL import Image, ImageTk
 import json
 from datetime import datetime
+import re
+import os
+
+def extract_ticket_number(ticket_text):
+    """Extract ticket number from ticket text using regex"""
+    if not ticket_text:
+        return "N/A"
+    match = re.search(r'TICKET:(\d+)', ticket_text)
+    return match.group(1) if match else "N/A"
 
 class DetalleClienteWindow:
-    def __init__(self, parent, cliente_data):
+    def __init__(self, parent, client_data, client_id=None):
         self.top = tk.Toplevel(parent)
         self.top.title("Detalle de Cliente")
         self.top.geometry("1000x800")
         
-        # Store cliente_data as instance variable
-        self.cliente_data = cliente_data
+        # Store cliente_data and client_id as instance variables
+        self.client_data = client_data
+        self.client_id = client_id
         
         # Colores
         self.COLOR_ROJO = "#E31837"
@@ -19,41 +29,38 @@ class DetalleClienteWindow:
         self.COLOR_BLANCO = "#FFFFFF"
         self.COLOR_GRIS = "#F5F5F5"
         self.COLOR_GRIS_CLARO = "#EFEFEF"
-        
+            
         # Configurar la ventana
         self.top.configure(bg=self.COLOR_GRIS_CLARO)
-        
+            
         # Initialize timeline_container as instance variable
         self.timeline_container = None
-        
+
         # Crear los frames principales
-        self.create_cliente_frame(cliente_data)
+        self.create_cliente_frame()
         self.create_timeline_frame()
-        self.create_adeudo_frame(cliente_data)
+        self.create_adeudo_frame()
         
-        
-    def create_cliente_frame(self, cliente):
+    def create_cliente_frame(self):
         # Frame principal del cliente
-        cliente_frame = tk.LabelFrame(self.top, text="CLIENTE", 
+        client_frame = tk.LabelFrame(self.top, text="CLIENTE", 
                                     font=("Arial", 16, "bold"),
                                     bg=self.COLOR_BLANCO)
-        cliente_frame.pack(fill='x', padx=20, pady=(20,10))
+        client_frame.pack(fill='x', padx=20, pady=(20,10))
         
         # Contenedor para la información del cliente
-        info_container = tk.Frame(cliente_frame, bg=self.COLOR_BLANCO)
+        info_container = tk.Frame(client_frame, bg=self.COLOR_BLANCO)
         info_container.pack(fill='x', padx=20, pady=10)
         
         # Información del cliente
-        self.create_info_field(info_container, "Número de Cliente:", cliente.get('clave', 'N/A'))
-        self.create_info_field(info_container, "Nombre:", cliente.get('nombre', 'N/A'))
-        self.create_info_field(info_container, "Teléfono:", cliente.get('telefono1', 'N/A'))
-        self.create_info_field(info_container, "Correo:", cliente.get('email', 'N/A'))
-        
-        # Dirección completa
-        self.create_info_field(info_container, "Direccion:", cliente.get('direccion', 'N/A'))
+        self.create_info_field(info_container, "Número de Cliente:", self.client_id)
+        self.create_info_field(info_container, "Nombre:", self.client_data.get('nombre', 'N/A'))
+        self.create_info_field(info_container, "Teléfono:", self.client_data.get('telefono1', 'N/A'))
+        self.create_info_field(info_container, "Correo:", self.client_data.get('email', 'N/A'))
+        self.create_info_field(info_container, "Direccion:", self.client_data.get('direccion', 'N/A'))
 
         # Estado (punto rojo y "Activo")
-        estado_frame = tk.Frame(cliente_frame, bg=self.COLOR_BLANCO)
+        estado_frame = tk.Frame(client_frame, bg=self.COLOR_BLANCO)
         estado_frame.place(relx=1.0, x=-20, y=10, anchor='ne')
         
         estado_label = tk.Label(estado_frame,
@@ -64,31 +71,15 @@ class DetalleClienteWindow:
         estado_label.pack(side='left')
         
         estado_texto = tk.Label(estado_frame,
-                            text=cliente.get('estado', 'ACTIVO'),
+                            text=self.client_data.get('estado', 'ACTIVO'),
                             font=("Arial", 12),
                             fg=self.COLOR_ROJO,
                             bg=self.COLOR_BLANCO)
         estado_texto.pack(side='left', padx=5)
-        
-    def create_info_field(self, parent, label, value, use_grid=False, row=None, col=None, columnspan=1):
-        """
-        Crea un campo de información con etiqueta y valor.
-        
-        Args:
-            parent: Widget padre donde se creará el campo
-            label: Texto de la etiqueta
-            value: Valor a mostrar
-            use_grid: Si es True usa grid, si es False usa pack
-            row: Fila para grid (solo si use_grid es True)
-            col: Columna para grid (solo si use_grid es True)
-            columnspan: Número de columnas a ocupar en grid (solo si use_grid es True)
-        """
+
+    def create_info_field(self, parent, label, value):
         frame = tk.Frame(parent, bg=self.COLOR_BLANCO)
-        
-        if use_grid:
-            frame.grid(row=row, column=col, columnspan=columnspan, sticky='w', pady=2)
-        else:
-            frame.pack(fill='x', pady=5)
+        frame.pack(fill='x', pady=5)
         
         # Etiqueta
         label_widget = tk.Label(frame,
@@ -99,14 +90,13 @@ class DetalleClienteWindow:
         
         # Valor
         value_widget = tk.Label(frame,
-                            text=value,
+                            text=str(value),
                             font=("Arial", 10),
                             bg=self.COLOR_BLANCO)
         value_widget.pack(side='left', padx=(0,10))
         
         return frame
         
-    # Actualización de la clase DetalleClienteWindow
     def create_timeline_frame(self):
         timeline_frame = tk.LabelFrame(self.top, text="LINEA DE TIEMPO",
                                     font=("Arial", 16, "bold"),
@@ -125,277 +115,87 @@ class DetalleClienteWindow:
         events_container = tk.Frame(self.timeline_container, bg=self.COLOR_BLANCO)
         events_container.pack(fill='both', expand=True)
         
-        # Obtener el ID del cliente
-        cliente_id = str(self.cliente_data.get('nc', ''))
+        # Cargar la línea del tiempo
+        timeline_data = self.cargar_timeline()
         
-        # Cargar o crear la línea del tiempo del cliente
-        timeline_data = self.cargar_o_crear_timeline(cliente_id)
-        
-        # Mostrar eventos
-        self.mostrar_eventos_timeline(events_container, timeline_data['eventos'])
-
-    def cargar_o_crear_timeline(self, cliente_id):
+        # Mostrar eventos de timeline
+        self.mostrar_eventos_timeline(events_container, timeline_data)   
+    
+    def cargar_timeline(self):
         """
-        Carga la línea del tiempo existente del cliente o crea una nueva si no existe.
+        Carga la línea del tiempo del cliente desde line.json
         """
-        # Convertir cliente_id a string para usarlo como clave
-        cliente_id = str(cliente_id)
-        
         try:
-            # Intentar cargar el archivo de líneas de tiempo
-            with open('timeline_data.json', 'r', encoding='utf-8') as file:
+            if not os.path.exists('line.json'):
+                print("Warning: El archivo 'line.json' no existe. Creando archivo con estructura básica.")
+                # Create basic structure if file doesn't exist
+                default_data = {}
+                with open('line.json', 'w', encoding='utf-8') as file:
+                    json.dump(default_data, file, indent=4)
+                return {}
+                    
+            with open('line.json', 'r', encoding='utf-8') as file:
                 timeline_data = json.load(file)
-        except (FileNotFoundError, json.JSONDecodeError):
-            # Si el archivo no existe o está corrupto, inicializar como diccionario vacío
-            timeline_data = {}
-        
-        # Si no existe línea del tiempo para este cliente, crearla
-        if cliente_id not in timeline_data:
-            # Crear eventos iniciales basados en las ventas
-            eventos_iniciales = self.crear_eventos_desde_ventas(self.cliente_data)
-            
-            # Crear nueva entrada para el cliente
-            timeline_data[cliente_id] = {
-                "eventos": eventos_iniciales,
-                "ultima_actualizacion": datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-            }
-            
-            # Guardar el archivo actualizado
-            self.guardar_timeline_data(timeline_data)
-            return timeline_data[cliente_id]
-        else:
-            # Si ya existe, retornar la timeline existente
-            return timeline_data[cliente_id]
-        
-    def cargar_timeline_data(self):
-        """
-        Carga los datos de la línea del tiempo desde el archivo JSON.
-        Si el archivo no existe o está corrupto, retorna un diccionario vacío.
-        
-        Returns:
-            dict: Datos de la línea del tiempo de todos los clientes
-        """
-        try:
-            with open('timeline_data.json', 'r', encoding='utf-8') as file:
-                return json.load(file)
-        except FileNotFoundError:
-            return {}
-        except json.JSONDecodeError:
-            print("Error: El archivo de línea del tiempo está corrupto")
+                client_id_str = str(self.client_id)
+                return timeline_data.get(client_id_str, {})
+                
+        except json.JSONDecodeError as e:
+            print(f"Error de formato en line.json: {e}")
             return {}
         except Exception as e:
             print(f"Error al cargar timeline: {e}")
             return {}
-    
-    def guardar_timeline_data(self, timeline_data):
-        """
-        Guarda los datos de la línea del tiempo en el archivo JSON.
-        Asegura que los datos existentes no se pierdan.
-        """
-        try:
-            # Intentar cargar datos existentes
-            try:
-                with open('timeline_data.json', 'r', encoding='utf-8') as file:
-                    existing_data = json.load(file)
-            except (FileNotFoundError, json.JSONDecodeError):
-                existing_data = {}
             
-            # Actualizar solo los datos nuevos/modificados
-            if isinstance(timeline_data, dict):
-                existing_data.update(timeline_data)
-            
-            # Guardar todos los datos
-            with open('timeline_data.json', 'w', encoding='utf-8') as file:
-                json.dump(existing_data, file, indent=4, ensure_ascii=False)
-        except Exception as e:
-            print(f"Error al guardar timeline: {e}")
-            
-    def agregar_evento_timeline(self, cliente_id, evento):
+    def mostrar_eventos_timeline(self, container, timeline_data):
         """
-        Agrega un nuevo evento a la línea del tiempo de un cliente específico.
+        Muestra los eventos de la timeline en la interfaz.
         """
-        # Convertir cliente_id a string
-        cliente_id = str(cliente_id)
-        
-        # Cargar todas las timelines existentes
-        try:
-            with open('timeline_data.json', 'r', encoding='utf-8') as file:
-                all_timelines = json.load(file)
-        except (FileNotFoundError, json.JSONDecodeError):
-            all_timelines = {}
-        
-        # Obtener o crear la timeline del cliente
-        if cliente_id not in all_timelines:
-            timeline_data = {
-                "eventos": [],
-                "ultima_actualizacion": datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-            }
-        else:
-            timeline_data = all_timelines[cliente_id]
-        
-        # Agregar el nuevo evento
-        nuevo_evento = {
-            **evento,
-            "fecha": datetime.now().strftime("%Y-%m-%d"),
-            "hora": datetime.now().strftime("%H:%M:%S")
-        }
-        
-        timeline_data['eventos'].insert(0, nuevo_evento)
-        timeline_data['ultima_actualizacion'] = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-        
-        # Actualizar en el diccionario principal
-        all_timelines[cliente_id] = timeline_data
-        
-        # Guardar todos los cambios
-        self.guardar_timeline_data(all_timelines)
-        
-        # Actualizar la visualización si el contenedor existe
-        if hasattr(self, 'timeline_container') and self.timeline_container:
-            for widget in self.timeline_container.winfo_children():
-                widget.destroy()
-            self.mostrar_eventos_timeline(self.timeline_container, timeline_data['eventos'])
+        if not timeline_data:
+            # Si no hay datos, mostrar mensaje
+            no_data_label = tk.Label(container,
+                                   text="No hay datos de seguimiento disponibles",
+                                   font=("Arial", 10),
+                                   fg=self.COLOR_NEGRO,
+                                   bg=self.COLOR_BLANCO)
+            no_data_label.pack(pady=20)
+            return
 
-    def crear_eventos_desde_ventas(self, cliente):
-        """
-        Crea eventos iniciales basados en las ventas del cliente.
-        """
-        eventos = []
-        if 'ventas' in cliente:
-            for venta in cliente['ventas']:
-                fecha_vencimiento = datetime.strptime(venta['fechaProg'], "%Y-%m-%d")
+        # Mostrar los eventos en orden específico
+        orden_eventos = ["day1", "day2", "day3", "dueDay"]
+        
+        for evento in orden_eventos:
+            if evento in timeline_data:
+                event_frame = tk.Frame(container, bg=self.COLOR_BLANCO)
+                event_frame.pack(fill='x', pady=5)
                 
-                # Evento de nuevo ticket
-                eventos.append({
-                    "tipo": "TICKET_NUEVO",
-                    "fecha": venta['fecha'],
-                    "hora": venta['hora'],
-                    "folio": venta['folio'],
-                    "monto": venta['total'],
-                    "descripcion": f"Ticket #{venta['folio']} generado",
-                    "detalles": {
-                        "estado": venta['estado'],
-                        "fechaProgramada": venta['fechaProg'],
-                        "condiciones": venta['condiciones']
-                    }
-                })
+                # Configurar el icono según el estado
+                status = timeline_data[evento]
+                icon_text = "✓" if status else "×"
+                icon_color = self.COLOR_ROJO if status else "#666666"
                 
-                # Si hay anticipo, crear evento de pago
-                if venta.get('anticipo', 0) > 0:
-                    eventos.append({
-                        "tipo": "PAGO",
-                        "fecha": venta['fecha'],
-                        "hora": venta['hora'],
-                        "monto": venta['anticipo'],
-                        "descripcion": f"Anticipo recibido para ticket #{venta['folio']}",
-                        "detalles": {
-                            "metodoPago": "ANTICIPO",
-                            "folioTicket": venta['folio'],
-                            "restante": venta['total'] - venta['anticipo']
-                        }
-                    })
-        
-        # Ordenar eventos por fecha y hora
-        eventos.sort(key=lambda x: (x['fecha'], x['hora']), reverse=True)
-        return eventos
-
-
-    def mostrar_eventos_timeline(self, container, eventos):
-        for evento in eventos:
-            # Frame para el evento
-            event_frame = tk.Frame(container, bg=self.COLOR_BLANCO)
-            event_frame.pack(fill='x', pady=5)
-            
-            # Icono según el tipo de evento
-            icon_text = self.get_event_icon(evento['tipo'])
-            icon_color = self.get_event_color(evento['tipo'])
-            
-            icon_label = tk.Label(event_frame,
-                                text=icon_text,
-                                font=("Arial", 14),
-                                fg=icon_color,
-                                bg=self.COLOR_BLANCO)
-            icon_label.pack(side='left', padx=5)
-            
-            # Contenedor para texto del evento
-            text_container = tk.Frame(event_frame, bg=self.COLOR_BLANCO)
-            text_container.pack(side='left', fill='x', expand=True)
-            
-            # Fecha y hora
-            fecha_hora = tk.Label(text_container,
-                                text=f"{evento['fecha']} {evento.get('hora', '')}",
-                                font=("Arial", 8),
-                                fg=self.COLOR_NEGRO,
-                                bg=self.COLOR_BLANCO)
-            fecha_hora.pack(anchor='w')
-            
-            # Descripción
-            descripcion = tk.Label(text_container,
-                                text=evento['descripcion'],
-                                font=("Arial", 10, "bold"),
-                                fg=self.COLOR_NEGRO,
-                                bg=self.COLOR_BLANCO)
-            descripcion.pack(anchor='w')
-            
-            # Detalles adicionales
-            if 'monto' in evento:
-                monto = tk.Label(text_container,
-                            text=f"${evento['monto']:,.2f}",
-                            font=("Arial", 10),
-                            fg=self.COLOR_ROJO,
-                            bg=self.COLOR_BLANCO)
-                monto.pack(anchor='w')
-            
-            # Mostrar detalles específicos según el tipo de evento
-            self.mostrar_detalles_evento(text_container, evento)
-
-    def get_event_icon(self, tipo):
-        icons = {
-            "TICKET_NUEVO": "🎫",
-            "PROMESA_PAGO": "🤝",
-            "CONTACTO": "📞",
-            "PAGO": "💰",
-            "RETRASO": "⚠️",
-            "VISITA": "🏪",
-            "NOTIFICACION": "📱"  # Nuevo icono para notificaciones
-        }
-        return icons.get(tipo, "●")
-
-    def get_event_color(self, tipo):
-        colors = {
-            "TICKET_NUEVO": self.COLOR_NEGRO,
-            "PROMESA_PAGO": "#4CAF50",  # Verde
-            "CONTACTO": "#2196F3",      # Azul
-            "PAGO": "#4CAF50",          # Verde
-            "RETRASO": self.COLOR_ROJO,
-            "VISITA": "#9C27B0",        # Púrpura
-            "NOTIFICACION": "#FF9800"    # Naranja para notificaciones
-        }
-        return colors.get(tipo, self.COLOR_NEGRO)
-
-    def mostrar_detalles_evento(self, container, evento):
-        detalles = evento.get('detalles', {})
-        
-        for key, value in detalles.items():
-            if value and str(value) != "1900-01-01":  # Excluir fechas vacías
-                detalle_text = f"{key}: {value}"
-                detalle_label = tk.Label(container,
-                                    text=detalle_text,
-                                    font=("Arial", 9),
-                                    fg="#666666",
-                                    bg=self.COLOR_BLANCO)
-                detalle_label.pack(anchor='w')
-
-    def guardar_eventos_timeline(self, cliente_id, eventos):
-        timeline_data = self.cargar_timeline_data()
-        timeline_data[cliente_id] = {"eventos": eventos}
-        
-        try:
-            with open('timeline_data.json', 'w', encoding='utf-8') as file:
-                json.dump(timeline_data, file, indent=4, ensure_ascii=False)
-        except Exception as e:
-            print(f"Error al guardar timeline: {e}")
-            
-    def create_adeudo_frame(self, cliente):
+                icon_label = tk.Label(event_frame,
+                                     text=icon_text,
+                                     font=("Arial", 14),
+                                     fg=icon_color,
+                                     bg=self.COLOR_BLANCO)
+                icon_label.pack(side='left', padx=5)
+                
+                # Texto descriptivo del evento
+                descripcion = {
+                    "day1": "Primer día de seguimiento",
+                    "day2": "Segundo día de seguimiento",
+                    "day3": "Tercer día de seguimiento",
+                    "dueDay": "Día de vencimiento"
+                }.get(evento, evento)
+                
+                text_label = tk.Label(event_frame,
+                                     text=descripcion,
+                                     font=("Arial", 10),
+                                     fg=self.COLOR_NEGRO,
+                                     bg=self.COLOR_BLANCO)
+                text_label.pack(side='left', padx=5)
+                        
+    def create_adeudo_frame(self):
         adeudo_frame = tk.LabelFrame(self.top, text="ADEUDO",
                                 font=("Arial", 16, "bold"),
                                 bg=self.COLOR_BLANCO)
@@ -407,18 +207,21 @@ class DetalleClienteWindow:
         
         # Mostrar cada ticket pendiente
         total_adeudo = 0
-        if 'ventas' in cliente:
-            ventas_pendientes = [venta for venta in cliente['ventas'] 
-                            if venta['estado'] == "X COBRAR"]
+        if 'ventas' in self.client_data:
+            ventas_pendientes = [venta for venta in self.client_data['ventas'] 
+                               if venta['estado'] == "X COBRAR"]
             
             for venta in ventas_pendientes:
                 # Frame para cada ticket
                 ticket_frame = tk.Frame(amounts_container, bg=self.COLOR_BLANCO)
                 ticket_frame.pack(fill='x', pady=2)
                 
+                # Extraer número de ticket del texto del ticket
+                ticket_num = extract_ticket_number(venta.get('ticket', ''))
+                
                 # Etiqueta del ticket
                 ticket_label = tk.Label(ticket_frame,
-                                    text=f"Ticket #{venta['folio']} ({venta['fecha']})",
+                                    text=f"Ticket #{ticket_num} ({venta['fecha']})",
                                     font=("Arial", 10),
                                     bg=self.COLOR_BLANCO)
                 ticket_label.pack(side='left')
@@ -464,40 +267,7 @@ class DetalleClienteWindow:
                             font=("Arial", 10, "bold"),
                             fg=self.COLOR_ROJO,
                             bg=self.COLOR_BLANCO)
-        total_amount.pack(side='right')
-            
-    def create_amount_row(self, parent, label, amount, is_total=False):
-        frame = tk.Frame(parent, bg=self.COLOR_BLANCO)
-        frame.pack(fill='x', pady=5)
-        
-        # Etiqueta
-        label = tk.Label(frame,
-                        text=label,
-                        font=("Arial", 10),
-                        bg=self.COLOR_BLANCO)
-        label.pack(side='left')
-        
-        # Contenedor derecho para flecha y monto
-        right_container = tk.Frame(frame, bg=self.COLOR_BLANCO)
-        right_container.pack(side='right')
-        
-        if not is_total:
-            # Flecha
-            arrow = "↓" if amount > 0 else "↑"
-            arrow_label = tk.Label(right_container,
-                                 text=arrow,
-                                 font=("Arial", 10),
-                                 bg=self.COLOR_BLANCO)
-            arrow_label.pack(side='right', padx=(0,5))
-        
-        # Monto
-        amount_label = tk.Label(right_container,
-                              text=f"${abs(amount):,.2f}",
-                              font=("Arial", 10, "bold"),
-                              fg=self.COLOR_ROJO if is_total else self.COLOR_NEGRO,
-                              bg=self.COLOR_BLANCO)
-        amount_label.pack(side='right')
-       
+        total_amount.pack(side='right')       
 class CobranzaApp:
     def __init__(self, root):
         self.root = root
@@ -529,7 +299,7 @@ class CobranzaApp:
         
         self.create_header()
         self.create_main_content()
-    
+        
     def create_header(self):
         header_frame = tk.Frame(self.root, bg=self.COLOR_ROJO, height=80)
         header_frame.pack(fill='x')
@@ -754,11 +524,11 @@ class CobranzaApp:
         ventas_container.pack(fill='both', expand=True, padx=10)
         
         # Crear Treeview para ventas
-        columns = ('Folio', 'Fecha', 'Total')
+        columns = ('Ticket', 'Fecha', 'Total')
         ventas_tree = ttk.Treeview(ventas_container, columns=columns, show='headings', height=10)
         
         # Configurar columnas
-        ventas_tree.column('Folio', width=80, minwidth=80)
+        ventas_tree.column('Ticket', width=80, minwidth=80)
         ventas_tree.column('Fecha', width=100, minwidth=100)
         ventas_tree.column('Total', width=100, minwidth=100)
         
@@ -770,13 +540,14 @@ class CobranzaApp:
             ventas = sorted(
                 [venta for venta in cliente['ventas'] if venta['estado'] == "X COBRAR"],
                 key=lambda x: datetime.strptime(x['fecha'], "%Y-%m-%d"),
-                reverse=True  # Ordenar de más reciente a más antigua
+                reverse=True
             )
             
             # Insertar ventas ordenadas
             for venta in ventas:
+                ticket_num = extract_ticket_number(venta.get('ticket', ''))
                 ventas_tree.insert('', 'end', values=(
-                    venta['folio'],
+                    ticket_num,
                     venta['fecha'],
                     f"${venta['total']:,.2f}"
                 ))
@@ -788,14 +559,15 @@ class CobranzaApp:
         # Colocar Treeview y scrollbar
         ventas_tree.pack(side='left', fill='both', expand=True)
         scrollbar.pack(side='right', fill='y')
-    
+
     def abrir_detalle_cliente(self, event):
-        # Obtener el Treeview que generó el evento
         tree = event.widget
         selected_item = tree.selection()[0]
-        cliente_clave = tree.item(selected_item)['values'][0]
-        cliente = self.clientes_data[cliente_clave]
-        DetalleClienteWindow(self.root, cliente)
+        client_clave = tree.item(selected_item)['values'][0]  # Obtenemos el ID
+        client = self.clientes_data[client_clave]
+        print(f"ID del cliente seleccionado: {client_clave}")
+        # Pass both client data and ID to DetalleClienteWindow
+        DetalleClienteWindow(self.root, client, client_clave)
 
 if __name__ == "__main__":
     root = tk.Tk()
