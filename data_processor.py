@@ -38,7 +38,8 @@ def update_line_json(combined_data):
                     "day3": False,
                     "day2": False,
                     "day1": False,
-                    "dueDay": True
+                    "dueDay": False,
+                    "promisePage": False,                    
                 }
         
         # Eliminar los client_id que ya no existen en los datos combinados

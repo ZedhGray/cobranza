@@ -98,103 +98,327 @@ class DetalleClienteWindow:
         return frame
         
     def create_timeline_frame(self):
+        """Crea el frame principal de la timeline"""
         timeline_frame = tk.LabelFrame(self.top, text="LINEA DE TIEMPO",
                                     font=("Arial", 16, "bold"),
                                     bg=self.COLOR_BLANCO)
         timeline_frame.pack(fill='both', expand=True, padx=20, pady=10)
-        
+
         # Contenedor para la línea vertical y eventos
-        self.timeline_container = tk.Frame(timeline_frame, bg=self.COLOR_BLANCO)
-        self.timeline_container.pack(fill='both', expand=True, padx=20, pady=10)
+        events_container = tk.Frame(timeline_frame, bg=self.COLOR_BLANCO)
+        events_container.pack(fill='both', expand=True, padx=(30, 10))  # Padding ajustado
+
+        # Línea vertical roja (ahora parte de events_container)
+        line = tk.Frame(events_container, width=2, bg=self.COLOR_ROJO)
+        line.pack(side='left', fill='y', padx=(0, 20))
+
+        self.timeline_container = events_container
         
+        # Mostrar eventos iniciales
+        self.mostrar_eventos_timeline(events_container)
+
+        # Frame para los botones
+        buttons_frame = tk.Frame(timeline_frame, bg=self.COLOR_BLANCO)
+        buttons_frame.pack(pady=5)
+
+        # Botón para nueva nota
+        add_note_btn = tk.Button(buttons_frame,
+                                text="+ Agregar Nota",
+                                font=("Arial", 10),
+                                command=self.show_note_dialog)
+        add_note_btn.pack(side='left', padx=5)
+
+        # Botón para alternar promesa de pago
+        self.promise_btn = tk.Button(buttons_frame,
+                                   text="Promesa de Pago",
+                                   font=("Arial", 10),
+                                   command=self.toggle_promise_page)
+        self.promise_btn.pack(side='left', padx=5)
+
+        # Actualizar el estado inicial del botón
+        self.update_promise_button_state()
+            
+    def create_timeline(self, container):
+        """
+        Crea la línea vertical y los eventos de la línea de tiempo.
+        """
         # Línea vertical roja
-        line = tk.Frame(self.timeline_container, width=2, bg=self.COLOR_ROJO)
+        line = tk.Frame(container, width=2, bg=self.COLOR_ROJO)
         line.pack(side='left', fill='y', padx=(10, 20))
-        
+
         # Contenedor de eventos
-        events_container = tk.Frame(self.timeline_container, bg=self.COLOR_BLANCO)
+        events_container = tk.Frame(container, bg=self.COLOR_BLANCO)
         events_container.pack(fill='both', expand=True)
-        
-        # Cargar la línea del tiempo
-        timeline_data = self.cargar_timeline()
-        
-        # Mostrar eventos de timeline
-        self.mostrar_eventos_timeline(events_container, timeline_data)   
+
+        # Cargar y mostrar los eventos de la línea de tiempo
+        self.mostrar_eventos_timeline(events_container)
+
+        return events_container
     
     def cargar_timeline(self):
         """
         Carga la línea del tiempo del cliente desde line.json
         """
         try:
-            if not os.path.exists('line.json'):
-                print("Warning: El archivo 'line.json' no existe. Creando archivo con estructura básica.")
-                # Create basic structure if file doesn't exist
-                default_data = {}
-                with open('line.json', 'w', encoding='utf-8') as file:
-                    json.dump(default_data, file, indent=4)
-                return {}
-                    
             with open('line.json', 'r', encoding='utf-8') as file:
                 timeline_data = json.load(file)
                 client_id_str = str(self.client_id)
                 return timeline_data.get(client_id_str, {})
-                
-        except json.JSONDecodeError as e:
-            print(f"Error de formato en line.json: {e}")
+        except (FileNotFoundError, json.JSONDecodeError, KeyError):
             return {}
+
+    def toggle_promise_page(self):
+        """
+        Alterna el estado de promisePage entre true y false
+        """
+        try:
+            with open('line.json', 'r', encoding='utf-8') as file:
+                timeline_data = json.load(file)
+
+            client_id_str = str(self.client_id)
+            if client_id_str not in timeline_data:
+                timeline_data[client_id_str] = {
+                    "day1": False,
+                    "day2": False,
+                    "day3": False,
+                    "dueDay": False,
+                    "promisePage": False
+                }
+
+            # Alternar el estado
+            timeline_data[client_id_str]["promisePage"] = not timeline_data[client_id_str].get("promisePage", False)
+
+            # Guardar los cambios
+            with open('line.json', 'w', encoding='utf-8') as file:
+                json.dump(timeline_data, file, indent=4)
+
+            # Actualizar la visualización
+            self.refresh_timeline()
+            self.update_promise_button_state()
+
         except Exception as e:
-            print(f"Error al cargar timeline: {e}")
-            return {}
+            print(f"Error toggling promise page: {e}")
+    
+    def update_promise_button_state(self):
+        """
+        Actualiza el estado visual del botón de promesa de pago
+        """
+        timeline_data = self.cargar_timeline()
+        is_promised = timeline_data.get("promisePage", False)
+        
+        if is_promised:
+            self.promise_btn.configure(
+                text="Cancelar Promesa",
+                bg=self.COLOR_ROJO,
+                fg=self.COLOR_BLANCO
+            )
+        else:
+            self.promise_btn.configure(
+                text="Promesa de Pago",
+                bg="SystemButtonFace",
+                fg="black"
+            )
+    
+    def agregar_nota_a_timeline(self, evento, nota):
+        """
+        Agrega una nueva nota a la línea de tiempo del cliente.
+        """
+        try:
+            with open('line.json', 'r', encoding='utf-8') as file:
+                timeline_data = json.load(file)
+
+            client_id_str = str(self.client_id)
+            if client_id_str not in timeline_data:
+                timeline_data[client_id_str] = {}
+
+            timeline_data[client_id_str][evento] = {
+                'type': 'note',
+                'text': nota,
+                'timestamp': datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+            }
+
+            with open('line.json', 'w', encoding='utf-8') as file:
+                json.dump(timeline_data, file, indent=4)
+
+            # Actualizar la visualización
+            self.refresh_timeline()
+        except Exception as e:
+            print(f"Error al agregar nota a la línea de tiempo: {e}")
             
-    def mostrar_eventos_timeline(self, container, timeline_data):
+    def show_note_dialog(self):
         """
-        Muestra los eventos de la timeline en la interfaz.
+        Muestra un diálogo para agregar una nueva nota al timeline.
         """
+        dialog = tk.Toplevel(self.top)
+        dialog.title("Agregar Nueva Nota")
+        dialog.geometry("300x200")
+        dialog.configure(bg=self.COLOR_BLANCO)
+        
+        # Hacer la ventana modal
+        dialog.transient(self.top)
+        dialog.grab_set()
+        
+        # Text area para la nota
+        note_text = tk.Text(dialog, height=5, width=30)
+        note_text.pack(padx=10, pady=10)
+        
+        def save_new_note():
+            note_content = note_text.get("1.0", "end-1c").strip()
+            if note_content:
+                self.agregar_nota_a_timeline(f"note_{datetime.now().strftime('%Y%m%d%H%M%S')}", note_content)
+                dialog.destroy()
+        
+        # Botón guardar
+        save_btn = tk.Button(dialog,
+                            text="Guardar",
+                            command=save_new_note)
+        save_btn.pack(pady=10)
+        
+    def mostrar_eventos_timeline(self, container):
+        """Muestra los eventos de la timeline en la interfaz"""
+        timeline_data = self.cargar_timeline()
+        
         if not timeline_data:
-            # Si no hay datos, mostrar mensaje
             no_data_label = tk.Label(container,
-                                   text="No hay datos de seguimiento disponibles",
-                                   font=("Arial", 10),
-                                   fg=self.COLOR_NEGRO,
-                                   bg=self.COLOR_BLANCO)
-            no_data_label.pack(pady=20)
+                                    text="No hay datos de seguimiento disponibles",
+                                    font=("Arial", 10),
+                                    fg=self.COLOR_NEGRO,
+                                    bg=self.COLOR_BLANCO)
+            no_data_label.pack(pady=20, padx=(30, 0))  # Ajustar padding
             return
 
-        # Mostrar los eventos en orden específico
-        orden_eventos = ["day1", "day2", "day3", "dueDay"]
+        # Ordenar eventos por timestamp de más antiguo a más reciente
+        sorted_events = []
+        for evento, data in timeline_data.items():
+            timestamp = data.get('timestamp', '') if isinstance(data, dict) else ''
+            # Para eventos sin timestamp (como day1, day2, etc.), asignar una fecha muy antigua
+            if not timestamp:
+                if evento == "day1":
+                    timestamp = "0001-01-01"
+                elif evento == "day2":
+                    timestamp = "0001-01-02"
+                elif evento == "day3":
+                    timestamp = "0001-01-03"
+                elif evento == "dueDay":
+                    timestamp = "0001-01-04"
+            sorted_events.append((evento, data, timestamp))
         
-        for evento in orden_eventos:
-            if evento in timeline_data:
-                event_frame = tk.Frame(container, bg=self.COLOR_BLANCO)
-                event_frame.pack(fill='x', pady=5)
-                
-                # Configurar el icono según el estado
-                status = timeline_data[evento]
-                icon_text = "✓" if status else "×"
-                icon_color = self.COLOR_ROJO if status else "#666666"
-                
-                icon_label = tk.Label(event_frame,
-                                     text=icon_text,
-                                     font=("Arial", 14),
-                                     fg=icon_color,
-                                     bg=self.COLOR_BLANCO)
-                icon_label.pack(side='left', padx=5)
-                
-                # Texto descriptivo del evento
-                descripcion = {
-                    "day1": "Primer día de seguimiento",
-                    "day2": "Segundo día de seguimiento",
-                    "day3": "Tercer día de seguimiento",
-                    "dueDay": "Día de vencimiento"
-                }.get(evento, evento)
-                
-                text_label = tk.Label(event_frame,
-                                     text=descripcion,
-                                     font=("Arial", 10),
-                                     fg=self.COLOR_NEGRO,
-                                     bg=self.COLOR_BLANCO)
-                text_label.pack(side='left', padx=5)
-                        
+        # Ordenar por timestamp de más antiguo a más reciente
+        sorted_events.sort(key=lambda x: x[2])
+        
+        for evento, data, _ in sorted_events:
+            self.mostrar_evento(container, evento, data)
+
+    def mostrar_evento(self, container, evento, data):
+        """Muestra un evento individual en el timeline"""
+        event_frame = tk.Frame(container, bg=self.COLOR_BLANCO)
+        event_frame.pack(fill='x', pady=5, padx=(30, 0))  # Ajustar padding
+
+        # Frame izquierdo para el icono y descripción
+        left_frame = tk.Frame(event_frame, bg=self.COLOR_BLANCO)
+        left_frame.pack(side='left', fill='x', expand=True)
+
+        # Configurar el icono y descripción
+        if isinstance(data, dict) and data.get('type') == 'note':
+            icon_text = "📝"
+            icon_color = self.COLOR_ROJO
+            timestamp = data.get('timestamp', '')
+            descripcion = f"{data['text']}\n{timestamp}" if timestamp else data['text']
+        else:
+            status = data if isinstance(data, bool) else data.get('status', False)
+            icon_text = "✔" if status else "⏰"
+            icon_color = self.COLOR_ROJO if status else "#666666"
+            descripcion = {
+                "day1": "Primer día de seguimiento",
+                "day2": "Segundo día de seguimiento",
+                "day3": "Tercer día de seguimiento",
+                "dueDay": "Día de vencimiento",
+                "promisePage": "Promesa de pago"
+            }.get(evento, evento)
+
+        icon_label = tk.Label(left_frame,
+                            text=icon_text,
+                            font=("Arial", 14),
+                            fg=icon_color,
+                            bg=self.COLOR_BLANCO)
+        icon_label.pack(side='left', padx=5)
+
+        text_label = tk.Label(left_frame,
+                            text=descripcion,
+                            font=("Arial", 10),
+                            fg=self.COLOR_NEGRO,
+                            bg=self.COLOR_BLANCO,
+                            justify='left',
+                            wraplength=400)
+        text_label.pack(side='left', padx=5, fill='x', expand=True)
+    
+    def add_new_timeline_note(self):
+        """
+        Muestra un diálogo para agregar una nueva nota al timeline.
+        """
+        self.dialog = tk.Toplevel(self.top)
+        self.dialog.title("Agregar Nueva Nota")
+        self.dialog.geometry("300x200")
+        self.dialog.configure(bg=self.COLOR_BLANCO)
+            
+        # Hacer la ventana modal
+        self.dialog.transient(self.top)
+        self.dialog.grab_set()
+            
+        # Text area para la nota
+        note_text = tk.Text(self.dialog, height=5, width=30)
+        note_text.pack(padx=10, pady=10)
+            
+        def save_new_note():
+            note_content = note_text.get("1.0", "end-1c").strip()
+            if note_content:
+                self.add_note_to_timeline(f"note_{datetime.now().strftime('%Y%m%d%H%M%S')}", note_content)
+                self.dialog.destroy()
+                # Actualizar la visualización
+                self.refresh_timeline()
+            
+            # Botón guardar
+            save_btn = tk.Button(self.dialog,
+                                text="Guardar",
+                                command=save_new_note)
+            save_btn.pack(pady=10)
+    
+    def add_note_to_timeline(self, evento, note_content):
+        """
+        Adds a new note to the client's timeline data.
+        """
+        try:
+            with open('line.json', 'r', encoding='utf-8') as file:
+                timeline_data = json.load(file)
+
+            client_id_str = str(self.client_id)
+            if client_id_str not in timeline_data:
+                timeline_data[client_id_str] = {}
+
+            timeline_data[client_id_str][evento] = {
+                'type': 'note',
+                'text': note_content,
+                'timestamp': datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+            }
+
+            with open('line.json', 'w', encoding='utf-8') as file:
+                json.dump(timeline_data, file, indent=4)
+
+            # Actualizar la vista de la línea de tiempo
+            self.refresh_timeline()
+        except Exception as e:
+            print(f"Error adding note to timeline: {e}")
+            
+    def refresh_timeline(self):
+        """Actualiza solo los eventos de la timeline sin recrear la estructura"""
+        # Eliminar solo los eventos existentes, manteniendo la línea vertical
+        for widget in self.timeline_container.winfo_children():
+            if isinstance(widget, tk.Frame) and widget != self.timeline_container.winfo_children()[0]:  # Preservar la línea vertical
+                widget.destroy()
+        
+        # Mostrar eventos actualizados
+        self.mostrar_eventos_timeline(self.timeline_container)
+
     def create_adeudo_frame(self):
         adeudo_frame = tk.LabelFrame(self.top, text="ADEUDO",
                                 font=("Arial", 16, "bold"),
@@ -285,6 +509,7 @@ class CobranzaApp:
         
         # Cargar datos
         self.clientes_data = self.cargar_datos()
+        self.line_data = self.cargar_line_data()
         
         # Configurar la ventana principal
         screen_width = root.winfo_screenwidth()
@@ -296,6 +521,9 @@ class CobranzaApp:
         
         self.root.geometry(f"{window_width}x{window_height}+{x}+{y}")
         self.root.configure(bg=self.COLOR_BLANCO)
+        
+        # Variable para almacenar la referencia al main_frame
+        self.main_frame = None
         
         self.create_header()
         self.create_main_content()
@@ -329,15 +557,29 @@ class CobranzaApp:
                                 fg=self.COLOR_BLANCO)
         cobranza_label.pack(side='left', padx=20)
         
-        back_button = tk.Button(header_frame, 
-                              text="← Atrás",
+        reload_button = tk.Button(header_frame, 
+                              text="⟳ Recargar Datos",
                               font=("Arial", 10),
                               bg=self.COLOR_ROJO,
                               fg=self.COLOR_BLANCO,
                               bd=0,
-                              cursor="hand2")
-        back_button.pack(side='right', padx=20)
+                              cursor="hand2",
+                              command=self.recargar_datos)
+        reload_button.pack(side='right', padx=20)
         
+    def recargar_datos(self):
+        """Función para recargar los datos de los archivos JSON y actualizar la interfaz"""
+        # Recargar los datos
+        self.clientes_data = self.cargar_datos()
+        self.line_data = self.cargar_line_data()
+        
+        # Destruir el contenido actual
+        if self.main_frame:
+            self.main_frame.destroy()
+            
+        # Recrear el contenido
+        self.create_main_content()
+    
     def cargar_datos(self):
         try:
             with open('clientes_ventas_combined.json', 'r', encoding='utf-8') as file:
@@ -348,7 +590,18 @@ class CobranzaApp:
         except json.JSONDecodeError:
             print("Error: El archivo JSON no tiene un formato válido")
             return {}
-
+        
+    def cargar_line_data(self):
+        try:
+            with open('line.json', 'r', encoding='utf-8') as file:
+                return json.load(file)
+        except FileNotFoundError:
+            print("Error: No se encontró el archivo line.json")
+            return {}
+        except json.JSONDecodeError:
+            print("Error: El archivo line.json no tiene un formato válido")
+            return {}
+    
     def obtener_fecha_venta_antigua(self, cliente):
         if 'ventas' not in cliente or not cliente['ventas']:
             return datetime.now()
@@ -365,14 +618,14 @@ class CobranzaApp:
                 for venta in ventas_pendientes]
         return min(fechas)
 
-    def categorizar_cliente(self, cliente):
+    def categorizar_cliente(self, cliente_id, cliente):
         try:
             fecha_venta_antigua = self.obtener_fecha_venta_antigua(cliente)
             fecha_actual = datetime.now()
             diferencia = fecha_actual - fecha_venta_antigua
             
-            # Verde: Solo ventas del día actual
-            if fecha_venta_antigua.date() == fecha_actual.date():
+            # Verde: Si tiene promisePage true en line.json
+            if cliente_id in self.line_data and self.line_data[cliente_id]['promisePage']:
                 return "verde"
             # Amarillo: menos de 30 días
             elif diferencia.days < 30:
@@ -387,11 +640,11 @@ class CobranzaApp:
         
     def create_main_content(self):
         # Contenedor principal que ocupará todo el espacio disponible
-        main_frame = tk.Frame(self.root, bg=self.COLOR_BLANCO)
-        main_frame.pack(fill='both', expand=True, padx=20, pady=20)
+        self.main_frame = tk.Frame(self.root, bg=self.COLOR_BLANCO)
+        self.main_frame.pack(fill='both', expand=True, padx=20, pady=20)
         
         # Lista de clientes (izquierda - 2/3 del ancho)
-        clientes_frame = tk.LabelFrame(main_frame, text="CLIENTES", 
+        clientes_frame = tk.LabelFrame(self.main_frame, text="CLIENTES", 
                                      font=("Arial", 16, "bold"),
                                      bg=self.COLOR_BLANCO)
         clientes_frame.pack(side='left', fill='both', expand=True, padx=(0,10))
@@ -412,7 +665,7 @@ class CobranzaApp:
         self.create_category_section(categories_container, "MAS DE 30 DIAS", self.COLOR_ROJO, 2)
         
         # Frame para detalles del cliente (derecha - 1/3 del ancho)
-        self.detalles_frame = tk.LabelFrame(main_frame,
+        self.detalles_frame = tk.LabelFrame(self.main_frame,
                                           text="ADEUDO",
                                           font=("Arial", 16, "bold"),
                                           bg=self.COLOR_BLANCO)
@@ -452,7 +705,7 @@ class CobranzaApp:
         
         # Insertar datos según la categoría
         for clave, cliente in self.clientes_data.items():
-            categoria = self.categorizar_cliente(cliente)
+            categoria = self.categorizar_cliente(clave, cliente)
             if ((color == self.COLOR_VERDE and categoria == "verde") or
                 (color == self.COLOR_AMARILLO and categoria == "amarillo") or
                 (color == self.COLOR_ROJO and categoria == "rojo")):
@@ -477,7 +730,6 @@ class CobranzaApp:
         # Vincular eventos
         tree.bind('<<TreeviewSelect>>', self.mostrar_detalles_cliente)
         tree.bind('<Double-1>', self.abrir_detalle_cliente)
-   
     def mostrar_detalles_cliente(self, event):
         # Obtener el Treeview que generó el evento
         tree = event.widget
