@@ -5,6 +5,7 @@ import json
 from datetime import datetime
 import re
 import os
+import subprocess
 
 def extract_ticket_number(ticket_text):
     """Extract ticket number from ticket text using regex"""
@@ -98,17 +99,34 @@ class DetalleClienteWindow:
         return frame
         
     def create_timeline_frame(self):
-        """Crea el frame principal de la timeline"""
+        """Crea el frame principal de la timeline con scrollbar"""
         timeline_frame = tk.LabelFrame(self.top, text="LINEA DE TIEMPO",
                                     font=("Arial", 16, "bold"),
                                     bg=self.COLOR_BLANCO)
-        timeline_frame.pack(fill='both', expand=True, padx=20, pady=10)
+        timeline_frame.pack(fill='x', padx=20, pady=10)
+
+        # Canvas y Scrollbar para manejar el scroll
+        self.canvas = tk.Canvas(timeline_frame, bg=self.COLOR_BLANCO, height=300)  # Altura fija de 300px
+        scrollbar = ttk.Scrollbar(timeline_frame, orient="vertical", command=self.canvas.yview)
+        
+        # Frame interior que contendrá todos los elementos
+        interior_frame = tk.Frame(self.canvas, bg=self.COLOR_BLANCO)
+        
+        # Configurar el canvas
+        self.canvas.configure(yscrollcommand=scrollbar.set)
+        
+        # Empaquetar el canvas y el scrollbar
+        self.canvas.pack(side="left", fill="both", expand=True, padx=(0, 5))
+        scrollbar.pack(side="right", fill="y")
+        
+        # Crear una ventana en el canvas para el frame interior
+        canvas_frame = self.canvas.create_window((0, 0), window=interior_frame, anchor="nw")
 
         # Contenedor para la línea vertical y eventos
-        events_container = tk.Frame(timeline_frame, bg=self.COLOR_BLANCO)
-        events_container.pack(fill='both', expand=True, padx=(30, 10))  # Padding ajustado
+        events_container = tk.Frame(interior_frame, bg=self.COLOR_BLANCO)
+        events_container.pack(fill='both', expand=True, padx=(30, 10))
 
-        # Línea vertical roja (ahora parte de events_container)
+        # Línea vertical roja
         line = tk.Frame(events_container, width=2, bg=self.COLOR_ROJO)
         line.pack(side='left', fill='y', padx=(0, 20))
 
@@ -117,7 +135,7 @@ class DetalleClienteWindow:
         # Mostrar eventos iniciales
         self.mostrar_eventos_timeline(events_container)
 
-        # Frame para los botones
+        # Frame para los botones (fuera del canvas scrollable)
         buttons_frame = tk.Frame(timeline_frame, bg=self.COLOR_BLANCO)
         buttons_frame.pack(pady=5)
 
@@ -130,13 +148,61 @@ class DetalleClienteWindow:
 
         # Botón para alternar promesa de pago
         self.promise_btn = tk.Button(buttons_frame,
-                                   text="Promesa de Pago",
-                                   font=("Arial", 10),
-                                   command=self.toggle_promise_page)
+                                text="Promesa de Pago",
+                                font=("Arial", 10),
+                                command=self.toggle_promise_page)
         self.promise_btn.pack(side='left', padx=5)
 
         # Actualizar el estado inicial del botón
         self.update_promise_button_state()
+
+        # Función para actualizar el scroll region cuando el tamaño del contenido cambie
+        def _configure_interior(event):
+            # Actualizar el scrollregion del canvas para incluir todo el contenido
+            size = (interior_frame.winfo_reqwidth(), interior_frame.winfo_reqheight())
+            self.canvas.configure(scrollregion="0 0 %s %s" % size)
+            # Asegurarse de que el frame interior tenga el mismo ancho que el canvas
+            if self.canvas.winfo_width() != interior_frame.winfo_reqwidth():
+                self.canvas.configure(width=interior_frame.winfo_reqwidth())
+
+        # Función para ajustar el ancho del frame interior cuando el canvas cambie de tamaño
+        def _configure_canvas(event):
+            if interior_frame.winfo_reqwidth() != self.canvas.winfo_width():
+                self.canvas.configure(width=interior_frame.winfo_reqwidth())
+
+        # Vincular eventos
+        interior_frame.bind('<Configure>', _configure_interior)
+        self.canvas.bind('<Configure>', _configure_canvas)
+
+        # Configurar el scroll con el mouse wheel
+        def _on_mousewheel(event):
+            # Verificar si el canvas aún existe
+            try:
+                self.canvas.yview_scroll(int(-1*(event.delta/120)), "units")
+            except:
+                pass  # Si el canvas no existe, simplemente ignoramos el error
+
+        # Vincular y desvincular eventos de mousewheel
+        def _bind_mousewheel(event):
+            self.canvas.bind_all("<MouseWheel>", _on_mousewheel)
+
+        def _unbind_mousewheel(event):
+            self.canvas.unbind_all("<MouseWheel>")
+
+        # Vincular eventos cuando el mouse entra/sale del frame
+        timeline_frame.bind('<Enter>', _bind_mousewheel)
+        timeline_frame.bind('<Leave>', _unbind_mousewheel)
+
+        # Vincular evento de destrucción para limpiar
+        def _on_destroy(event):
+            try:
+                self.canvas.unbind_all("<MouseWheel>")
+            except:
+                pass
+
+        self.top.bind('<Destroy>', _on_destroy)
+
+        return timeline_frame
             
     def create_timeline(self, container):
         """
@@ -257,6 +323,24 @@ class DetalleClienteWindow:
         # Hacer la ventana modal
         dialog.transient(self.top)
         dialog.grab_set()
+        
+        # Esperar a que la ventana se dibuje
+        dialog.update_idletasks()
+        
+        # Calcular la posición central
+        parent_x = self.top.winfo_x()
+        parent_y = self.top.winfo_y()
+        parent_width = self.top.winfo_width()
+        parent_height = self.top.winfo_height()
+        
+        dialog_width = dialog.winfo_width()
+        dialog_height = dialog.winfo_height()
+        
+        x = parent_x + (parent_width - dialog_width) // 2
+        y = parent_y + (parent_height - dialog_height) // 2
+        
+        # Posicionar el diálogo en el centro
+        dialog.geometry(f"+{x}+{y}")
         
         # Text area para la nota
         note_text = tk.Text(dialog, height=5, width=30)
@@ -566,7 +650,22 @@ class CobranzaApp:
                               cursor="hand2",
                               command=self.recargar_datos)
         reload_button.pack(side='right', padx=20)
-        
+            
+        # Botón WhatsApp
+        whatsapp_button = tk.Button(header_frame,
+                                text="WhatsApp",
+                                font=("Arial", 10),
+                                bg=self.COLOR_BLANCO,
+                                fg=self.COLOR_NEGRO,
+                                bd=0,
+                                cursor="hand2",
+                                command=self.open_whatsapp_bot)
+        whatsapp_button.pack(side='right', padx=20)
+
+    def open_whatsapp_bot(self):
+        bat_file = r'C:\Users\USER\Documents\GitHub\chatbotwapp\run_whatsapp_bot.bat'  # Reemplaza con la ruta real del archivo .bat
+        subprocess.Popen([bat_file], shell=True)
+    
     def recargar_datos(self):
         """Función para recargar los datos de los archivos JSON y actualizar la interfaz"""
         # Recargar los datos
@@ -636,7 +735,6 @@ class CobranzaApp:
         except Exception as e:
             print(f"Error al categorizar cliente: {e}")
             return "rojo"  # Por defecto si hay error
-
         
     def create_main_content(self):
         # Contenedor principal que ocupará todo el espacio disponible
@@ -730,6 +828,7 @@ class CobranzaApp:
         # Vincular eventos
         tree.bind('<<TreeviewSelect>>', self.mostrar_detalles_cliente)
         tree.bind('<Double-1>', self.abrir_detalle_cliente)
+    
     def mostrar_detalles_cliente(self, event):
         # Obtener el Treeview que generó el evento
         tree = event.widget
