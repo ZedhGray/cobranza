@@ -1,4 +1,11 @@
 {
+    "1500-0091": {
+        "day3": false,
+        "day2": false,
+        "day1": false,
+        "dueDay": false,
+        "promisePage": false
+    },
     "1500-0094": {
         "day3": false,
         "day2": false,
@@ -11,84 +18,14 @@
         "day2": false,
         "day1": false,
         "dueDay": false,
-        "promisePage": false,
-        "note_20241105181312": {
-            "type": "note",
-            "text": "Se pagara el dia 06/11/2024",
-            "timestamp": "2024-11-05 18:13:12"
-        },
-        "note_20241105182624": {
-            "type": "note",
-            "text": "2",
-            "timestamp": "2024-11-05 18:26:24"
-        },
-        "note_20241105182627": {
-            "type": "note",
-            "text": "2",
-            "timestamp": "2024-11-05 18:26:27"
-        },
-        "note_20241105182629": {
-            "type": "note",
-            "text": "2",
-            "timestamp": "2024-11-05 18:26:29"
-        },
-        "note_20241105182631": {
-            "type": "note",
-            "text": "2",
-            "timestamp": "2024-11-05 18:26:31"
-        },
-        "note_20241105182635": {
-            "type": "note",
-            "text": "2",
-            "timestamp": "2024-11-05 18:26:35"
-        },
-        "note_20241105182639": {
-            "type": "note",
-            "text": "2",
-            "timestamp": "2024-11-05 18:26:39"
-        },
-        "note_20241105182642": {
-            "type": "note",
-            "text": "2",
-            "timestamp": "2024-11-05 18:26:42"
-        }
+        "promisePage": false
     },
     "1500-0114": {
         "day3": false,
         "day2": false,
         "day1": false,
         "dueDay": false,
-        "promisePage": false,
-        "note_20241105183359": {
-            "type": "note",
-            "text": "asddsa",
-            "timestamp": "2024-11-05 18:33:59"
-        },
-        "note_20241105183403": {
-            "type": "note",
-            "text": "sdaads",
-            "timestamp": "2024-11-05 18:34:03"
-        },
-        "note_20241105183408": {
-            "type": "note",
-            "text": "asddas",
-            "timestamp": "2024-11-05 18:34:08"
-        },
-        "note_20241105183415": {
-            "type": "note",
-            "text": "adsdas",
-            "timestamp": "2024-11-05 18:34:15"
-        },
-        "note_20241105185011": {
-            "type": "note",
-            "text": "va a venir el dia 06",
-            "timestamp": "2024-11-05 18:50:11"
-        },
-        "note_20241105185035": {
-            "type": "note",
-            "text": "no vino el dia 06",
-            "timestamp": "2024-11-05 18:50:35"
-        }
+        "promisePage": false
     },
     "1500-0115": {
         "day3": false,
@@ -99,7 +36,7 @@
     },
     "1500-0117": {
         "day3": false,
-        "day2": true,
+        "day2": false,
         "day1": false,
         "dueDay": false,
         "promisePage": false
@@ -133,6 +70,13 @@
         "promisePage": false
     },
     "1500-0139": {
+        "day3": false,
+        "day2": false,
+        "day1": false,
+        "dueDay": false,
+        "promisePage": false
+    },
+    "1500-0099": {
         "day3": false,
         "day2": false,
         "day1": false,
@@ -244,6 +188,13 @@
         "dueDay": false,
         "promisePage": false
     },
+    "1500-0100": {
+        "day3": false,
+        "day2": false,
+        "day1": false,
+        "dueDay": false,
+        "promisePage": false
+    },
     "1500-0216": {
         "day3": false,
         "day2": false,
@@ -273,6 +224,13 @@
         "promisePage": false
     },
     "1500-0253": {
+        "day3": false,
+        "day2": false,
+        "day1": false,
+        "dueDay": false,
+        "promisePage": false
+    },
+    "1500-0258": {
         "day3": false,
         "day2": false,
         "day1": false,
@@ -559,6 +517,13 @@
         "dueDay": false,
         "promisePage": false
     },
+    "1500-0453": {
+        "day3": false,
+        "day2": false,
+        "day1": false,
+        "dueDay": false,
+        "promisePage": false
+    },
     "1500-0610": {
         "day3": false,
         "day2": false,
@@ -693,41 +658,6 @@
         "promisePage": false
     },
     "1500-0558": {
-        "day3": false,
-        "day2": false,
-        "day1": false,
-        "dueDay": false,
-        "promisePage": false
-    },
-    "1500-0091": {
-        "day3": false,
-        "day2": false,
-        "day1": false,
-        "dueDay": false,
-        "promisePage": false
-    },
-    "1500-0099": {
-        "day3": false,
-        "day2": false,
-        "day1": false,
-        "dueDay": false,
-        "promisePage": false
-    },
-    "1500-0100": {
-        "day3": false,
-        "day2": false,
-        "day1": false,
-        "dueDay": false,
-        "promisePage": false
-    },
-    "1500-0258": {
-        "day3": false,
-        "day2": false,
-        "day1": false,
-        "dueDay": false,
-        "promisePage": false
-    },
-    "1500-0453": {
         "day3": false,
         "day2": false,
         "day1": false,
