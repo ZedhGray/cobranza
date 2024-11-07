@@ -575,7 +575,8 @@ class DetalleClienteWindow:
                             font=("Arial", 10, "bold"),
                             fg=self.COLOR_ROJO,
                             bg=self.COLOR_BLANCO)
-        total_amount.pack(side='right')       
+        total_amount.pack(side='right')
+        
 class CobranzaApp:
     def __init__(self, root):
         self.root = root
