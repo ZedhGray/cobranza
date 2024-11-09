@@ -13356,3 +13356,1168 @@
 2024-11-07 13:53:09,452 - INFO - Datos combinados guardados exitosamente en clientes_ventas_combined.json
 2024-11-07 13:53:09,452 - INFO - Datos de 'timeline' guardados exitosamente en line.json
 2024-11-07 13:53:09,467 - INFO - === Proceso completado ===
+2024-11-07 17:19:00,480 - INFO - === Iniciando actualización de datos ===
+2024-11-07 17:19:00,481 - INFO - Iniciando proceso de combinación de datos de clientes y ventas
+2024-11-07 17:19:00,481 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2024-11-07 17:19:00,581 - INFO - Conexión exitosa a la base de datos
+2024-11-07 17:19:00,581 - INFO - Ejecutando consulta SQL: 
+            SELECT 
+                Clave,
+                ISNULL(Estado, '') as Estado,
+                ISNULL(Fecha, '') as Fecha,
+                ISNULL(Nombre, '') as Nombre,
+                ISNULL(Direccion, '') as Direccion,
+                ISNULL(Telefono1, '') as Telefono1,
+                ISNULL(Telefono2, '') as Telefono2,
+                ISNULL(Descripcion, '') as Descripcion,
+                ISNULL(Email, '') as Email,
+                ISNULL(Referencia, '') as Referencia,
+                ISNULL(Obs, '') as Obs,
+                ISNULL(Credito, 0) as Credito,
+                ISNULL(MontoCredito, 0) as MontoCredito,
+                ISNULL(DiasCredito, 0) as DiasCredito,
+                ISNULL(InteresCredito, '') as InteresCredito,
+                ISNULL(Saldo, 0) as Saldo,
+                ISNULL(NL, 0) as NL,
+                ISNULL(NC, '') as NC,
+                ISNULL(Membresia, '') as Membresia,
+                ISNULL(Nivel, 0) as Nivel,
+                ISNULL(Modificado, '') as Modificado,
+                ISNULL(Et1, '') as Et1,
+                ISNULL(LineaDeCredito, '') as LineaDeCredito
+            FROM Clientes4
+            WHERE Saldo > 0
+                   
+        
+2024-11-07 17:19:00,586 - INFO - Registros encontrados: 93
+2024-11-07 17:19:00,589 - WARNING - Valor de fecha no válido: 21
+2024-11-07 17:19:00,589 - WARNING - Valor de fecha no válido: 19
+2024-11-07 17:19:00,589 - WARNING - Valor de fecha no válido: 408
+2024-11-07 17:19:00,589 - WARNING - Valor de fecha no válido: 41
+2024-11-07 17:19:00,589 - WARNING - Valor de fecha no válido: 823
+2024-11-07 17:19:00,589 - WARNING - Valor de fecha no válido: 44
+2024-11-07 17:19:00,589 - WARNING - Valor de fecha no válido: 694
+2024-11-07 17:19:00,589 - WARNING - Valor de fecha no válido: 51
+2024-11-07 17:19:00,589 - WARNING - Valor de fecha no válido: 573
+2024-11-07 17:19:00,589 - WARNING - Valor de fecha no válido: 1038
+2024-11-07 17:19:00,589 - WARNING - Valor de fecha no válido: 978
+2024-11-07 17:19:00,589 - WARNING - Valor de fecha no válido: 252
+2024-11-07 17:19:00,589 - WARNING - Valor de fecha no válido: 30
+2024-11-07 17:19:00,589 - WARNING - Valor de fecha no válido: 807
+2024-11-07 17:19:00,589 - WARNING - Valor de fecha no válido: 532
+2024-11-07 17:19:00,589 - WARNING - Valor de fecha no válido: 886
+2024-11-07 17:19:00,589 - WARNING - Valor de fecha no válido: 862
+2024-11-07 17:19:00,589 - WARNING - Valor de fecha no válido: 85
+2024-11-07 17:19:00,589 - WARNING - Valor de fecha no válido: 88
+2024-11-07 17:19:00,589 - WARNING - Valor de fecha no válido: 868
+2024-11-07 17:19:00,589 - WARNING - Valor de fecha no válido: 108
+2024-11-07 17:19:00,589 - WARNING - Valor de fecha no válido: 982
+2024-11-07 17:19:00,589 - WARNING - Valor de fecha no válido: 778
+2024-11-07 17:19:00,589 - WARNING - Valor de fecha no válido: 125
+2024-11-07 17:19:00,589 - WARNING - Valor de fecha no válido: 859
+2024-11-07 17:19:00,589 - WARNING - Valor de fecha no válido: 135
+2024-11-07 17:19:00,589 - WARNING - Valor de fecha no válido: 141
+2024-11-07 17:19:00,589 - WARNING - Valor de fecha no válido: 984
+2024-11-07 17:19:00,589 - WARNING - Valor de fecha no válido: 679
+2024-11-07 17:19:00,589 - WARNING - Valor de fecha no válido: 832
+2024-11-07 17:19:00,589 - WARNING - Valor de fecha no válido: 191
+2024-11-07 17:19:00,589 - WARNING - Valor de fecha no válido: 187
+2024-11-07 17:19:00,589 - WARNING - Valor de fecha no válido: 1045
+2024-11-07 17:19:00,589 - WARNING - Valor de fecha no válido: 217
+2024-11-07 17:19:00,589 - WARNING - Valor de fecha no válido: 745
+2024-11-07 17:19:00,589 - WARNING - Valor de fecha no válido: 720
+2024-11-07 17:19:00,589 - WARNING - Valor de fecha no válido: 1012
+2024-11-07 17:19:00,589 - WARNING - Valor de fecha no válido: 337
+2024-11-07 17:19:00,589 - WARNING - Valor de fecha no válido: 1046
+2024-11-07 17:19:00,589 - WARNING - Valor de fecha no válido: 801
+2024-11-07 17:19:00,589 - WARNING - Valor de fecha no válido: 351
+2024-11-07 17:19:00,589 - WARNING - Valor de fecha no válido: 743
+2024-11-07 17:19:00,589 - WARNING - Valor de fecha no válido: 360
+2024-11-07 17:19:00,589 - WARNING - Valor de fecha no válido: 730
+2024-11-07 17:19:00,589 - WARNING - Valor de fecha no válido: 192
+2024-11-07 17:19:00,589 - WARNING - Valor de fecha no válido: 799
+2024-11-07 17:19:00,589 - WARNING - Valor de fecha no válido: 1037
+2024-11-07 17:19:00,589 - WARNING - Valor de fecha no válido: 803
+2024-11-07 17:19:00,589 - WARNING - Valor de fecha no válido: 500
+2024-11-07 17:19:00,589 - WARNING - Valor de fecha no válido: 200
+2024-11-07 17:19:00,589 - WARNING - Valor de fecha no válido: 451
+2024-11-07 17:19:00,589 - WARNING - Valor de fecha no válido: 392
+2024-11-07 17:19:00,589 - WARNING - Valor de fecha no válido: 656
+2024-11-07 17:19:00,589 - WARNING - Valor de fecha no válido: 422
+2024-11-07 17:19:00,589 - WARNING - Valor de fecha no válido: 309
+2024-11-07 17:19:00,589 - WARNING - Valor de fecha no válido: 848
+2024-11-07 17:19:00,589 - WARNING - Valor de fecha no válido: 601
+2024-11-07 17:19:00,589 - WARNING - Valor de fecha no válido: 909
+2024-11-07 17:19:00,589 - WARNING - Valor de fecha no válido: 629
+2024-11-07 17:19:00,589 - WARNING - Valor de fecha no válido: 673
+2024-11-07 17:19:00,589 - WARNING - Valor de fecha no válido: 721
+2024-11-07 17:19:00,589 - WARNING - Valor de fecha no válido: 977
+2024-11-07 17:19:00,589 - WARNING - Valor de fecha no válido: 888
+2024-11-07 17:19:00,589 - WARNING - Valor de fecha no válido: 986
+2024-11-07 17:19:00,589 - WARNING - Valor de fecha no válido: 824
+2024-11-07 17:19:00,589 - WARNING - Valor de fecha no válido: 850
+2024-11-07 17:19:00,589 - WARNING - Valor de fecha no válido: 853
+2024-11-07 17:19:00,589 - WARNING - Valor de fecha no válido: 934
+2024-11-07 17:19:00,589 - WARNING - Valor de fecha no válido: 865
+2024-11-07 17:19:00,589 - WARNING - Valor de fecha no válido: 870
+2024-11-07 17:19:00,589 - WARNING - Valor de fecha no válido: 871
+2024-11-07 17:19:00,589 - WARNING - Valor de fecha no válido: 1013
+2024-11-07 17:19:00,589 - WARNING - Valor de fecha no válido: 567
+2024-11-07 17:19:00,589 - WARNING - Valor de fecha no válido: 907
+2024-11-07 17:19:00,589 - WARNING - Valor de fecha no válido: 1031
+2024-11-07 17:19:00,589 - WARNING - Valor de fecha no válido: 974
+2024-11-07 17:19:00,589 - WARNING - Valor de fecha no válido: 916
+2024-11-07 17:19:00,589 - WARNING - Valor de fecha no válido: 646
+2024-11-07 17:19:00,589 - WARNING - Valor de fecha no válido: 790
+2024-11-07 17:19:00,589 - WARNING - Valor de fecha no válido: 956
+2024-11-07 17:19:00,589 - WARNING - Valor de fecha no válido: 957
+2024-11-07 17:19:00,589 - WARNING - Valor de fecha no válido: 958
+2024-11-07 17:19:00,589 - WARNING - Valor de fecha no válido: 788
+2024-11-07 17:19:00,589 - WARNING - Valor de fecha no válido: 994
+2024-11-07 17:19:00,589 - WARNING - Valor de fecha no válido: 1028
+2024-11-07 17:19:00,589 - WARNING - Valor de fecha no válido: 1035
+2024-11-07 17:19:00,589 - WARNING - Valor de fecha no válido: 1052
+2024-11-07 17:19:00,589 - WARNING - Valor de fecha no válido: 1041
+2024-11-07 17:19:00,589 - WARNING - Valor de fecha no válido: 1043
+2024-11-07 17:19:00,589 - WARNING - Valor de fecha no válido: 1044
+2024-11-07 17:19:00,589 - WARNING - Valor de fecha no válido: 1047
+2024-11-07 17:19:00,589 - WARNING - Valor de fecha no válido: 1051
+2024-11-07 17:19:00,597 - WARNING - Valor de fecha no válido: 763
+2024-11-07 17:19:00,597 - INFO - Datos procesados exitosamente. Total de registros: 93
+2024-11-07 17:19:00,597 - INFO - Cerrando conexión a la base de datos
+2024-11-07 17:19:00,599 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2024-11-07 17:19:00,600 - INFO - Conexión exitosa a la base de datos
+2024-11-07 17:19:00,600 - INFO - Ejecutando consulta SQL para Ventas: 
+            SELECT 
+                Folio,
+                ISNULL(Estado, '') as Estado,
+                ISNULL(CveCte, '') as CveCte,
+                ISNULL(Cliente, '') as Cliente,
+                ISNULL(Fecha, '') as Fecha,
+                ISNULL(Hora, '') as Hora,
+                ISNULL(Total, 0) as Total,
+                ISNULL(Restante, 0) as Restante,
+                ISNULL(FechaPago, '') as FechaPago,
+                ISNULL(Paga, 0) as Paga,
+                ISNULL(Cambio, '') as Cambio,
+                ISNULL(Ticket, '') as Ticket,
+                ISNULL(Condiciones, '') as Condiciones,
+                ISNULL(FechaProg, '') as FechaProg,
+                ISNULL(Corte, 0) as Corte,
+                ISNULL(Vendedor, '') as Vendedor,
+                ISNULL(ComoPago, '') as ComoPago,
+                ISNULL(DiasCred, 0) as DiasCred,
+                ISNULL(IntCred, '') as IntCred,
+                ISNULL(Articulos, '') as Articulos,
+                ISNULL(BarCuenta, '') as BarCuenta,
+                ISNULL(BarMesero, '') as BarMesero,
+                ISNULL(NotasAdicionales, '') as NotasAdicionales,
+                ISNULL(IdBarCuenta, '') as IdBarCuenta,
+                ISNULL(Bitacora, '') as Bitacora,
+                ISNULL(Anticipo, 0) as Anticipo,
+                ISNULL(FolioPago, '') as FolioPago,
+                ISNULL(SaldoCliente, 0) as SaldoCliente,
+                ISNULL(Caja, 0) as Caja
+            FROM Ventas
+            WHERE Estado != 'PAGADA'
+            AND Estado != 'CANCELADA'
+            AND Estado IS NOT NULL
+            AND Restante > 0
+        
+2024-11-07 17:19:00,678 - INFO - Registros de Ventas encontrados: 184
+2024-11-07 17:19:00,682 - INFO - Datos de Ventas procesados exitosamente. Total de registros: 184
+2024-11-07 17:19:00,682 - INFO - Cerrando conexión a la base de datos
+2024-11-07 17:19:00,685 - INFO - Proceso de combinación completado. Clientes procesados: 93
+2024-11-07 17:19:00,697 - INFO - Datos combinados guardados exitosamente en clientes_ventas_combined.json
+2024-11-07 17:19:00,697 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2024-11-07 17:19:00,698 - INFO - Conexión exitosa a la base de datos
+2024-11-07 17:19:00,701 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2024-11-07 17:19:00,702 - INFO - Conexión exitosa a la base de datos
+2024-11-07 17:19:00,714 - INFO - Estados del cliente 1500-0091 actualizados exitosamente
+2024-11-07 17:19:00,715 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2024-11-07 17:19:00,717 - INFO - Conexión exitosa a la base de datos
+2024-11-07 17:19:00,720 - INFO - Estados del cliente 1500-0094 actualizados exitosamente
+2024-11-07 17:19:00,721 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2024-11-07 17:19:00,722 - INFO - Conexión exitosa a la base de datos
+2024-11-07 17:19:00,725 - INFO - Estados del cliente 1500-0095 actualizados exitosamente
+2024-11-07 17:19:00,726 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2024-11-07 17:19:00,727 - INFO - Conexión exitosa a la base de datos
+2024-11-07 17:19:00,731 - INFO - Estados del cliente 1500-0114 actualizados exitosamente
+2024-11-07 17:19:00,732 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2024-11-07 17:19:00,733 - INFO - Conexión exitosa a la base de datos
+2024-11-07 17:19:00,735 - INFO - Estados del cliente 1500-0115 actualizados exitosamente
+2024-11-07 17:19:00,736 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2024-11-07 17:19:00,737 - INFO - Conexión exitosa a la base de datos
+2024-11-07 17:19:00,739 - INFO - Estados del cliente 1500-0117 actualizados exitosamente
+2024-11-07 17:19:00,740 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2024-11-07 17:19:00,740 - INFO - Conexión exitosa a la base de datos
+2024-11-07 17:19:00,748 - INFO - Estados del cliente 1500-0119 actualizados exitosamente
+2024-11-07 17:19:00,749 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2024-11-07 17:19:00,750 - INFO - Conexión exitosa a la base de datos
+2024-11-07 17:19:00,752 - INFO - Estados del cliente 1500-0124 actualizados exitosamente
+2024-11-07 17:19:00,754 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2024-11-07 17:19:00,754 - INFO - Conexión exitosa a la base de datos
+2024-11-07 17:19:00,757 - INFO - Estados del cliente 1500-0130 actualizados exitosamente
+2024-11-07 17:19:00,758 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2024-11-07 17:19:00,759 - INFO - Conexión exitosa a la base de datos
+2024-11-07 17:19:00,762 - INFO - Estados del cliente 1500-0134 actualizados exitosamente
+2024-11-07 17:19:00,763 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2024-11-07 17:19:00,764 - INFO - Conexión exitosa a la base de datos
+2024-11-07 17:19:00,767 - INFO - Estados del cliente 1500-0139 actualizados exitosamente
+2024-11-07 17:19:00,772 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2024-11-07 17:19:00,773 - INFO - Conexión exitosa a la base de datos
+2024-11-07 17:19:00,781 - INFO - Estados del cliente 1500-0099 actualizados exitosamente
+2024-11-07 17:19:00,782 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2024-11-07 17:19:00,783 - INFO - Conexión exitosa a la base de datos
+2024-11-07 17:19:00,786 - INFO - Estados del cliente 1500-0103 actualizados exitosamente
+2024-11-07 17:19:00,787 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2024-11-07 17:19:00,788 - INFO - Conexión exitosa a la base de datos
+2024-11-07 17:19:00,791 - INFO - Estados del cliente 1500-0112 actualizados exitosamente
+2024-11-07 17:19:00,792 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2024-11-07 17:19:00,793 - INFO - Conexión exitosa a la base de datos
+2024-11-07 17:19:00,796 - INFO - Estados del cliente 1500-0133 actualizados exitosamente
+2024-11-07 17:19:00,797 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2024-11-07 17:19:00,798 - INFO - Conexión exitosa a la base de datos
+2024-11-07 17:19:00,800 - INFO - Estados del cliente 1500-0145 actualizados exitosamente
+2024-11-07 17:19:00,801 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2024-11-07 17:19:00,802 - INFO - Conexión exitosa a la base de datos
+2024-11-07 17:19:00,804 - INFO - Estados del cliente 1500-0148 actualizados exitosamente
+2024-11-07 17:19:00,806 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2024-11-07 17:19:00,807 - INFO - Conexión exitosa a la base de datos
+2024-11-07 17:19:00,810 - INFO - Estados del cliente 1500-0150 actualizados exitosamente
+2024-11-07 17:19:00,811 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2024-11-07 17:19:00,812 - INFO - Conexión exitosa a la base de datos
+2024-11-07 17:19:00,814 - INFO - Estados del cliente 1500-0153 actualizados exitosamente
+2024-11-07 17:19:00,815 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2024-11-07 17:19:00,816 - INFO - Conexión exitosa a la base de datos
+2024-11-07 17:19:00,821 - INFO - Estados del cliente 1500-0144 actualizados exitosamente
+2024-11-07 17:19:00,822 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2024-11-07 17:19:00,823 - INFO - Conexión exitosa a la base de datos
+2024-11-07 17:19:00,826 - INFO - Estados del cliente 1500-0171 actualizados exitosamente
+2024-11-07 17:19:00,826 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2024-11-07 17:19:00,832 - INFO - Conexión exitosa a la base de datos
+2024-11-07 17:19:00,835 - INFO - Estados del cliente 1500-0175 actualizados exitosamente
+2024-11-07 17:19:00,836 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2024-11-07 17:19:00,836 - INFO - Conexión exitosa a la base de datos
+2024-11-07 17:19:00,844 - INFO - Estados del cliente 1500-0179 actualizados exitosamente
+2024-11-07 17:19:00,845 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2024-11-07 17:19:00,846 - INFO - Conexión exitosa a la base de datos
+2024-11-07 17:19:00,848 - INFO - Estados del cliente 1500-0185 actualizados exitosamente
+2024-11-07 17:19:00,849 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2024-11-07 17:19:00,850 - INFO - Conexión exitosa a la base de datos
+2024-11-07 17:19:00,853 - INFO - Estados del cliente 1500-0191 actualizados exitosamente
+2024-11-07 17:19:00,853 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2024-11-07 17:19:00,854 - INFO - Conexión exitosa a la base de datos
+2024-11-07 17:19:00,856 - INFO - Estados del cliente 1500-0193 actualizados exitosamente
+2024-11-07 17:19:00,857 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2024-11-07 17:19:00,857 - INFO - Conexión exitosa a la base de datos
+2024-11-07 17:19:00,859 - INFO - Estados del cliente 1500-0198 actualizados exitosamente
+2024-11-07 17:19:00,860 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2024-11-07 17:19:00,861 - INFO - Conexión exitosa a la base de datos
+2024-11-07 17:19:00,865 - INFO - Estados del cliente 1500-0100 actualizados exitosamente
+2024-11-07 17:19:00,866 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2024-11-07 17:19:00,866 - INFO - Conexión exitosa a la base de datos
+2024-11-07 17:19:00,869 - INFO - Estados del cliente 1500-0216 actualizados exitosamente
+2024-11-07 17:19:00,869 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2024-11-07 17:19:00,870 - INFO - Conexión exitosa a la base de datos
+2024-11-07 17:19:00,878 - INFO - Estados del cliente 1500-0239 actualizados exitosamente
+2024-11-07 17:19:00,879 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2024-11-07 17:19:00,880 - INFO - Conexión exitosa a la base de datos
+2024-11-07 17:19:00,883 - INFO - Estados del cliente 1500-0230 actualizados exitosamente
+2024-11-07 17:19:00,884 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2024-11-07 17:19:00,884 - INFO - Conexión exitosa a la base de datos
+2024-11-07 17:19:00,887 - INFO - Estados del cliente 1500-0231 actualizados exitosamente
+2024-11-07 17:19:00,888 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2024-11-07 17:19:00,889 - INFO - Conexión exitosa a la base de datos
+2024-11-07 17:19:00,891 - INFO - Estados del cliente 1500-0253 actualizados exitosamente
+2024-11-07 17:19:00,892 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2024-11-07 17:19:00,893 - INFO - Conexión exitosa a la base de datos
+2024-11-07 17:19:00,896 - INFO - Estados del cliente 1500-0250 actualizados exitosamente
+2024-11-07 17:19:00,897 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2024-11-07 17:19:00,898 - INFO - Conexión exitosa a la base de datos
+2024-11-07 17:19:00,901 - INFO - Estados del cliente 1500-0274 actualizados exitosamente
+2024-11-07 17:19:00,901 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2024-11-07 17:19:00,902 - INFO - Conexión exitosa a la base de datos
+2024-11-07 17:19:00,905 - INFO - Estados del cliente 1500-0312 actualizados exitosamente
+2024-11-07 17:19:00,905 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2024-11-07 17:19:00,906 - INFO - Conexión exitosa a la base de datos
+2024-11-07 17:19:00,914 - INFO - Estados del cliente 1500-0659 actualizados exitosamente
+2024-11-07 17:19:00,915 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2024-11-07 17:19:00,916 - INFO - Conexión exitosa a la base de datos
+2024-11-07 17:19:00,920 - INFO - Estados del cliente 1500-0334 actualizados exitosamente
+2024-11-07 17:19:00,920 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2024-11-07 17:19:00,921 - INFO - Conexión exitosa a la base de datos
+2024-11-07 17:19:00,924 - INFO - Estados del cliente 1500-0177 actualizados exitosamente
+2024-11-07 17:19:00,925 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2024-11-07 17:19:00,926 - INFO - Conexión exitosa a la base de datos
+2024-11-07 17:19:00,931 - INFO - Estados del cliente 1500-0307 actualizados exitosamente
+2024-11-07 17:19:00,932 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2024-11-07 17:19:00,932 - INFO - Conexión exitosa a la base de datos
+2024-11-07 17:19:00,936 - INFO - Estados del cliente 1500-0345 actualizados exitosamente
+2024-11-07 17:19:00,937 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2024-11-07 17:19:00,938 - INFO - Conexión exitosa a la base de datos
+2024-11-07 17:19:00,941 - INFO - Estados del cliente 1500-0347 actualizados exitosamente
+2024-11-07 17:19:00,942 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2024-11-07 17:19:00,943 - INFO - Conexión exitosa a la base de datos
+2024-11-07 17:19:00,946 - INFO - Estados del cliente 1500-0350 actualizados exitosamente
+2024-11-07 17:19:00,947 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2024-11-07 17:19:00,948 - INFO - Conexión exitosa a la base de datos
+2024-11-07 17:19:00,956 - INFO - Estados del cliente 1500-0379 actualizados exitosamente
+2024-11-07 17:19:00,957 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2024-11-07 17:19:00,958 - INFO - Conexión exitosa a la base de datos
+2024-11-07 17:19:00,961 - INFO - Estados del cliente 1500-0234 actualizados exitosamente
+2024-11-07 17:19:00,962 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2024-11-07 17:19:00,963 - INFO - Conexión exitosa a la base de datos
+2024-11-07 17:19:00,965 - INFO - Estados del cliente 1500-0313 actualizados exitosamente
+2024-11-07 17:19:00,966 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2024-11-07 17:19:00,967 - INFO - Conexión exitosa a la base de datos
+2024-11-07 17:19:00,969 - INFO - Estados del cliente 1500-0391 actualizados exitosamente
+2024-11-07 17:19:00,970 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2024-11-07 17:19:00,970 - INFO - Conexión exitosa a la base de datos
+2024-11-07 17:19:00,973 - INFO - Estados del cliente 1500-0408 actualizados exitosamente
+2024-11-07 17:19:00,973 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2024-11-07 17:19:00,974 - INFO - Conexión exitosa a la base de datos
+2024-11-07 17:19:00,976 - INFO - Estados del cliente 1500-0418 actualizados exitosamente
+2024-11-07 17:19:00,977 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2024-11-07 17:19:00,978 - INFO - Conexión exitosa a la base de datos
+2024-11-07 17:19:00,980 - INFO - Estados del cliente 1500-0233 actualizados exitosamente
+2024-11-07 17:19:00,981 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2024-11-07 17:19:00,981 - INFO - Conexión exitosa a la base de datos
+2024-11-07 17:19:00,984 - INFO - Estados del cliente 1500-0280 actualizados exitosamente
+2024-11-07 17:19:00,985 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2024-11-07 17:19:00,986 - INFO - Conexión exitosa a la base de datos
+2024-11-07 17:19:00,988 - INFO - Estados del cliente 1500-0367 actualizados exitosamente
+2024-11-07 17:19:00,989 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2024-11-07 17:19:00,989 - INFO - Conexión exitosa a la base de datos
+2024-11-07 17:19:00,991 - INFO - Estados del cliente 1500-0410 actualizados exitosamente
+2024-11-07 17:19:00,992 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2024-11-07 17:19:00,993 - INFO - Conexión exitosa a la base de datos
+2024-11-07 17:19:00,995 - INFO - Estados del cliente 1500-0308 actualizados exitosamente
+2024-11-07 17:19:00,996 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2024-11-07 17:19:00,997 - INFO - Conexión exitosa a la base de datos
+2024-11-07 17:19:00,999 - INFO - Estados del cliente 1500-0316 actualizados exitosamente
+2024-11-07 17:19:01,000 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2024-11-07 17:19:01,001 - INFO - Conexión exitosa a la base de datos
+2024-11-07 17:19:01,003 - INFO - Estados del cliente 1500-0447 actualizados exitosamente
+2024-11-07 17:19:01,003 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2024-11-07 17:19:01,004 - INFO - Conexión exitosa a la base de datos
+2024-11-07 17:19:01,007 - INFO - Estados del cliente 1500-0471 actualizados exitosamente
+2024-11-07 17:19:01,007 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2024-11-07 17:19:01,008 - INFO - Conexión exitosa a la base de datos
+2024-11-07 17:19:01,010 - INFO - Estados del cliente 1500-0343 actualizados exitosamente
+2024-11-07 17:19:01,011 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2024-11-07 17:19:01,012 - INFO - Conexión exitosa a la base de datos
+2024-11-07 17:19:01,014 - INFO - Estados del cliente 1500-0485 actualizados exitosamente
+2024-11-07 17:19:01,014 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2024-11-07 17:19:01,014 - INFO - Conexión exitosa a la base de datos
+2024-11-07 17:19:01,017 - INFO - Estados del cliente 1500-0371 actualizados exitosamente
+2024-11-07 17:19:01,017 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2024-11-07 17:19:01,017 - INFO - Conexión exitosa a la base de datos
+2024-11-07 17:19:01,017 - INFO - Estados del cliente 1500-0538 actualizados exitosamente
+2024-11-07 17:19:01,017 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2024-11-07 17:19:01,017 - INFO - Conexión exitosa a la base de datos
+2024-11-07 17:19:01,017 - INFO - Estados del cliente 1500-0540 actualizados exitosamente
+2024-11-07 17:19:01,024 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2024-11-07 17:19:01,024 - INFO - Conexión exitosa a la base de datos
+2024-11-07 17:19:01,026 - INFO - Estados del cliente 1500-0555 actualizados exitosamente
+2024-11-07 17:19:01,027 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2024-11-07 17:19:01,027 - INFO - Conexión exitosa a la base de datos
+2024-11-07 17:19:01,034 - INFO - Estados del cliente 1500-0569 actualizados exitosamente
+2024-11-07 17:19:01,035 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2024-11-07 17:19:01,036 - INFO - Conexión exitosa a la base de datos
+2024-11-07 17:19:01,038 - INFO - Estados del cliente 1500-0577 actualizados exitosamente
+2024-11-07 17:19:01,039 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2024-11-07 17:19:01,040 - INFO - Conexión exitosa a la base de datos
+2024-11-07 17:19:01,040 - INFO - Estados del cliente 1500-0585 actualizados exitosamente
+2024-11-07 17:19:01,040 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2024-11-07 17:19:01,044 - INFO - Conexión exitosa a la base de datos
+2024-11-07 17:19:01,047 - INFO - Estados del cliente 1500-0587 actualizados exitosamente
+2024-11-07 17:19:01,047 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2024-11-07 17:19:01,047 - INFO - Conexión exitosa a la base de datos
+2024-11-07 17:19:01,047 - INFO - Estados del cliente 1500-0588 actualizados exitosamente
+2024-11-07 17:19:01,047 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2024-11-07 17:19:01,047 - INFO - Conexión exitosa a la base de datos
+2024-11-07 17:19:01,047 - INFO - Estados del cliente 1500-0592 actualizados exitosamente
+2024-11-07 17:19:01,055 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2024-11-07 17:19:01,056 - INFO - Conexión exitosa a la base de datos
+2024-11-07 17:19:01,058 - INFO - Estados del cliente 1500-0593 actualizados exitosamente
+2024-11-07 17:19:01,059 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2024-11-07 17:19:01,059 - INFO - Conexión exitosa a la base de datos
+2024-11-07 17:19:01,061 - INFO - Estados del cliente 1500-0594 actualizados exitosamente
+2024-11-07 17:19:01,062 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2024-11-07 17:19:01,062 - INFO - Conexión exitosa a la base de datos
+2024-11-07 17:19:01,065 - INFO - Estados del cliente 1500-0660 actualizados exitosamente
+2024-11-07 17:19:01,066 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2024-11-07 17:19:01,067 - INFO - Conexión exitosa a la base de datos
+2024-11-07 17:19:01,071 - INFO - Estados del cliente 1500-0453 actualizados exitosamente
+2024-11-07 17:19:01,072 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2024-11-07 17:19:01,073 - INFO - Conexión exitosa a la base de datos
+2024-11-07 17:19:01,076 - INFO - Estados del cliente 1500-0610 actualizados exitosamente
+2024-11-07 17:19:01,077 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2024-11-07 17:19:01,078 - INFO - Conexión exitosa a la base de datos
+2024-11-07 17:19:01,081 - INFO - Estados del cliente 1500-0290 actualizados exitosamente
+2024-11-07 17:19:01,083 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2024-11-07 17:19:01,084 - INFO - Conexión exitosa a la base de datos
+2024-11-07 17:19:01,087 - INFO - Estados del cliente 1500-0358 actualizados exitosamente
+2024-11-07 17:19:01,089 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2024-11-07 17:19:01,090 - INFO - Conexión exitosa a la base de datos
+2024-11-07 17:19:01,094 - INFO - Estados del cliente 1500-0616 actualizados exitosamente
+2024-11-07 17:19:01,096 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2024-11-07 17:19:01,097 - INFO - Conexión exitosa a la base de datos
+2024-11-07 17:19:01,102 - INFO - Estados del cliente 1500-0495 actualizados exitosamente
+2024-11-07 17:19:01,104 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2024-11-07 17:19:01,105 - INFO - Conexión exitosa a la base de datos
+2024-11-07 17:19:01,110 - INFO - Estados del cliente 1500-0565 actualizados exitosamente
+2024-11-07 17:19:01,113 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2024-11-07 17:19:01,114 - INFO - Conexión exitosa a la base de datos
+2024-11-07 17:19:01,119 - INFO - Estados del cliente 1500-0633 actualizados exitosamente
+2024-11-07 17:19:01,122 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2024-11-07 17:19:01,123 - INFO - Conexión exitosa a la base de datos
+2024-11-07 17:19:01,127 - INFO - Estados del cliente 1500-0634 actualizados exitosamente
+2024-11-07 17:19:01,130 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2024-11-07 17:19:01,131 - INFO - Conexión exitosa a la base de datos
+2024-11-07 17:19:01,137 - INFO - Estados del cliente 1500-0635 actualizados exitosamente
+2024-11-07 17:19:01,140 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2024-11-07 17:19:01,142 - INFO - Conexión exitosa a la base de datos
+2024-11-07 17:19:01,147 - INFO - Estados del cliente 1500-0564 actualizados exitosamente
+2024-11-07 17:19:01,150 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2024-11-07 17:19:01,151 - INFO - Conexión exitosa a la base de datos
+2024-11-07 17:19:01,156 - INFO - Estados del cliente 1500-0650 actualizados exitosamente
+2024-11-07 17:19:01,159 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2024-11-07 17:19:01,160 - INFO - Conexión exitosa a la base de datos
+2024-11-07 17:19:01,167 - INFO - Estados del cliente 1500-0668 actualizados exitosamente
+2024-11-07 17:19:01,170 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2024-11-07 17:19:01,172 - INFO - Conexión exitosa a la base de datos
+2024-11-07 17:19:01,177 - INFO - Estados del cliente 1500-0670 actualizados exitosamente
+2024-11-07 17:19:01,181 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2024-11-07 17:19:01,182 - INFO - Conexión exitosa a la base de datos
+2024-11-07 17:19:01,188 - INFO - Estados del cliente 1500-0671 actualizados exitosamente
+2024-11-07 17:19:01,192 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2024-11-07 17:19:01,194 - INFO - Conexión exitosa a la base de datos
+2024-11-07 17:19:01,200 - INFO - Estados del cliente 1500-0673 actualizados exitosamente
+2024-11-07 17:19:01,203 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2024-11-07 17:19:01,206 - INFO - Conexión exitosa a la base de datos
+2024-11-07 17:19:01,211 - INFO - Estados del cliente 1500-0674 actualizados exitosamente
+2024-11-07 17:19:01,215 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2024-11-07 17:19:01,217 - INFO - Conexión exitosa a la base de datos
+2024-11-07 17:19:01,224 - INFO - Estados del cliente 1500-0675 actualizados exitosamente
+2024-11-07 17:19:01,226 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2024-11-07 17:19:01,230 - INFO - Conexión exitosa a la base de datos
+2024-11-07 17:19:01,234 - INFO - Estados del cliente 1500-0676 actualizados exitosamente
+2024-11-07 17:19:01,235 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2024-11-07 17:19:01,235 - INFO - Conexión exitosa a la base de datos
+2024-11-07 17:19:01,237 - INFO - Estados del cliente 1500-0677 actualizados exitosamente
+2024-11-07 17:19:01,238 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2024-11-07 17:19:01,238 - INFO - Conexión exitosa a la base de datos
+2024-11-07 17:19:01,240 - INFO - Estados del cliente 1500-0558 actualizados exitosamente
+2024-11-07 17:19:01,242 - INFO - Estados de clientes sincronizados exitosamente entre base de datos y line.json
+2024-11-07 17:19:01,242 - INFO - === Proceso completado ===
+2024-11-07 17:22:11,854 - INFO - === Iniciando actualización de datos ===
+2024-11-07 17:22:11,854 - INFO - Iniciando proceso de combinación de datos de clientes y ventas
+2024-11-07 17:22:11,854 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2024-11-07 17:22:11,895 - INFO - Conexión exitosa a la base de datos
+2024-11-07 17:22:11,895 - INFO - Ejecutando consulta SQL: 
+            SELECT 
+                Clave,
+                ISNULL(Estado, '') as Estado,
+                ISNULL(Fecha, '') as Fecha,
+                ISNULL(Nombre, '') as Nombre,
+                ISNULL(Direccion, '') as Direccion,
+                ISNULL(Telefono1, '') as Telefono1,
+                ISNULL(Telefono2, '') as Telefono2,
+                ISNULL(Descripcion, '') as Descripcion,
+                ISNULL(Email, '') as Email,
+                ISNULL(Referencia, '') as Referencia,
+                ISNULL(Obs, '') as Obs,
+                ISNULL(Credito, 0) as Credito,
+                ISNULL(MontoCredito, 0) as MontoCredito,
+                ISNULL(DiasCredito, 0) as DiasCredito,
+                ISNULL(InteresCredito, '') as InteresCredito,
+                ISNULL(Saldo, 0) as Saldo,
+                ISNULL(NL, 0) as NL,
+                ISNULL(NC, '') as NC,
+                ISNULL(Membresia, '') as Membresia,
+                ISNULL(Nivel, 0) as Nivel,
+                ISNULL(Modificado, '') as Modificado,
+                ISNULL(Et1, '') as Et1,
+                ISNULL(LineaDeCredito, '') as LineaDeCredito
+            FROM Clientes4
+            WHERE Saldo > 0
+                   
+        
+2024-11-07 17:22:11,900 - INFO - Registros encontrados: 93
+2024-11-07 17:22:11,903 - WARNING - Valor de fecha no válido: 21
+2024-11-07 17:22:11,903 - WARNING - Valor de fecha no válido: 19
+2024-11-07 17:22:11,903 - WARNING - Valor de fecha no válido: 408
+2024-11-07 17:22:11,903 - WARNING - Valor de fecha no válido: 41
+2024-11-07 17:22:11,903 - WARNING - Valor de fecha no válido: 823
+2024-11-07 17:22:11,903 - WARNING - Valor de fecha no válido: 44
+2024-11-07 17:22:11,903 - WARNING - Valor de fecha no válido: 694
+2024-11-07 17:22:11,903 - WARNING - Valor de fecha no válido: 51
+2024-11-07 17:22:11,903 - WARNING - Valor de fecha no válido: 573
+2024-11-07 17:22:11,904 - WARNING - Valor de fecha no válido: 1038
+2024-11-07 17:22:11,904 - WARNING - Valor de fecha no válido: 978
+2024-11-07 17:22:11,904 - WARNING - Valor de fecha no válido: 252
+2024-11-07 17:22:11,904 - WARNING - Valor de fecha no válido: 30
+2024-11-07 17:22:11,904 - WARNING - Valor de fecha no válido: 807
+2024-11-07 17:22:11,904 - WARNING - Valor de fecha no válido: 532
+2024-11-07 17:22:11,904 - WARNING - Valor de fecha no válido: 886
+2024-11-07 17:22:11,904 - WARNING - Valor de fecha no válido: 862
+2024-11-07 17:22:11,904 - WARNING - Valor de fecha no válido: 85
+2024-11-07 17:22:11,904 - WARNING - Valor de fecha no válido: 88
+2024-11-07 17:22:11,904 - WARNING - Valor de fecha no válido: 868
+2024-11-07 17:22:11,904 - WARNING - Valor de fecha no válido: 108
+2024-11-07 17:22:11,904 - WARNING - Valor de fecha no válido: 982
+2024-11-07 17:22:11,904 - WARNING - Valor de fecha no válido: 778
+2024-11-07 17:22:11,905 - WARNING - Valor de fecha no válido: 125
+2024-11-07 17:22:11,905 - WARNING - Valor de fecha no válido: 859
+2024-11-07 17:22:11,905 - WARNING - Valor de fecha no válido: 135
+2024-11-07 17:22:11,905 - WARNING - Valor de fecha no válido: 141
+2024-11-07 17:22:11,905 - WARNING - Valor de fecha no válido: 984
+2024-11-07 17:22:11,905 - WARNING - Valor de fecha no válido: 679
+2024-11-07 17:22:11,905 - WARNING - Valor de fecha no válido: 832
+2024-11-07 17:22:11,905 - WARNING - Valor de fecha no válido: 191
+2024-11-07 17:22:11,905 - WARNING - Valor de fecha no válido: 187
+2024-11-07 17:22:11,905 - WARNING - Valor de fecha no válido: 1045
+2024-11-07 17:22:11,905 - WARNING - Valor de fecha no válido: 217
+2024-11-07 17:22:11,905 - WARNING - Valor de fecha no válido: 745
+2024-11-07 17:22:11,905 - WARNING - Valor de fecha no válido: 720
+2024-11-07 17:22:11,905 - WARNING - Valor de fecha no válido: 1012
+2024-11-07 17:22:11,905 - WARNING - Valor de fecha no válido: 337
+2024-11-07 17:22:11,905 - WARNING - Valor de fecha no válido: 1046
+2024-11-07 17:22:11,906 - WARNING - Valor de fecha no válido: 801
+2024-11-07 17:22:11,906 - WARNING - Valor de fecha no válido: 351
+2024-11-07 17:22:11,906 - WARNING - Valor de fecha no válido: 743
+2024-11-07 17:22:11,906 - WARNING - Valor de fecha no válido: 360
+2024-11-07 17:22:11,906 - WARNING - Valor de fecha no válido: 730
+2024-11-07 17:22:11,906 - WARNING - Valor de fecha no válido: 192
+2024-11-07 17:22:11,906 - WARNING - Valor de fecha no válido: 799
+2024-11-07 17:22:11,906 - WARNING - Valor de fecha no válido: 1037
+2024-11-07 17:22:11,906 - WARNING - Valor de fecha no válido: 803
+2024-11-07 17:22:11,906 - WARNING - Valor de fecha no válido: 500
+2024-11-07 17:22:11,906 - WARNING - Valor de fecha no válido: 200
+2024-11-07 17:22:11,906 - WARNING - Valor de fecha no válido: 451
+2024-11-07 17:22:11,906 - WARNING - Valor de fecha no válido: 392
+2024-11-07 17:22:11,906 - WARNING - Valor de fecha no válido: 656
+2024-11-07 17:22:11,906 - WARNING - Valor de fecha no válido: 422
+2024-11-07 17:22:11,906 - WARNING - Valor de fecha no válido: 309
+2024-11-07 17:22:11,907 - WARNING - Valor de fecha no válido: 848
+2024-11-07 17:22:11,907 - WARNING - Valor de fecha no válido: 601
+2024-11-07 17:22:11,907 - WARNING - Valor de fecha no válido: 909
+2024-11-07 17:22:11,907 - WARNING - Valor de fecha no válido: 629
+2024-11-07 17:22:11,907 - WARNING - Valor de fecha no válido: 673
+2024-11-07 17:22:11,907 - WARNING - Valor de fecha no válido: 721
+2024-11-07 17:22:11,907 - WARNING - Valor de fecha no válido: 977
+2024-11-07 17:22:11,907 - WARNING - Valor de fecha no válido: 888
+2024-11-07 17:22:11,907 - WARNING - Valor de fecha no válido: 986
+2024-11-07 17:22:11,907 - WARNING - Valor de fecha no válido: 824
+2024-11-07 17:22:11,907 - WARNING - Valor de fecha no válido: 850
+2024-11-07 17:22:11,907 - WARNING - Valor de fecha no válido: 853
+2024-11-07 17:22:11,907 - WARNING - Valor de fecha no válido: 934
+2024-11-07 17:22:11,907 - WARNING - Valor de fecha no válido: 865
+2024-11-07 17:22:11,907 - WARNING - Valor de fecha no válido: 870
+2024-11-07 17:22:11,908 - WARNING - Valor de fecha no válido: 871
+2024-11-07 17:22:11,908 - WARNING - Valor de fecha no válido: 1013
+2024-11-07 17:22:11,908 - WARNING - Valor de fecha no válido: 567
+2024-11-07 17:22:11,908 - WARNING - Valor de fecha no válido: 907
+2024-11-07 17:22:11,908 - WARNING - Valor de fecha no válido: 1031
+2024-11-07 17:22:11,908 - WARNING - Valor de fecha no válido: 974
+2024-11-07 17:22:11,908 - WARNING - Valor de fecha no válido: 916
+2024-11-07 17:22:11,908 - WARNING - Valor de fecha no válido: 646
+2024-11-07 17:22:11,908 - WARNING - Valor de fecha no válido: 790
+2024-11-07 17:22:11,908 - WARNING - Valor de fecha no válido: 956
+2024-11-07 17:22:11,908 - WARNING - Valor de fecha no válido: 957
+2024-11-07 17:22:11,908 - WARNING - Valor de fecha no válido: 958
+2024-11-07 17:22:11,908 - WARNING - Valor de fecha no válido: 788
+2024-11-07 17:22:11,908 - WARNING - Valor de fecha no válido: 994
+2024-11-07 17:22:11,908 - WARNING - Valor de fecha no válido: 1028
+2024-11-07 17:22:11,909 - WARNING - Valor de fecha no válido: 1035
+2024-11-07 17:22:11,909 - WARNING - Valor de fecha no válido: 1052
+2024-11-07 17:22:11,909 - WARNING - Valor de fecha no válido: 1041
+2024-11-07 17:22:11,909 - WARNING - Valor de fecha no válido: 1043
+2024-11-07 17:22:11,909 - WARNING - Valor de fecha no válido: 1044
+2024-11-07 17:22:11,909 - WARNING - Valor de fecha no válido: 1047
+2024-11-07 17:22:11,909 - WARNING - Valor de fecha no válido: 1051
+2024-11-07 17:22:11,909 - WARNING - Valor de fecha no válido: 763
+2024-11-07 17:22:11,909 - INFO - Datos procesados exitosamente. Total de registros: 93
+2024-11-07 17:22:11,909 - INFO - Cerrando conexión a la base de datos
+2024-11-07 17:22:11,912 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2024-11-07 17:22:11,913 - INFO - Conexión exitosa a la base de datos
+2024-11-07 17:22:11,913 - INFO - Ejecutando consulta SQL para Ventas: 
+            SELECT 
+                Folio,
+                ISNULL(Estado, '') as Estado,
+                ISNULL(CveCte, '') as CveCte,
+                ISNULL(Cliente, '') as Cliente,
+                ISNULL(Fecha, '') as Fecha,
+                ISNULL(Hora, '') as Hora,
+                ISNULL(Total, 0) as Total,
+                ISNULL(Restante, 0) as Restante,
+                ISNULL(FechaPago, '') as FechaPago,
+                ISNULL(Paga, 0) as Paga,
+                ISNULL(Cambio, '') as Cambio,
+                ISNULL(Ticket, '') as Ticket,
+                ISNULL(Condiciones, '') as Condiciones,
+                ISNULL(FechaProg, '') as FechaProg,
+                ISNULL(Corte, 0) as Corte,
+                ISNULL(Vendedor, '') as Vendedor,
+                ISNULL(ComoPago, '') as ComoPago,
+                ISNULL(DiasCred, 0) as DiasCred,
+                ISNULL(IntCred, '') as IntCred,
+                ISNULL(Articulos, '') as Articulos,
+                ISNULL(BarCuenta, '') as BarCuenta,
+                ISNULL(BarMesero, '') as BarMesero,
+                ISNULL(NotasAdicionales, '') as NotasAdicionales,
+                ISNULL(IdBarCuenta, '') as IdBarCuenta,
+                ISNULL(Bitacora, '') as Bitacora,
+                ISNULL(Anticipo, 0) as Anticipo,
+                ISNULL(FolioPago, '') as FolioPago,
+                ISNULL(SaldoCliente, 0) as SaldoCliente,
+                ISNULL(Caja, 0) as Caja
+            FROM Ventas
+            WHERE Estado != 'PAGADA'
+            AND Estado != 'CANCELADA'
+            AND Estado IS NOT NULL
+            AND Restante > 0
+        
+2024-11-07 17:22:11,983 - INFO - Registros de Ventas encontrados: 185
+2024-11-07 17:22:11,987 - INFO - Datos de Ventas procesados exitosamente. Total de registros: 185
+2024-11-07 17:22:11,987 - INFO - Cerrando conexión a la base de datos
+2024-11-07 17:22:11,991 - INFO - Proceso de combinación completado. Clientes procesados: 93
+2024-11-07 17:22:12,002 - INFO - Datos combinados guardados exitosamente en clientes_ventas_combined.json
+2024-11-07 17:22:12,003 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2024-11-07 17:22:12,004 - INFO - Conexión exitosa a la base de datos
+2024-11-07 17:22:12,009 - INFO - Estados de clientes sincronizados exitosamente entre base de datos y line.json
+2024-11-07 17:22:12,009 - INFO - === Proceso completado ===
+2024-11-07 18:26:44,365 - INFO - === Iniciando actualización de datos ===
+2024-11-07 18:26:44,365 - INFO - Iniciando proceso de combinación de datos de clientes y ventas
+2024-11-07 18:26:44,365 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2024-11-07 18:26:44,412 - INFO - Conexión exitosa a la base de datos
+2024-11-07 18:26:44,412 - INFO - Ejecutando consulta SQL: 
+            SELECT 
+                Clave,
+                ISNULL(Estado, '') as Estado,
+                ISNULL(Fecha, '') as Fecha,
+                ISNULL(Nombre, '') as Nombre,
+                ISNULL(Direccion, '') as Direccion,
+                ISNULL(Telefono1, '') as Telefono1,
+                ISNULL(Telefono2, '') as Telefono2,
+                ISNULL(Descripcion, '') as Descripcion,
+                ISNULL(Email, '') as Email,
+                ISNULL(Referencia, '') as Referencia,
+                ISNULL(Obs, '') as Obs,
+                ISNULL(Credito, 0) as Credito,
+                ISNULL(MontoCredito, 0) as MontoCredito,
+                ISNULL(DiasCredito, 0) as DiasCredito,
+                ISNULL(InteresCredito, '') as InteresCredito,
+                ISNULL(Saldo, 0) as Saldo,
+                ISNULL(NL, 0) as NL,
+                ISNULL(NC, '') as NC,
+                ISNULL(Membresia, '') as Membresia,
+                ISNULL(Nivel, 0) as Nivel,
+                ISNULL(Modificado, '') as Modificado,
+                ISNULL(Et1, '') as Et1,
+                ISNULL(LineaDeCredito, '') as LineaDeCredito
+            FROM Clientes4
+            WHERE Saldo > 0
+                   
+        
+2024-11-07 18:26:44,412 - INFO - Registros encontrados: 92
+2024-11-07 18:26:44,412 - WARNING - Valor de fecha no válido: 21
+2024-11-07 18:26:44,412 - WARNING - Valor de fecha no válido: 19
+2024-11-07 18:26:44,412 - WARNING - Valor de fecha no válido: 408
+2024-11-07 18:26:44,412 - WARNING - Valor de fecha no válido: 41
+2024-11-07 18:26:44,412 - WARNING - Valor de fecha no válido: 823
+2024-11-07 18:26:44,412 - WARNING - Valor de fecha no válido: 44
+2024-11-07 18:26:44,412 - WARNING - Valor de fecha no válido: 694
+2024-11-07 18:26:44,412 - WARNING - Valor de fecha no válido: 51
+2024-11-07 18:26:44,412 - WARNING - Valor de fecha no válido: 573
+2024-11-07 18:26:44,412 - WARNING - Valor de fecha no válido: 1038
+2024-11-07 18:26:44,412 - WARNING - Valor de fecha no válido: 978
+2024-11-07 18:26:44,412 - WARNING - Valor de fecha no válido: 252
+2024-11-07 18:26:44,412 - WARNING - Valor de fecha no válido: 807
+2024-11-07 18:26:44,412 - WARNING - Valor de fecha no válido: 532
+2024-11-07 18:26:44,412 - WARNING - Valor de fecha no válido: 886
+2024-11-07 18:26:44,412 - WARNING - Valor de fecha no válido: 862
+2024-11-07 18:26:44,412 - WARNING - Valor de fecha no válido: 85
+2024-11-07 18:26:44,412 - WARNING - Valor de fecha no válido: 88
+2024-11-07 18:26:44,412 - WARNING - Valor de fecha no válido: 868
+2024-11-07 18:26:44,412 - WARNING - Valor de fecha no válido: 108
+2024-11-07 18:26:44,412 - WARNING - Valor de fecha no válido: 982
+2024-11-07 18:26:44,412 - WARNING - Valor de fecha no válido: 778
+2024-11-07 18:26:44,412 - WARNING - Valor de fecha no válido: 125
+2024-11-07 18:26:44,412 - WARNING - Valor de fecha no válido: 859
+2024-11-07 18:26:44,412 - WARNING - Valor de fecha no válido: 135
+2024-11-07 18:26:44,412 - WARNING - Valor de fecha no válido: 141
+2024-11-07 18:26:44,428 - WARNING - Valor de fecha no válido: 984
+2024-11-07 18:26:44,428 - WARNING - Valor de fecha no válido: 679
+2024-11-07 18:26:44,428 - WARNING - Valor de fecha no válido: 832
+2024-11-07 18:26:44,428 - WARNING - Valor de fecha no válido: 191
+2024-11-07 18:26:44,428 - WARNING - Valor de fecha no válido: 187
+2024-11-07 18:26:44,428 - WARNING - Valor de fecha no válido: 1045
+2024-11-07 18:26:44,428 - WARNING - Valor de fecha no válido: 217
+2024-11-07 18:26:44,428 - WARNING - Valor de fecha no válido: 745
+2024-11-07 18:26:44,428 - WARNING - Valor de fecha no válido: 720
+2024-11-07 18:26:44,428 - WARNING - Valor de fecha no válido: 1012
+2024-11-07 18:26:44,428 - WARNING - Valor de fecha no válido: 337
+2024-11-07 18:26:44,428 - WARNING - Valor de fecha no válido: 1046
+2024-11-07 18:26:44,428 - WARNING - Valor de fecha no válido: 801
+2024-11-07 18:26:44,428 - WARNING - Valor de fecha no válido: 351
+2024-11-07 18:26:44,428 - WARNING - Valor de fecha no válido: 743
+2024-11-07 18:26:44,428 - WARNING - Valor de fecha no válido: 360
+2024-11-07 18:26:44,428 - WARNING - Valor de fecha no válido: 730
+2024-11-07 18:26:44,428 - WARNING - Valor de fecha no válido: 192
+2024-11-07 18:26:44,428 - WARNING - Valor de fecha no válido: 799
+2024-11-07 18:26:44,428 - WARNING - Valor de fecha no válido: 1037
+2024-11-07 18:26:44,428 - WARNING - Valor de fecha no válido: 803
+2024-11-07 18:26:44,428 - WARNING - Valor de fecha no válido: 500
+2024-11-07 18:26:44,428 - WARNING - Valor de fecha no válido: 200
+2024-11-07 18:26:44,428 - WARNING - Valor de fecha no válido: 451
+2024-11-07 18:26:44,428 - WARNING - Valor de fecha no válido: 392
+2024-11-07 18:26:44,428 - WARNING - Valor de fecha no válido: 656
+2024-11-07 18:26:44,428 - WARNING - Valor de fecha no válido: 422
+2024-11-07 18:26:44,428 - WARNING - Valor de fecha no válido: 309
+2024-11-07 18:26:44,428 - WARNING - Valor de fecha no válido: 848
+2024-11-07 18:26:44,428 - WARNING - Valor de fecha no válido: 601
+2024-11-07 18:26:44,428 - WARNING - Valor de fecha no válido: 909
+2024-11-07 18:26:44,428 - WARNING - Valor de fecha no válido: 629
+2024-11-07 18:26:44,428 - WARNING - Valor de fecha no válido: 673
+2024-11-07 18:26:44,428 - WARNING - Valor de fecha no válido: 721
+2024-11-07 18:26:44,428 - WARNING - Valor de fecha no válido: 977
+2024-11-07 18:26:44,428 - WARNING - Valor de fecha no válido: 888
+2024-11-07 18:26:44,428 - WARNING - Valor de fecha no válido: 986
+2024-11-07 18:26:44,428 - WARNING - Valor de fecha no válido: 824
+2024-11-07 18:26:44,428 - WARNING - Valor de fecha no válido: 850
+2024-11-07 18:26:44,428 - WARNING - Valor de fecha no válido: 853
+2024-11-07 18:26:44,428 - WARNING - Valor de fecha no válido: 934
+2024-11-07 18:26:44,428 - WARNING - Valor de fecha no válido: 865
+2024-11-07 18:26:44,428 - WARNING - Valor de fecha no válido: 870
+2024-11-07 18:26:44,428 - WARNING - Valor de fecha no válido: 871
+2024-11-07 18:26:44,428 - WARNING - Valor de fecha no válido: 1013
+2024-11-07 18:26:44,428 - WARNING - Valor de fecha no válido: 567
+2024-11-07 18:26:44,428 - WARNING - Valor de fecha no válido: 907
+2024-11-07 18:26:44,428 - WARNING - Valor de fecha no válido: 1031
+2024-11-07 18:26:44,428 - WARNING - Valor de fecha no válido: 974
+2024-11-07 18:26:44,428 - WARNING - Valor de fecha no válido: 916
+2024-11-07 18:26:44,428 - WARNING - Valor de fecha no válido: 646
+2024-11-07 18:26:44,428 - WARNING - Valor de fecha no válido: 790
+2024-11-07 18:26:44,428 - WARNING - Valor de fecha no válido: 956
+2024-11-07 18:26:44,428 - WARNING - Valor de fecha no válido: 957
+2024-11-07 18:26:44,428 - WARNING - Valor de fecha no válido: 958
+2024-11-07 18:26:44,428 - WARNING - Valor de fecha no válido: 788
+2024-11-07 18:26:44,428 - WARNING - Valor de fecha no válido: 994
+2024-11-07 18:26:44,428 - WARNING - Valor de fecha no válido: 1028
+2024-11-07 18:26:44,428 - WARNING - Valor de fecha no válido: 1035
+2024-11-07 18:26:44,428 - WARNING - Valor de fecha no válido: 1052
+2024-11-07 18:26:44,428 - WARNING - Valor de fecha no válido: 1041
+2024-11-07 18:26:44,428 - WARNING - Valor de fecha no válido: 1043
+2024-11-07 18:26:44,428 - WARNING - Valor de fecha no válido: 1044
+2024-11-07 18:26:44,428 - WARNING - Valor de fecha no válido: 1047
+2024-11-07 18:26:44,428 - WARNING - Valor de fecha no válido: 1051
+2024-11-07 18:26:44,428 - WARNING - Valor de fecha no válido: 763
+2024-11-07 18:26:44,428 - INFO - Datos procesados exitosamente. Total de registros: 92
+2024-11-07 18:26:44,428 - INFO - Cerrando conexión a la base de datos
+2024-11-07 18:26:44,428 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2024-11-07 18:26:44,428 - INFO - Conexión exitosa a la base de datos
+2024-11-07 18:26:44,428 - INFO - Ejecutando consulta SQL para Ventas: 
+            SELECT 
+                Folio,
+                ISNULL(Estado, '') as Estado,
+                ISNULL(CveCte, '') as CveCte,
+                ISNULL(Cliente, '') as Cliente,
+                ISNULL(Fecha, '') as Fecha,
+                ISNULL(Hora, '') as Hora,
+                ISNULL(Total, 0) as Total,
+                ISNULL(Restante, 0) as Restante,
+                ISNULL(FechaPago, '') as FechaPago,
+                ISNULL(Paga, 0) as Paga,
+                ISNULL(Cambio, '') as Cambio,
+                ISNULL(Ticket, '') as Ticket,
+                ISNULL(Condiciones, '') as Condiciones,
+                ISNULL(FechaProg, '') as FechaProg,
+                ISNULL(Corte, 0) as Corte,
+                ISNULL(Vendedor, '') as Vendedor,
+                ISNULL(ComoPago, '') as ComoPago,
+                ISNULL(DiasCred, 0) as DiasCred,
+                ISNULL(IntCred, '') as IntCred,
+                ISNULL(Articulos, '') as Articulos,
+                ISNULL(BarCuenta, '') as BarCuenta,
+                ISNULL(BarMesero, '') as BarMesero,
+                ISNULL(NotasAdicionales, '') as NotasAdicionales,
+                ISNULL(IdBarCuenta, '') as IdBarCuenta,
+                ISNULL(Bitacora, '') as Bitacora,
+                ISNULL(Anticipo, 0) as Anticipo,
+                ISNULL(FolioPago, '') as FolioPago,
+                ISNULL(SaldoCliente, 0) as SaldoCliente,
+                ISNULL(Caja, 0) as Caja
+            FROM Ventas
+            WHERE Estado != 'PAGADA'
+            AND Estado != 'CANCELADA'
+            AND Estado IS NOT NULL
+            AND Restante > 0
+        
+2024-11-07 18:26:44,507 - INFO - Registros de Ventas encontrados: 183
+2024-11-07 18:26:44,507 - INFO - Datos de Ventas procesados exitosamente. Total de registros: 183
+2024-11-07 18:26:44,507 - INFO - Cerrando conexión a la base de datos
+2024-11-07 18:26:44,507 - INFO - Proceso de combinación completado. Clientes procesados: 92
+2024-11-07 18:26:44,530 - INFO - Datos combinados guardados exitosamente en clientes_ventas_combined.json
+2024-11-07 18:26:44,531 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2024-11-07 18:26:44,532 - INFO - Conexión exitosa a la base de datos
+2024-11-07 18:26:44,534 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2024-11-07 18:26:44,536 - INFO - Conexión exitosa a la base de datos
+2024-11-07 18:26:44,545 - INFO - Estados del cliente 1500-0103 eliminados exitosamente
+2024-11-07 18:26:44,546 - INFO - Eliminando client_id '1500-0103' porque ya no existe en los datos combinados
+2024-11-07 18:26:44,548 - INFO - Estados de clientes sincronizados exitosamente entre base de datos y line.json
+2024-11-07 18:26:44,548 - INFO - === Proceso completado ===
+2024-11-07 18:26:58,002 - INFO - === Iniciando actualización de datos ===
+2024-11-07 18:26:58,002 - INFO - Iniciando proceso de combinación de datos de clientes y ventas
+2024-11-07 18:26:58,002 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2024-11-07 18:26:58,036 - INFO - Conexión exitosa a la base de datos
+2024-11-07 18:26:58,036 - INFO - Ejecutando consulta SQL: 
+            SELECT 
+                Clave,
+                ISNULL(Estado, '') as Estado,
+                ISNULL(Fecha, '') as Fecha,
+                ISNULL(Nombre, '') as Nombre,
+                ISNULL(Direccion, '') as Direccion,
+                ISNULL(Telefono1, '') as Telefono1,
+                ISNULL(Telefono2, '') as Telefono2,
+                ISNULL(Descripcion, '') as Descripcion,
+                ISNULL(Email, '') as Email,
+                ISNULL(Referencia, '') as Referencia,
+                ISNULL(Obs, '') as Obs,
+                ISNULL(Credito, 0) as Credito,
+                ISNULL(MontoCredito, 0) as MontoCredito,
+                ISNULL(DiasCredito, 0) as DiasCredito,
+                ISNULL(InteresCredito, '') as InteresCredito,
+                ISNULL(Saldo, 0) as Saldo,
+                ISNULL(NL, 0) as NL,
+                ISNULL(NC, '') as NC,
+                ISNULL(Membresia, '') as Membresia,
+                ISNULL(Nivel, 0) as Nivel,
+                ISNULL(Modificado, '') as Modificado,
+                ISNULL(Et1, '') as Et1,
+                ISNULL(LineaDeCredito, '') as LineaDeCredito
+            FROM Clientes4
+            WHERE Saldo > 0
+                   
+        
+2024-11-07 18:26:58,049 - INFO - Registros encontrados: 92
+2024-11-07 18:26:58,052 - WARNING - Valor de fecha no válido: 21
+2024-11-07 18:26:58,053 - WARNING - Valor de fecha no válido: 19
+2024-11-07 18:26:58,053 - WARNING - Valor de fecha no válido: 408
+2024-11-07 18:26:58,053 - WARNING - Valor de fecha no válido: 41
+2024-11-07 18:26:58,053 - WARNING - Valor de fecha no válido: 823
+2024-11-07 18:26:58,053 - WARNING - Valor de fecha no válido: 44
+2024-11-07 18:26:58,053 - WARNING - Valor de fecha no válido: 694
+2024-11-07 18:26:58,053 - WARNING - Valor de fecha no válido: 51
+2024-11-07 18:26:58,053 - WARNING - Valor de fecha no válido: 573
+2024-11-07 18:26:58,053 - WARNING - Valor de fecha no válido: 1038
+2024-11-07 18:26:58,053 - WARNING - Valor de fecha no válido: 978
+2024-11-07 18:26:58,053 - WARNING - Valor de fecha no válido: 252
+2024-11-07 18:26:58,053 - WARNING - Valor de fecha no válido: 807
+2024-11-07 18:26:58,053 - WARNING - Valor de fecha no válido: 532
+2024-11-07 18:26:58,053 - WARNING - Valor de fecha no válido: 886
+2024-11-07 18:26:58,053 - WARNING - Valor de fecha no válido: 862
+2024-11-07 18:26:58,053 - WARNING - Valor de fecha no válido: 85
+2024-11-07 18:26:58,054 - WARNING - Valor de fecha no válido: 88
+2024-11-07 18:26:58,054 - WARNING - Valor de fecha no válido: 868
+2024-11-07 18:26:58,054 - WARNING - Valor de fecha no válido: 108
+2024-11-07 18:26:58,054 - WARNING - Valor de fecha no válido: 982
+2024-11-07 18:26:58,054 - WARNING - Valor de fecha no válido: 778
+2024-11-07 18:26:58,054 - WARNING - Valor de fecha no válido: 125
+2024-11-07 18:26:58,054 - WARNING - Valor de fecha no válido: 859
+2024-11-07 18:26:58,054 - WARNING - Valor de fecha no válido: 135
+2024-11-07 18:26:58,054 - WARNING - Valor de fecha no válido: 141
+2024-11-07 18:26:58,054 - WARNING - Valor de fecha no válido: 984
+2024-11-07 18:26:58,054 - WARNING - Valor de fecha no válido: 679
+2024-11-07 18:26:58,054 - WARNING - Valor de fecha no válido: 832
+2024-11-07 18:26:58,054 - WARNING - Valor de fecha no válido: 191
+2024-11-07 18:26:58,054 - WARNING - Valor de fecha no válido: 187
+2024-11-07 18:26:58,054 - WARNING - Valor de fecha no válido: 1045
+2024-11-07 18:26:58,054 - WARNING - Valor de fecha no válido: 217
+2024-11-07 18:26:58,054 - WARNING - Valor de fecha no válido: 745
+2024-11-07 18:26:58,054 - WARNING - Valor de fecha no válido: 720
+2024-11-07 18:26:58,055 - WARNING - Valor de fecha no válido: 1012
+2024-11-07 18:26:58,055 - WARNING - Valor de fecha no válido: 337
+2024-11-07 18:26:58,055 - WARNING - Valor de fecha no válido: 1046
+2024-11-07 18:26:58,055 - WARNING - Valor de fecha no válido: 801
+2024-11-07 18:26:58,055 - WARNING - Valor de fecha no válido: 351
+2024-11-07 18:26:58,055 - WARNING - Valor de fecha no válido: 743
+2024-11-07 18:26:58,055 - WARNING - Valor de fecha no válido: 360
+2024-11-07 18:26:58,055 - WARNING - Valor de fecha no válido: 730
+2024-11-07 18:26:58,055 - WARNING - Valor de fecha no válido: 192
+2024-11-07 18:26:58,055 - WARNING - Valor de fecha no válido: 799
+2024-11-07 18:26:58,055 - WARNING - Valor de fecha no válido: 1037
+2024-11-07 18:26:58,055 - WARNING - Valor de fecha no válido: 803
+2024-11-07 18:26:58,055 - WARNING - Valor de fecha no válido: 500
+2024-11-07 18:26:58,056 - WARNING - Valor de fecha no válido: 200
+2024-11-07 18:26:58,056 - WARNING - Valor de fecha no válido: 451
+2024-11-07 18:26:58,056 - WARNING - Valor de fecha no válido: 392
+2024-11-07 18:26:58,056 - WARNING - Valor de fecha no válido: 656
+2024-11-07 18:26:58,056 - WARNING - Valor de fecha no válido: 422
+2024-11-07 18:26:58,056 - WARNING - Valor de fecha no válido: 309
+2024-11-07 18:26:58,056 - WARNING - Valor de fecha no válido: 848
+2024-11-07 18:26:58,056 - WARNING - Valor de fecha no válido: 601
+2024-11-07 18:26:58,056 - WARNING - Valor de fecha no válido: 909
+2024-11-07 18:26:58,056 - WARNING - Valor de fecha no válido: 629
+2024-11-07 18:26:58,056 - WARNING - Valor de fecha no válido: 673
+2024-11-07 18:26:58,056 - WARNING - Valor de fecha no válido: 721
+2024-11-07 18:26:58,056 - WARNING - Valor de fecha no válido: 977
+2024-11-07 18:26:58,056 - WARNING - Valor de fecha no válido: 888
+2024-11-07 18:26:58,057 - WARNING - Valor de fecha no válido: 986
+2024-11-07 18:26:58,057 - WARNING - Valor de fecha no válido: 824
+2024-11-07 18:26:58,057 - WARNING - Valor de fecha no válido: 850
+2024-11-07 18:26:58,057 - WARNING - Valor de fecha no válido: 853
+2024-11-07 18:26:58,057 - WARNING - Valor de fecha no válido: 934
+2024-11-07 18:26:58,057 - WARNING - Valor de fecha no válido: 865
+2024-11-07 18:26:58,057 - WARNING - Valor de fecha no válido: 870
+2024-11-07 18:26:58,057 - WARNING - Valor de fecha no válido: 871
+2024-11-07 18:26:58,057 - WARNING - Valor de fecha no válido: 1013
+2024-11-07 18:26:58,057 - WARNING - Valor de fecha no válido: 567
+2024-11-07 18:26:58,057 - WARNING - Valor de fecha no válido: 907
+2024-11-07 18:26:58,057 - WARNING - Valor de fecha no válido: 1031
+2024-11-07 18:26:58,057 - WARNING - Valor de fecha no válido: 974
+2024-11-07 18:26:58,057 - WARNING - Valor de fecha no válido: 916
+2024-11-07 18:26:58,057 - WARNING - Valor de fecha no válido: 646
+2024-11-07 18:26:58,057 - WARNING - Valor de fecha no válido: 790
+2024-11-07 18:26:58,058 - WARNING - Valor de fecha no válido: 956
+2024-11-07 18:26:58,058 - WARNING - Valor de fecha no válido: 957
+2024-11-07 18:26:58,058 - WARNING - Valor de fecha no válido: 958
+2024-11-07 18:26:58,058 - WARNING - Valor de fecha no válido: 788
+2024-11-07 18:26:58,058 - WARNING - Valor de fecha no válido: 994
+2024-11-07 18:26:58,058 - WARNING - Valor de fecha no válido: 1028
+2024-11-07 18:26:58,058 - WARNING - Valor de fecha no válido: 1035
+2024-11-07 18:26:58,058 - WARNING - Valor de fecha no válido: 1052
+2024-11-07 18:26:58,058 - WARNING - Valor de fecha no válido: 1041
+2024-11-07 18:26:58,058 - WARNING - Valor de fecha no válido: 1043
+2024-11-07 18:26:58,058 - WARNING - Valor de fecha no válido: 1044
+2024-11-07 18:26:58,058 - WARNING - Valor de fecha no válido: 1047
+2024-11-07 18:26:58,058 - WARNING - Valor de fecha no válido: 1051
+2024-11-07 18:26:58,058 - WARNING - Valor de fecha no válido: 763
+2024-11-07 18:26:58,058 - INFO - Datos procesados exitosamente. Total de registros: 92
+2024-11-07 18:26:58,058 - INFO - Cerrando conexión a la base de datos
+2024-11-07 18:26:58,060 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2024-11-07 18:26:58,061 - INFO - Conexión exitosa a la base de datos
+2024-11-07 18:26:58,061 - INFO - Ejecutando consulta SQL para Ventas: 
+            SELECT 
+                Folio,
+                ISNULL(Estado, '') as Estado,
+                ISNULL(CveCte, '') as CveCte,
+                ISNULL(Cliente, '') as Cliente,
+                ISNULL(Fecha, '') as Fecha,
+                ISNULL(Hora, '') as Hora,
+                ISNULL(Total, 0) as Total,
+                ISNULL(Restante, 0) as Restante,
+                ISNULL(FechaPago, '') as FechaPago,
+                ISNULL(Paga, 0) as Paga,
+                ISNULL(Cambio, '') as Cambio,
+                ISNULL(Ticket, '') as Ticket,
+                ISNULL(Condiciones, '') as Condiciones,
+                ISNULL(FechaProg, '') as FechaProg,
+                ISNULL(Corte, 0) as Corte,
+                ISNULL(Vendedor, '') as Vendedor,
+                ISNULL(ComoPago, '') as ComoPago,
+                ISNULL(DiasCred, 0) as DiasCred,
+                ISNULL(IntCred, '') as IntCred,
+                ISNULL(Articulos, '') as Articulos,
+                ISNULL(BarCuenta, '') as BarCuenta,
+                ISNULL(BarMesero, '') as BarMesero,
+                ISNULL(NotasAdicionales, '') as NotasAdicionales,
+                ISNULL(IdBarCuenta, '') as IdBarCuenta,
+                ISNULL(Bitacora, '') as Bitacora,
+                ISNULL(Anticipo, 0) as Anticipo,
+                ISNULL(FolioPago, '') as FolioPago,
+                ISNULL(SaldoCliente, 0) as SaldoCliente,
+                ISNULL(Caja, 0) as Caja
+            FROM Ventas
+            WHERE Estado != 'PAGADA'
+            AND Estado != 'CANCELADA'
+            AND Estado IS NOT NULL
+            AND Restante > 0
+        
+2024-11-07 18:26:58,114 - INFO - Registros de Ventas encontrados: 183
+2024-11-07 18:26:58,118 - INFO - Datos de Ventas procesados exitosamente. Total de registros: 183
+2024-11-07 18:26:58,118 - INFO - Cerrando conexión a la base de datos
+2024-11-07 18:26:58,120 - INFO - Proceso de combinación completado. Clientes procesados: 92
+2024-11-07 18:26:58,132 - INFO - Datos combinados guardados exitosamente en clientes_ventas_combined.json
+2024-11-07 18:26:58,133 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2024-11-07 18:26:58,134 - INFO - Conexión exitosa a la base de datos
+2024-11-07 18:26:58,138 - INFO - Estados de clientes sincronizados exitosamente entre base de datos y line.json
+2024-11-07 18:26:58,138 - INFO - === Proceso completado ===
+2024-11-07 18:28:39,173 - INFO - === Iniciando actualización de datos ===
+2024-11-07 18:28:39,174 - INFO - Iniciando proceso de combinación de datos de clientes y ventas
+2024-11-07 18:28:39,174 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2024-11-07 18:28:39,266 - INFO - Conexión exitosa a la base de datos
+2024-11-07 18:28:39,266 - INFO - Ejecutando consulta SQL: 
+            SELECT 
+                Clave,
+                ISNULL(Estado, '') as Estado,
+                ISNULL(Fecha, '') as Fecha,
+                ISNULL(Nombre, '') as Nombre,
+                ISNULL(Direccion, '') as Direccion,
+                ISNULL(Telefono1, '') as Telefono1,
+                ISNULL(Telefono2, '') as Telefono2,
+                ISNULL(Descripcion, '') as Descripcion,
+                ISNULL(Email, '') as Email,
+                ISNULL(Referencia, '') as Referencia,
+                ISNULL(Obs, '') as Obs,
+                ISNULL(Credito, 0) as Credito,
+                ISNULL(MontoCredito, 0) as MontoCredito,
+                ISNULL(DiasCredito, 0) as DiasCredito,
+                ISNULL(InteresCredito, '') as InteresCredito,
+                ISNULL(Saldo, 0) as Saldo,
+                ISNULL(NL, 0) as NL,
+                ISNULL(NC, '') as NC,
+                ISNULL(Membresia, '') as Membresia,
+                ISNULL(Nivel, 0) as Nivel,
+                ISNULL(Modificado, '') as Modificado,
+                ISNULL(Et1, '') as Et1,
+                ISNULL(LineaDeCredito, '') as LineaDeCredito
+            FROM Clientes4
+            WHERE Saldo > 0
+                   
+        
+2024-11-07 18:28:39,266 - INFO - Registros encontrados: 92
+2024-11-07 18:28:39,266 - WARNING - Valor de fecha no válido: 21
+2024-11-07 18:28:39,266 - WARNING - Valor de fecha no válido: 19
+2024-11-07 18:28:39,266 - WARNING - Valor de fecha no válido: 408
+2024-11-07 18:28:39,266 - WARNING - Valor de fecha no válido: 41
+2024-11-07 18:28:39,266 - WARNING - Valor de fecha no válido: 823
+2024-11-07 18:28:39,266 - WARNING - Valor de fecha no válido: 44
+2024-11-07 18:28:39,266 - WARNING - Valor de fecha no válido: 694
+2024-11-07 18:28:39,266 - WARNING - Valor de fecha no válido: 51
+2024-11-07 18:28:39,266 - WARNING - Valor de fecha no válido: 573
+2024-11-07 18:28:39,281 - WARNING - Valor de fecha no válido: 1038
+2024-11-07 18:28:39,281 - WARNING - Valor de fecha no válido: 978
+2024-11-07 18:28:39,281 - WARNING - Valor de fecha no válido: 252
+2024-11-07 18:28:39,281 - WARNING - Valor de fecha no válido: 807
+2024-11-07 18:28:39,281 - WARNING - Valor de fecha no válido: 532
+2024-11-07 18:28:39,281 - WARNING - Valor de fecha no válido: 886
+2024-11-07 18:28:39,281 - WARNING - Valor de fecha no válido: 862
+2024-11-07 18:28:39,281 - WARNING - Valor de fecha no válido: 85
+2024-11-07 18:28:39,281 - WARNING - Valor de fecha no válido: 88
+2024-11-07 18:28:39,281 - WARNING - Valor de fecha no válido: 868
+2024-11-07 18:28:39,281 - WARNING - Valor de fecha no válido: 108
+2024-11-07 18:28:39,281 - WARNING - Valor de fecha no válido: 982
+2024-11-07 18:28:39,281 - WARNING - Valor de fecha no válido: 778
+2024-11-07 18:28:39,281 - WARNING - Valor de fecha no válido: 125
+2024-11-07 18:28:39,281 - WARNING - Valor de fecha no válido: 859
+2024-11-07 18:28:39,281 - WARNING - Valor de fecha no válido: 135
+2024-11-07 18:28:39,281 - WARNING - Valor de fecha no válido: 141
+2024-11-07 18:28:39,281 - WARNING - Valor de fecha no válido: 984
+2024-11-07 18:28:39,281 - WARNING - Valor de fecha no válido: 679
+2024-11-07 18:28:39,281 - WARNING - Valor de fecha no válido: 832
+2024-11-07 18:28:39,281 - WARNING - Valor de fecha no válido: 191
+2024-11-07 18:28:39,281 - WARNING - Valor de fecha no válido: 187
+2024-11-07 18:28:39,281 - WARNING - Valor de fecha no válido: 1045
+2024-11-07 18:28:39,281 - WARNING - Valor de fecha no válido: 217
+2024-11-07 18:28:39,281 - WARNING - Valor de fecha no válido: 745
+2024-11-07 18:28:39,281 - WARNING - Valor de fecha no válido: 720
+2024-11-07 18:28:39,281 - WARNING - Valor de fecha no válido: 1012
+2024-11-07 18:28:39,284 - WARNING - Valor de fecha no válido: 337
+2024-11-07 18:28:39,284 - WARNING - Valor de fecha no válido: 1046
+2024-11-07 18:28:39,284 - WARNING - Valor de fecha no válido: 801
+2024-11-07 18:28:39,284 - WARNING - Valor de fecha no válido: 351
+2024-11-07 18:28:39,284 - WARNING - Valor de fecha no válido: 743
+2024-11-07 18:28:39,284 - WARNING - Valor de fecha no válido: 360
+2024-11-07 18:28:39,284 - WARNING - Valor de fecha no válido: 730
+2024-11-07 18:28:39,284 - WARNING - Valor de fecha no válido: 192
+2024-11-07 18:28:39,284 - WARNING - Valor de fecha no válido: 799
+2024-11-07 18:28:39,284 - WARNING - Valor de fecha no válido: 1037
+2024-11-07 18:28:39,284 - WARNING - Valor de fecha no válido: 803
+2024-11-07 18:28:39,284 - WARNING - Valor de fecha no válido: 500
+2024-11-07 18:28:39,284 - WARNING - Valor de fecha no válido: 200
+2024-11-07 18:28:39,284 - WARNING - Valor de fecha no válido: 451
+2024-11-07 18:28:39,284 - WARNING - Valor de fecha no válido: 392
+2024-11-07 18:28:39,284 - WARNING - Valor de fecha no válido: 656
+2024-11-07 18:28:39,284 - WARNING - Valor de fecha no válido: 422
+2024-11-07 18:28:39,284 - WARNING - Valor de fecha no válido: 309
+2024-11-07 18:28:39,284 - WARNING - Valor de fecha no válido: 848
+2024-11-07 18:28:39,284 - WARNING - Valor de fecha no válido: 601
+2024-11-07 18:28:39,284 - WARNING - Valor de fecha no válido: 909
+2024-11-07 18:28:39,284 - WARNING - Valor de fecha no válido: 629
+2024-11-07 18:28:39,284 - WARNING - Valor de fecha no válido: 673
+2024-11-07 18:28:39,284 - WARNING - Valor de fecha no válido: 721
+2024-11-07 18:28:39,284 - WARNING - Valor de fecha no válido: 977
+2024-11-07 18:28:39,284 - WARNING - Valor de fecha no válido: 888
+2024-11-07 18:28:39,284 - WARNING - Valor de fecha no válido: 986
+2024-11-07 18:28:39,284 - WARNING - Valor de fecha no válido: 824
+2024-11-07 18:28:39,284 - WARNING - Valor de fecha no válido: 850
+2024-11-07 18:28:39,284 - WARNING - Valor de fecha no válido: 853
+2024-11-07 18:28:39,284 - WARNING - Valor de fecha no válido: 934
+2024-11-07 18:28:39,284 - WARNING - Valor de fecha no válido: 865
+2024-11-07 18:28:39,284 - WARNING - Valor de fecha no válido: 870
+2024-11-07 18:28:39,284 - WARNING - Valor de fecha no válido: 871
+2024-11-07 18:28:39,284 - WARNING - Valor de fecha no válido: 1013
+2024-11-07 18:28:39,284 - WARNING - Valor de fecha no válido: 567
+2024-11-07 18:28:39,284 - WARNING - Valor de fecha no válido: 907
+2024-11-07 18:28:39,284 - WARNING - Valor de fecha no válido: 1031
+2024-11-07 18:28:39,284 - WARNING - Valor de fecha no válido: 974
+2024-11-07 18:28:39,284 - WARNING - Valor de fecha no válido: 916
+2024-11-07 18:28:39,284 - WARNING - Valor de fecha no válido: 646
+2024-11-07 18:28:39,284 - WARNING - Valor de fecha no válido: 790
+2024-11-07 18:28:39,284 - WARNING - Valor de fecha no válido: 956
+2024-11-07 18:28:39,284 - WARNING - Valor de fecha no válido: 957
+2024-11-07 18:28:39,284 - WARNING - Valor de fecha no válido: 958
+2024-11-07 18:28:39,284 - WARNING - Valor de fecha no válido: 788
+2024-11-07 18:28:39,284 - WARNING - Valor de fecha no válido: 994
+2024-11-07 18:28:39,284 - WARNING - Valor de fecha no válido: 1028
+2024-11-07 18:28:39,284 - WARNING - Valor de fecha no válido: 1035
+2024-11-07 18:28:39,284 - WARNING - Valor de fecha no válido: 1052
+2024-11-07 18:28:39,284 - WARNING - Valor de fecha no válido: 1041
+2024-11-07 18:28:39,284 - WARNING - Valor de fecha no válido: 1043
+2024-11-07 18:28:39,284 - WARNING - Valor de fecha no válido: 1044
+2024-11-07 18:28:39,284 - WARNING - Valor de fecha no válido: 1047
+2024-11-07 18:28:39,284 - WARNING - Valor de fecha no válido: 1051
+2024-11-07 18:28:39,284 - WARNING - Valor de fecha no válido: 763
+2024-11-07 18:28:39,284 - INFO - Datos procesados exitosamente. Total de registros: 92
+2024-11-07 18:28:39,284 - INFO - Cerrando conexión a la base de datos
+2024-11-07 18:28:39,284 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2024-11-07 18:28:39,284 - INFO - Conexión exitosa a la base de datos
+2024-11-07 18:28:39,284 - INFO - Ejecutando consulta SQL para Ventas: 
+            SELECT 
+                Folio,
+                ISNULL(Estado, '') as Estado,
+                ISNULL(CveCte, '') as CveCte,
+                ISNULL(Cliente, '') as Cliente,
+                ISNULL(Fecha, '') as Fecha,
+                ISNULL(Hora, '') as Hora,
+                ISNULL(Total, 0) as Total,
+                ISNULL(Restante, 0) as Restante,
+                ISNULL(FechaPago, '') as FechaPago,
+                ISNULL(Paga, 0) as Paga,
+                ISNULL(Cambio, '') as Cambio,
+                ISNULL(Ticket, '') as Ticket,
+                ISNULL(Condiciones, '') as Condiciones,
+                ISNULL(FechaProg, '') as FechaProg,
+                ISNULL(Corte, 0) as Corte,
+                ISNULL(Vendedor, '') as Vendedor,
+                ISNULL(ComoPago, '') as ComoPago,
+                ISNULL(DiasCred, 0) as DiasCred,
+                ISNULL(IntCred, '') as IntCred,
+                ISNULL(Articulos, '') as Articulos,
+                ISNULL(BarCuenta, '') as BarCuenta,
+                ISNULL(BarMesero, '') as BarMesero,
+                ISNULL(NotasAdicionales, '') as NotasAdicionales,
+                ISNULL(IdBarCuenta, '') as IdBarCuenta,
+                ISNULL(Bitacora, '') as Bitacora,
+                ISNULL(Anticipo, 0) as Anticipo,
+                ISNULL(FolioPago, '') as FolioPago,
+                ISNULL(SaldoCliente, 0) as SaldoCliente,
+                ISNULL(Caja, 0) as Caja
+            FROM Ventas
+            WHERE Estado != 'PAGADA'
+            AND Estado != 'CANCELADA'
+            AND Estado IS NOT NULL
+            AND Restante > 0
+        
+2024-11-07 18:28:39,366 - INFO - Registros de Ventas encontrados: 183
+2024-11-07 18:28:39,366 - INFO - Datos de Ventas procesados exitosamente. Total de registros: 183
+2024-11-07 18:28:39,366 - INFO - Cerrando conexión a la base de datos
+2024-11-07 18:28:39,366 - INFO - Proceso de combinación completado. Clientes procesados: 92
+2024-11-07 18:28:39,382 - INFO - Datos combinados guardados exitosamente en clientes_ventas_combined.json
+2024-11-07 18:28:39,382 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2024-11-07 18:28:39,382 - INFO - Conexión exitosa a la base de datos
+2024-11-07 18:28:39,399 - INFO - Estados de clientes sincronizados exitosamente entre base de datos y line.json
+2024-11-07 18:28:39,399 - INFO - === Proceso completado ===

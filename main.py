@@ -4,7 +4,11 @@ from logging.handlers import RotatingFileHandler
 import json
 import os
 from database import get_clients_data, get_ventas_data
-from data_processor import update_combined_json, update_line_json, combine_client_sales_data
+from data_processor import (
+    update_combined_json, 
+    sync_client_states,  # Reemplazamos update_line_json por sync_client_states
+    combine_client_sales_data
+)
 
 def setup_logging():
     logger = logging.getLogger()
@@ -52,8 +56,8 @@ def main():
         combined_data = combine_client_sales_data()
         update_combined_json(combined_data)
         
-        # Actualizar datos de "timeline"
-        update_line_json(combined_data)
+        # Actualizar datos en la base de datos y line.json de manera sincronizada
+        sync_client_states(combined_data)
         
         logging.info("=== Proceso completado ===")
             

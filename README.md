@@ -9,6 +9,40 @@ Esta es una aplicación desarrollada en Python que hace [insert brief descriptio
 
 ## Instalación
 
+Primero, desinstala Python actual:
+
+Ve a Configuración -> Aplicaciones
+Busca Python y desinstálalo
+Busca también "App Execution Aliases" y desactiva los alias de python.exe y python3.exe
+
+Descarga el nuevo instalador:
+
+Ve a python.org/downloads/
+Descarga la última versión estable (actualmente 3.12.x)
+
+Durante la instalación:
+
+IMPORTANTE: Marca la casilla "Add Python to PATH"
+Selecciona "Customize installation"
+Marca todas las opciones en "Optional Features"
+En "Advanced Options" marca:
+
+Create shortcuts for installed applications
+Add Python to environment variables
+Precompile standard library
+Install Python for all users
+
+Después de instalar, verifica la instalación:
+
+bashCopy# Abre una NUEVA ventana de cmd y prueba:
+python --version
+pip --version
+
+Instala virtualenv:
+
+bash Copy:
+python -m pip install virtualenv
+
 1. Clona el repositorio de la aplicación:
 
    ```
@@ -51,4 +85,3 @@ Para más información sobre el uso de la aplicación, consulta la [documentaci�
 ## Contribución
 
 Si deseas contribuir a este proyecto, por favor revisa las [pautas de contribución](CONTRIBUTING.md).
-

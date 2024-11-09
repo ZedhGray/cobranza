@@ -231,3 +231,215 @@ def get_ventas_data():
     finally:
         logging.info("Cerrando conexión a la base de datos")
         conn.close()
+#States     
+
+def update_client_states(client_id: str, states: dict = None) -> bool:
+    """
+    Actualiza o crea un registro en la tabla ClientsStates para un cliente específico.
+    Si states es None, crea un registro con valores predeterminados False.
+    """
+    conn = get_db_connection()
+    if not conn:
+        logging.error("No se pudo establecer conexión con la base de datos")
+        return False
+    
+    try:
+        cursor = conn.cursor()
+        
+        # Verificar si el cliente ya existe
+        check_query = """
+            SELECT client_id
+            FROM dbo.ClientsStates 
+            WHERE client_id = ?
+        """
+        cursor.execute(check_query, (client_id,))
+        exists = cursor.fetchone() is not None
+        
+        if states is None:
+            states = {
+                "day1": False,
+                "day2": False,
+                "day3": False,
+                "dueday": False,
+                "promisePage": False
+            }
+        
+        if exists:
+            # Actualizar registro existente
+            update_query = """
+                UPDATE dbo.ClientsStates 
+                SET day1 = ?, 
+                    day2 = ?, 
+                    day3 = ?, 
+                    dueday = ?, 
+                    promisePage = ?
+                WHERE client_id = ?
+            """
+            cursor.execute(update_query, 
+                         (states["day1"], states["day2"], states["day3"], 
+                          states["dueday"], states["promisePage"], client_id))
+        else:
+            # Insertar nuevo registro
+            insert_query = """
+                INSERT INTO dbo.ClientsStates 
+                (client_id, day1, day2, day3, dueday, promisePage)
+                VALUES (?, ?, ?, ?, ?, ?)
+            """
+            cursor.execute(insert_query, 
+                         (client_id, states["day1"], states["day2"], states["day3"], 
+                          states["dueday"], states["promisePage"]))
+        
+        conn.commit()
+        logging.info(f"Estados del cliente {client_id} actualizados exitosamente")
+        return True
+        
+    except pyodbc.Error as e:
+        logging.error(f"Error al actualizar estados del cliente {client_id}: {e}")
+        return False
+    finally:
+        conn.close()
+
+def delete_client_states(client_id: str) -> bool:
+    """
+    Elimina el registro de un cliente de la tabla ClientsStates.
+    """
+    conn = get_db_connection()
+    if not conn:
+        logging.error("No se pudo establecer conexión con la base de datos")
+        return False
+    
+    try:
+        cursor = conn.cursor()
+        delete_query = """
+            DELETE FROM dbo.ClientsStates 
+            WHERE client_id = ?
+        """
+        cursor.execute(delete_query, (client_id,))
+        conn.commit()
+        logging.info(f"Estados del cliente {client_id} eliminados exitosamente")
+        return True
+        
+    except pyodbc.Error as e:
+        logging.error(f"Error al eliminar estados del cliente {client_id}: {e}")
+        return False
+    finally:
+        conn.close()
+
+def get_client_states() -> dict:
+    """
+    Obtiene todos los registros de la tabla ClientsStates.
+    """
+    conn = get_db_connection()
+    if not conn:
+        logging.error("No se pudo establecer conexión con la base de datos")
+        return {}
+    
+    try:
+        cursor = conn.cursor()
+        query = """
+            SELECT client_id, day1, day2, day3, dueday, promisePage
+            FROM dbo.ClientsStates
+        """
+        cursor.execute(query)
+        results = cursor.fetchall()
+        
+        return {
+            str(row.client_id): {
+                "day1": bool(row.day1),
+                "day2": bool(row.day2),
+                "day3": bool(row.day3),
+                "dueday": bool(row.dueday),
+                "promisePage": bool(row.promisePage)
+            } for row in results
+        }
+        
+    except pyodbc.Error as e:
+        logging.error(f"Error al obtener estados de los clientes: {e}")
+        return {}
+    finally:
+        conn.close()
+
+# database.py
+def get_client_notes(client_id: str = None) -> dict:
+    """
+    Obtiene las notas de un cliente específico o de todos los clientes.
+    """
+    conn = get_db_connection()
+    if not conn:
+        logging.error("No se pudo establecer conexión con la base de datos")
+        return {}
+    
+    try:
+        cursor = conn.cursor()
+        if client_id:
+            query = """
+                SELECT client_id, note_text, created_at
+                FROM dbo.Notes
+                WHERE client_id = ?
+                ORDER BY created_at DESC
+            """
+            cursor.execute(query, (client_id,))
+        else:
+            query = """
+                SELECT client_id, note_text, created_at
+                FROM dbo.Notes
+                ORDER BY client_id, created_at DESC
+            """
+            cursor.execute(query)
+            
+        results = cursor.fetchall()
+        
+        # Agrupar notas por cliente
+        notes_data = {}
+        for row in results:
+            client_key = str(row.client_id)
+            if client_key not in notes_data:
+                notes_data[client_key] = []
+            
+            notes_data[client_key].append({
+                "text": row.note_text,
+                "created_at": row.created_at.isoformat() if row.created_at else None
+            })
+        
+        if client_id:
+            return notes_data.get(str(client_id), [])
+        return notes_data
+        
+    except pyodbc.Error as e:
+        logging.error(f"Error al obtener notas de clientes: {e}")
+        return {} if client_id is None else []
+    finally:
+        conn.close()
+
+def get_client_data(self, clave_id):
+        """Obtiene los datos específicos de un cliente"""
+        conn = get_db_connection()
+        if not conn:
+            return None
+        
+        try:
+            cursor = conn.cursor()
+            query = """
+                SELECT client_id, day1, day2, day3, dueday, promisePage
+                FROM dbo.ClientsStates
+                WHERE client_id = ?
+            """
+            cursor.execute(query, (clave_id,))
+            row = cursor.fetchone()
+            
+            if row:
+                return {
+                    "ID Cliente": row.client_id,
+                    "Día 1": "Sí" if row.day1 else "No",
+                    "Día 2": "Sí" if row.day2 else "No",
+                    "Día 3": "Sí" if row.day3 else "No",
+                    "Día Vencimiento": "Sí" if row.dueday else "No",
+                    "Promesa de Pago": "Activa" if row.promisePage else "Inactiva"
+                }
+            return None
+            
+        except pyodbc.Error as e:
+            logging.error(f"Error al obtener datos del cliente {clave_id}: {e}")
+            return None
+        finally:
+            conn.close()

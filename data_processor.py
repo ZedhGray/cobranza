@@ -1,7 +1,7 @@
 import logging
 import json
 import os
-from database import get_clients_data, get_ventas_data
+from database import get_clients_data, get_ventas_data, get_client_states, update_client_states, delete_client_states
 
 def update_combined_json(combined_data):
     """
@@ -18,44 +18,77 @@ def update_combined_json(combined_data):
     except Exception as e:
         logging.error(f"Error al guardar datos combinados: {e}")
 
-def update_line_json(combined_data):
+# data_processor.py
+def sync_client_states(combined_data):
     """
-    Actualiza el archivo "line.json" con la información de la propiedad "timeline" de cada cliente.
+    Sincroniza los estados de los clientes entre la base de datos y el archivo line.json
     """
     try:
         line_data = {}
-        
-        # Verificar si el archivo "line.json" existe
         output_file = 'line.json'
+        
+        # Verificar si el archivo line.json existe
         if os.path.exists(output_file):
             with open(output_file, 'r', encoding='utf-8') as f:
                 line_data = json.load(f)
         
-        # Actualizar o agregar datos de "timeline" para cada cliente
-        for client_key, client_info in combined_data.items():
-            if client_key not in line_data:
-                line_data[client_key] = {
-                    "day3": False,
-                    "day2": False,
-                    "day1": False,
-                    "dueDay": False,
-                    "promisePage": False,                    
-                }
+        # Obtener estados actuales de la base de datos
+        db_states = get_client_states()
         
-        # Eliminar los client_id que ya no existen en los datos combinados
+        # Actualizar o crear estados para cada cliente
+        for client_key in combined_data.keys():
+            default_states = {
+                "day3": False,
+                "day2": False,
+                "day1": False,
+                "dueDay": False,
+                "promisePage": False,
+            }
+            
+            # Si el cliente existe en la base de datos, usar esos valores
+            if client_key in db_states:
+                states = {
+                    "day3": db_states[client_key]["day3"],
+                    "day2": db_states[client_key]["day2"],
+                    "day1": db_states[client_key]["day1"],
+                    "dueDay": db_states[client_key]["dueday"],
+                    "promisePage": db_states[client_key]["promisePage"],
+                }
+            # Si existe en line.json, usar esos valores
+            elif client_key in line_data:
+                states = line_data[client_key]
+                # Actualizar la base de datos con los valores del JSON
+                update_client_states(client_key, {
+                    "day3": states["day3"],
+                    "day2": states["day2"],
+                    "day1": states["day1"],
+                    "dueday": states["dueDay"],
+                    "promisePage": states["promisePage"]
+                })
+            # Si es nuevo, usar valores por defecto
+            else:
+                states = default_states
+                update_client_states(client_key)
+            
+            # Actualizar line_data
+            line_data[client_key] = states
+        
+        # Eliminar clientes que ya no existen
         for client_id in list(line_data.keys()):
             if client_id not in combined_data:
                 del line_data[client_id]
-                logging.info(f"Eliminando client_id '{client_id}' de 'line.json' porque ya no existe en los datos combinados")
+                delete_client_states(client_id)
+                logging.info(f"Eliminando client_id '{client_id}' porque ya no existe en los datos combinados")
         
-        # Guardar el archivo "line.json"
+        # Guardar en line.json
         with open(output_file, 'w', encoding='utf-8') as f:
             json.dump(line_data, f, ensure_ascii=False, indent=4)
         
-        logging.info(f"Datos de 'timeline' guardados exitosamente en {output_file}")
+        logging.info("Estados de clientes sincronizados exitosamente entre base de datos y line.json")
         
     except Exception as e:
-        logging.error(f"Error al guardar datos en 'line.json': {e}")
+        logging.error(f"Error al sincronizar estados de clientes: {e}")
+        raise
         
 def update_json_data(new_client_data, client_json_file='clientes_data.json', timeline_json_file='line.json'):
     try:
