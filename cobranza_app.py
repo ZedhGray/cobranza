@@ -165,15 +165,49 @@ class DetalleClienteWindow:
                                 font=("Arial", 12))
                     label.pack(anchor='w', pady=2)
 
+            # Sección de notas
+            notes_section = tk.Frame(data_container, bg=self.COLOR_BLANCO)
+            notes_section.pack(fill='x', expand=True, pady=(20, 0))
+            
+            # Título de la sección de notas
+            notes_title = tk.Label(notes_section,
+                                text="NOTAS",
+                                font=("Arial", 14, "bold"),
+                                bg=self.COLOR_BLANCO)
+            notes_title.pack(anchor='w', pady=(0, 10))
+            
+            # Obtener y mostrar las notas
+            notes = self.get_client_notes(client_id)
+            if notes:
+                for note in notes:
+                    note_frame = tk.Frame(notes_section, bg=self.COLOR_BLANCO)
+                    note_frame.pack(fill='x', pady=5)
+                    
+                    timestamp = note['timestamp'].strftime("%d/%m/%Y %H:%M")
+                    note_label = tk.Label(note_frame,
+                                        text=f"{timestamp} - {note['text']}",
+                                        bg=self.COLOR_BLANCO,
+                                        font=("Arial", 11),
+                                        wraplength=500,
+                                        justify='left')
+                    note_label.pack(anchor='w')
+            else:
+                # Mostrar mensaje cuando no hay notas
+                no_notes_label = tk.Label(notes_section,
+                                        text="No hay notas registradas",
+                                        bg=self.COLOR_BLANCO,
+                                        font=("Arial", 11, "italic"))
+                no_notes_label.pack(anchor='w', pady=5)
+
         # Frame para botones
         buttons_frame = tk.Frame(timeline_frame, bg=self.COLOR_BLANCO)
         buttons_frame.pack(pady=5)
 
-        # Botón para notas (deshabilitado por ahora)
+        # Botón para notas (ahora habilitado)
         add_note_btn = tk.Button(buttons_frame,
                                 text="+ Agregar Nota",
                                 font=("Arial", 10),
-                                state='disabled')
+                                command=self.show_note_dialog)
         add_note_btn.pack(side='left', padx=5)
 
         # Configurar el botón de promesa según el estado actual
@@ -199,11 +233,19 @@ class DetalleClienteWindow:
         timeline_frame.bind('<Enter>', lambda e: self.canvas.bind_all("<MouseWheel>", _on_mousewheel))
         timeline_frame.bind('<Leave>', lambda e: self.canvas.unbind_all("<MouseWheel>"))
 
+        # Configurar el ajuste del tamaño del canvas cuando el interior cambia
+        def _configure_interior(event):
+            size = (interior_frame.winfo_reqwidth(), interior_frame.winfo_reqheight())
+            self.canvas.config(scrollregion="0 0 %s %s" % size)
+            if interior_frame.winfo_reqwidth() != self.canvas.winfo_width():
+                self.canvas.config(width=interior_frame.winfo_reqwidth())
+        
+        interior_frame.bind('<Configure>', _configure_interior)
+
         # Guardar referencia al client_id actual
         self.current_client_id = client_id
-    
+        
         return timeline_frame
-
 
     def get_client_data(self, client_id):
         """Obtiene los datos específicos de un cliente"""
@@ -280,129 +322,116 @@ class DetalleClienteWindow:
         # Volver a crear la timeline con los datos actualizados
         self.create_timeline_frame(client_id)  
     #================================================================
+    def get_client_notes(self, client_id):
+        """Obtiene todas las notas de un cliente específico"""
+        conn = get_db_connection()
+        if not conn:
+            return []
+        
+        try:
+            cursor = conn.cursor()
+            query = """
+                SELECT id, note_text, created_at
+                FROM Notes
+                WHERE client_id = ?
+                ORDER BY created_at DESC
+            """
+            cursor.execute(query, (client_id,))
+            notes = []
+            for row in cursor.fetchall():
+                notes.append({
+                    'id': row.id,
+                    'text': row.note_text,
+                    'timestamp': row.created_at
+                })
+            return notes
+                
+        except pyodbc.Error as e:
+            logging.error(f"Error al obtener notas del cliente {client_id}: {e}")
+            return []
+        finally:
+            if conn:
+                conn.close()
+    
+    def save_note_to_db(self, note_text):
+        """Guarda una nueva nota en la base de datos"""
+        conn = get_db_connection()
+        if not conn:
+            return False
+        
+        try:
+            cursor = conn.cursor()
+            # Modified query to exclude created_at from the INSERT statement
+            query = """
+                INSERT INTO Notes (client_id, note_text)
+                VALUES (?, ?)
+            """
+            cursor.execute(query, (self.current_client_id, note_text))
+            conn.commit()
+            return True
+                
+        except pyodbc.Error as e:
+            logging.error(f"Error al guardar nota: {e}")
+            return False
+        finally:
+            if conn:
+                conn.close()
+    
     def show_note_dialog(self):
-        """
-        Muestra un diálogo para agregar una nueva nota al timeline
-        """
-        try:
-            # Crear una nueva ventana de diálogo
-            dialog = tk.Toplevel(self.top)
-            dialog.title("Agregar Nota")
-            dialog.geometry("400x300")
-            dialog.configure(bg=self.COLOR_BLANCO)
+        """Muestra un diálogo para agregar una nueva nota"""
+        dialog = tk.Toplevel(self.top)
+        dialog.title("Agregar Nota")
+        dialog.geometry("400x200")
+        dialog.configure(bg=self.COLOR_BLANCO)
+        
+        # Hacer la ventana modal
+        dialog.transient(self.top)
+        dialog.grab_set()
+        
+        # Frame principal
+        main_frame = tk.Frame(dialog, bg=self.COLOR_BLANCO)
+        main_frame.pack(fill='both', expand=True, padx=20, pady=20)
+        
+        # Campo de texto para la nota
+        note_label = tk.Label(main_frame,
+                            text="Nota:",
+                            font=("Arial", 10, "bold"),
+                            bg=self.COLOR_BLANCO)
+        note_label.pack(anchor='w')
+        
+        note_text = tk.Text(main_frame,
+                        height=4,
+                        font=("Arial", 10))
+        note_text.pack(fill='x', pady=(5, 10))
+        
+        def save():
+            text = note_text.get("1.0", "end-1c").strip()
+            if not text:
+                messagebox.showwarning("Advertencia", "Por favor ingrese una nota")
+                return
+                
+            if self.save_note_to_db(text):
+                dialog.destroy()
+                self.refresh_timeline(self.current_client_id)
+            else:
+                messagebox.showerror("Error", "No se pudo guardar la nota")
+        
+        # Botones
+        button_frame = tk.Frame(main_frame, bg=self.COLOR_BLANCO)
+        button_frame.pack(fill='x', pady=(10, 0))
+        
+        cancel_btn = tk.Button(button_frame,
+                            text="Cancelar",
+                            command=dialog.destroy)
+        cancel_btn.pack(side='right', padx=5)
+        
+        save_btn = tk.Button(button_frame,
+                            text="Guardar",
+                            command=save,
+                            bg=self.COLOR_ROJO,
+                            fg=self.COLOR_BLANCO)
+        save_btn.pack(side='right', padx=5)
             
-            # Hacer la ventana modal
-            dialog.transient(self.top)
-            dialog.grab_set()
-            
-            # Centrar la ventana
-            dialog.update_idletasks()
-            width = dialog.winfo_width()
-            height = dialog.winfo_height()
-            x = (dialog.winfo_screenwidth() // 2) - (width // 2)
-            y = (dialog.winfo_screenheight() // 2) - (height // 2)
-            dialog.geometry('{}x{}+{}+{}'.format(width, height, x, y))
-
-            # Frame principal
-            main_frame = tk.Frame(dialog, bg=self.COLOR_BLANCO)
-            main_frame.pack(fill='both', expand=True, padx=20, pady=20)
-
-            # Tipo de nota
-            tipo_label = tk.Label(main_frame, 
-                                text="Tipo de nota:",
-                                font=("Arial", 10, "bold"),
-                                bg=self.COLOR_BLANCO)
-            tipo_label.pack(anchor='w')
-
-            tipo_var = tk.StringVar(value="NOTA")
-            tipos = ["NOTA", "LLAMADA", "VISITA", "PAGO", "OTRO"]
-            tipo_combo = ttk.Combobox(main_frame, 
-                                    textvariable=tipo_var,
-                                    values=tipos,
-                                    state="readonly")
-            tipo_combo.pack(fill='x', pady=(0, 10))
-
-            # Descripción
-            desc_label = tk.Label(main_frame, 
-                                text="Descripción:",
-                                font=("Arial", 10, "bold"),
-                                bg=self.COLOR_BLANCO)
-            desc_label.pack(anchor='w')
-
-            desc_text = tk.Text(main_frame, 
-                            height=6,
-                            font=("Arial", 10))
-            desc_text.pack(fill='x', pady=(0, 10))
-
-            # Frame para botones
-            button_frame = tk.Frame(main_frame, bg=self.COLOR_BLANCO)
-            button_frame.pack(fill='x', pady=(10, 0))
-
-            # Función para guardar la nota
-            def save_note():
-                try:
-                    tipo = tipo_var.get()
-                    descripcion = desc_text.get("1.0", "end-1c").strip()
-                    
-                    if not descripcion:
-                        messagebox.showwarning("Advertencia", "Por favor ingrese una descripción")
-                        return
-                    
-                    # Aquí deberías implementar la lógica para guardar en la base de datos
-                    self.save_note_to_db(tipo, descripcion)
-                    
-                    # Cerrar el diálogo
-                    dialog.destroy()
-                    
-                    # Refrescar la línea de tiempo
-                    self.refresh_timeline()
-                    
-                except Exception as e:
-                    logging.error(f"Error al guardar la nota: {str(e)}")
-                    messagebox.showerror("Error", f"Error al guardar la nota: {str(e)}")
-
-            # Botones
-            cancel_btn = tk.Button(button_frame,
-                                text="Cancelar",
-                                command=dialog.destroy)
-            cancel_btn.pack(side='right', padx=5)
-
-            save_btn = tk.Button(button_frame,
-                                text="Guardar",
-                                command=save_note,
-                                bg=self.COLOR_ROJO,
-                                fg=self.COLOR_BLANCO)
-            save_btn.pack(side='right', padx=5)
-
-        except Exception as e:
-            logging.error(f"Error al mostrar diálogo de nota: {str(e)}")
-            messagebox.showerror("Error", f"Error al mostrar diálogo: {str(e)}")
-
-    def save_note_to_db(self, tipo, descripcion):
-        """
-        Guarda una nueva nota en la base de datos
-        Args:
-            tipo (str): Tipo de nota
-            descripcion (str): Descripción de la nota
-        """
-        try:
-            # Aquí deberías implementar la lógica para guardar en la base de datos
-            # Por ejemplo:
-            fecha = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-            nuevo_evento = {
-                'tipo': tipo,
-                'descripcion': descripcion,
-                'fecha': fecha,
-                'id_cliente': self.client_id
-            }
-            
-            # TODO: Implementar la lógica real de guardado en la base de datos
-            # Por ahora solo mostramos un mensaje
-            messagebox.showinfo("Éxito", "Nota guardada correctamente")
-            
-        except Exception as e:
-            logging.error(f"Error al guardar nota en BD: {str(e)}")
-            raise Exception(f"Error al guardar en la base de datos: {str(e)}")        
     def create_adeudo_frame(self):
         """
         Crea el frame que muestra la información de adeudos del cliente
