@@ -4,7 +4,7 @@
         "day2": false,
         "day1": false,
         "dueDay": false,
-        "promisePage": true
+        "promisePage": false
     },
     "1500-0094": {
         "day3": false,
@@ -13,19 +13,12 @@
         "dueDay": false,
         "promisePage": false
     },
-    "1500-0095": {
-        "day3": false,
-        "day2": false,
-        "day1": false,
-        "dueDay": false,
-        "promisePage": true
-    },
     "1500-0114": {
         "day3": false,
         "day2": false,
         "day1": false,
         "dueDay": false,
-        "promisePage": false
+        "promisePage": true
     },
     "1500-0115": {
         "day3": false,
@@ -55,6 +48,13 @@
         "dueDay": false,
         "promisePage": false
     },
+    "1500-0126": {
+        "day3": false,
+        "day2": false,
+        "day1": false,
+        "dueDay": false,
+        "promisePage": false
+    },
     "1500-0130": {
         "day3": false,
         "day2": false,
@@ -67,7 +67,7 @@
         "day2": false,
         "day1": false,
         "dueDay": false,
-        "promisePage": false
+        "promisePage": true
     },
     "1500-0139": {
         "day3": false,
@@ -140,13 +140,6 @@
         "promisePage": false
     },
     "1500-0175": {
-        "day3": false,
-        "day2": false,
-        "day1": false,
-        "dueDay": false,
-        "promisePage": false
-    },
-    "1500-0179": {
         "day3": false,
         "day2": false,
         "day1": false,
@@ -307,13 +300,6 @@
         "dueDay": false,
         "promisePage": false
     },
-    "1500-0313": {
-        "day3": false,
-        "day2": false,
-        "day1": false,
-        "dueDay": false,
-        "promisePage": false
-    },
     "1500-0391": {
         "day3": false,
         "day2": false,
@@ -406,13 +392,6 @@
         "promisePage": false
     },
     "1500-0371": {
-        "day3": false,
-        "day2": false,
-        "day1": false,
-        "dueDay": false,
-        "promisePage": false
-    },
-    "1500-0538": {
         "day3": false,
         "day2": false,
         "day1": false,
@@ -517,13 +496,6 @@
         "dueDay": false,
         "promisePage": false
     },
-    "1500-0358": {
-        "day3": false,
-        "day2": false,
-        "day1": false,
-        "dueDay": false,
-        "promisePage": false
-    },
     "1500-0616": {
         "day3": false,
         "day2": false,
@@ -574,13 +546,6 @@
         "promisePage": false
     },
     "1500-0650": {
-        "day3": false,
-        "day2": false,
-        "day1": false,
-        "dueDay": false,
-        "promisePage": false
-    },
-    "1500-0668": {
         "day3": false,
         "day2": false,
         "day1": false,

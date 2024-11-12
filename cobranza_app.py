@@ -11,6 +11,9 @@ import logging
 from tkinter import messagebox
 from typing import Dict, Optional
 import pyodbc
+import threading
+import time
+from main import actualizar_datos
 
 def extract_ticket_number(ticket_text):
     """Extract ticket number from ticket text using regex"""
@@ -22,6 +25,77 @@ def extract_ticket_number(ticket_text):
         return match.group(1)
     # If it's just a number, return it directly
     return ticket_text if ticket_text.isdigit() else "N/A"
+
+class LoadingSplash:
+    def __init__(self, root):
+        self.root = root
+        self.root.title("Cargando")
+        # Hacer la ventana más pequeña y centrada
+        window_width = 300
+        window_height = 150
+        screen_width = root.winfo_screenwidth()
+        screen_height = root.winfo_screenheight()
+        center_x = int(screen_width/2 - window_width/2)
+        center_y = int(screen_height/2 - window_height/2)
+        self.root.geometry(f'{window_width}x{window_height}+{center_x}+{center_y}')
+        
+        # Quitar bordes de ventana
+        self.root.overrideredirect(True)
+        
+        # Mantener ventana siempre arriba
+        self.root.attributes('-topmost', True)
+        
+        # Crear marco principal
+        self.frame = ttk.Frame(root)
+        self.frame.pack(expand=True, fill='both', padx=20, pady=20)
+        
+        # Etiqueta de estado
+        self.status_label = ttk.Label(
+            self.frame, 
+            text="Actualizando datos...",
+            font=('Helvetica', 10)
+        )
+        self.status_label.pack(pady=10)
+        
+        # Barra de progreso
+        self.progress = ttk.Progressbar(
+            self.frame,
+            mode='indeterminate',
+            length=200
+        )
+        self.progress.pack(pady=10)
+        
+        # Mensaje adicional
+        self.message = ttk.Label(
+            self.frame,
+            text="Por favor espere mientras se actualizan los datos",
+            font=('Helvetica', 8),
+            wraplength=250,
+            justify='center'
+        )
+        self.message.pack(pady=10)
+        
+        # Referencias para evitar la recolección de basura
+        self.root.splash_references = {
+            'status_label': self.status_label,
+            'progress': self.progress,
+            'message': self.message
+        }
+        
+    def start_progress(self):
+        self.progress.start(10)
+    
+    def stop_progress(self):
+        self.progress.stop()
+        
+    def update_status(self, text):
+        self.status_label.config(text=text)
+        
+    def destroy(self):
+        # Limpiar referencias antes de destruir
+        if hasattr(self.root, 'splash_references'):
+            del self.root.splash_references
+        self.root.destroy()
 
 class DetalleClienteWindow:
     def __init__(self, parent, client_data, client_id):
@@ -674,6 +748,7 @@ class DetalleClienteWindow:
                                 fg="red",
                                 bg=self.COLOR_BLANCO)
             error_label.pack(pady=10)
+    
     def get_adeudos_from_db(self):
         """
         Obtiene los adeudos pendientes de la base de datos
@@ -789,6 +864,7 @@ class DetalleClienteWindow:
 class CobranzaApp:
     def __init__(self, root):
         self.root = root
+        self.images = {}
         self.root.title("Sistema de Cobranza")
         
         # Colores corporativos
@@ -814,6 +890,20 @@ class CobranzaApp:
         self.create_header()
         self.create_main_content()
         
+    def load_image(self, path, size=None):
+        """Método para cargar y mantener referencia a las imágenes"""
+        try:
+            image = Image.open(path)
+            if size:
+                image = image.resize(size, Image.Resampling.LANCZOS)
+            photo = ImageTk.PhotoImage(image)
+            # Guardar referencia
+            self.images[path] = photo
+            return photo
+        except Exception as e:
+            logging.error(f"Error loading image {path}: {e}")
+            return None
+    
     def setup_window(self):
         """Configura las dimensiones y posición de la ventana principal"""
         screen_width = self.root.winfo_screenwidth()
@@ -1336,7 +1426,50 @@ class CobranzaApp:
             messagebox.showerror("Error", f"Error al abrir detalle del cliente: {str(e)}")
             print(f"Error detallado: {e}")
 
+def iniciar_aplicacion():
+    def launch_main_app():
+        root = tk.Tk()
+        app = CobranzaApp(root)
+        root.protocol("WM_DELETE_WINDOW", lambda: on_closing(root))
+        root.mainloop()
+
+    def on_closing(root):
+        """Manejador para el cierre de la ventana"""
+        try:
+            # Limpiar recursos
+            if hasattr(root, 'splash_references'):
+                del root.splash_references
+            root.destroy()
+        except Exception as e:
+            logging.error(f"Error during window closing: {e}")
+
+    def proceso_carga():
+        try:
+            splash.update_status("Actualizando datos...")
+            actualizar_datos()
+            splash.update_status("¡Actualización completada!")
+            time.sleep(1)
+            
+            # Cerrar splash y iniciar app principal
+            root_splash.after(0, lambda: [
+                splash.stop_progress(),
+                splash.destroy(),
+                launch_main_app()
+            ])
+            
+        except Exception as e:
+            splash.update_status(f"Error: {str(e)}")
+            time.sleep(3)
+            root_splash.destroy()
+
+    # Iniciar splash screen
+    root_splash = tk.Tk()
+    splash = LoadingSplash(root_splash)
+    splash.start_progress()
+
+    # Iniciar proceso de carga en thread separado
+    threading.Thread(target=proceso_carga, daemon=True).start()
+    root_splash.mainloop()
+
 if __name__ == "__main__":
-    root = tk.Tk()
-    app = CobranzaApp(root)
-    root.mainloop()
+    iniciar_aplicacion()

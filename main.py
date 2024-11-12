@@ -47,7 +47,8 @@ def update_json_data(new_data, json_file='clientes_data.json'):
         logging.error(f"Error al actualizar el archivo JSON: {e}")
         raise
 
-def main():
+# Cambiamos el nombre para evitar confusión
+def actualizar_datos():
     try:
         setup_logging()
         logging.info("=== Iniciando actualización de datos ===")
@@ -56,15 +57,17 @@ def main():
         combined_data = combine_client_sales_data()
         update_combined_json(combined_data)
         
-        # Actualizar datos en la base de datos y line.json de manera sincronizada
+        # Actualizar datos en la base de datos y line.json
         sync_client_states(combined_data)
         
         logging.info("=== Proceso completado ===")
+        return True
             
     except Exception as e:
         logging.error(f"Error en el proceso principal: {e}")
         logging.info("=== Proceso completado con errores ===")
         raise
-        
+
+# Modificamos el main para que use la nueva función
 if __name__ == "__main__":
-    main()
+    actualizar_datos()
