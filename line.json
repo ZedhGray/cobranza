@@ -4,21 +4,21 @@
         "day2": false,
         "day1": false,
         "dueDay": false,
-        "promisePage": false
+        "promisePage": true
     },
     "1500-0094": {
         "day3": false,
         "day2": false,
         "day1": false,
         "dueDay": false,
-        "promisePage": false
+        "promisePage": true
     },
     "1500-0114": {
         "day3": false,
         "day2": false,
         "day1": false,
         "dueDay": false,
-        "promisePage": true
+        "promisePage": false
     },
     "1500-0115": {
         "day3": false,
@@ -175,6 +175,13 @@
         "promisePage": false
     },
     "1500-0216": {
+        "day3": false,
+        "day2": false,
+        "day1": false,
+        "dueDay": false,
+        "promisePage": false
+    },
+    "1500-0225": {
         "day3": false,
         "day2": false,
         "day1": false,
