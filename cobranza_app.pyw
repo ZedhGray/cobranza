@@ -1,11 +1,21 @@
+import os
+import sys
+
+# Ruta al entorno virtual
+venv_path = os.path.join(os.path.dirname(sys.argv[0]), 'venv', 'Scripts', 'python.exe')
+
+# Activar el entorno virtual
+os.environ['VIRTUAL_ENV'] = os.path.dirname(venv_path)
+os.environ['PATH'] = os.path.dirname(venv_path) + os.pathsep + os.environ['PATH']
+sys.executable = venv_path
+
+# Resto del código de la aplicación
 import tkinter as tk
 from tkinter import ttk
 from PIL import Image, ImageTk
 import json
 from datetime import datetime
 import re
-import os
-import subprocess
 from database import get_client_states, update_client_states, get_db_connection, get_clients_data
 import logging
 from tkinter import messagebox
