@@ -696,13 +696,30 @@ class DetalleClienteWindow:
                 row_frame = tk.Frame(interior_frame, bg=self.COLOR_BLANCO)
                 row_frame.pack(fill='x', pady=2)
 
-                # Ticket y fecha
+                # Crear frame para el ticket (será clickeable)
+                ticket_frame = tk.Frame(row_frame, bg=self.COLOR_BLANCO, cursor="hand2")
+                ticket_frame.pack(side='left', fill='x', expand=True)
+                
+                # Ticket y fecha con estilo de enlace
                 ticket_text = f"Ticket #{adeudo['ticket']} ({adeudo['fecha']})"
-                ticket_label = tk.Label(row_frame,
+                ticket_label = tk.Label(ticket_frame,
                                     text=ticket_text,
-                                    font=("Arial", 10),
-                                    bg=self.COLOR_BLANCO)
+                                    font=("Arial", 10, "underline"),
+                                    bg=self.COLOR_BLANCO,
+                                    fg="blue",
+                                    cursor="hand2")
                 ticket_label.pack(side='left')
+
+                # Agregar eventos para efecto hover
+                def on_enter(e, label=ticket_label):
+                    label.configure(fg="purple")
+                
+                def on_leave(e, label=ticket_label):
+                    label.configure(fg="blue")
+
+                ticket_label.bind('<Enter>', on_enter)
+                ticket_label.bind('<Leave>', on_leave)
+                ticket_label.bind('<Button-1>', lambda e, a=adeudo: self.show_ticket_detail(a))
 
                 # Monto con flecha hacia abajo (↓)
                 monto_text = f"${adeudo['monto']:,.2f} ↓"
@@ -774,7 +791,8 @@ class DetalleClienteWindow:
                 SELECT 
                     Folio as ticket,
                     Fecha,
-                    Restante as monto
+                    Restante as monto,
+                    Ticket as datos
                 FROM Ventas
                 WHERE Estado != 'PAGADA'
                 AND Estado != 'CANCELADA'
@@ -787,11 +805,14 @@ class DetalleClienteWindow:
 
             adeudos = []
             for row in results:
-                adeudos.append({
+                adeudo = {
                     'ticket': row.ticket,
                     'fecha': row.Fecha.strftime('%Y-%m-%d') if row.Fecha else '',
-                    'monto': float(row.monto)
-                })
+                    'monto': float(row.monto),
+                    "datos": row.datos
+                }
+                adeudos.append(adeudo)
+                print(adeudo)  # Imprime cada adeudo en consola
             
             return adeudos
 
@@ -870,6 +891,154 @@ class DetalleClienteWindow:
             logging.error(f"Error al obtener adeudos: {str(e)}")
             return [] 
 
+    def show_ticket_detail(self, ticket_data):
+        """Muestra una ventana emergente con los detalles del ticket"""
+        # Crear nueva ventana
+        detail_window = tk.Toplevel(self.top)
+        detail_window.title(f"Ticket #{ticket_data['ticket']}")
+        
+        # Configurar geometría
+        window_width = 400
+        window_height = 750
+        screen_width = detail_window.winfo_screenwidth()
+        screen_height = detail_window.winfo_screenheight()
+        x = (screen_width - window_width) // 2
+        y = (screen_height - window_height) // 2
+        detail_window.geometry(f"{window_width}x{window_height}+{x}+{y}")
+        detail_window.configure(bg=self.COLOR_BLANCO)
+        
+        # Frame principal con padding
+        main_frame = tk.Frame(detail_window, bg=self.COLOR_BLANCO)
+        main_frame.pack(fill='both', expand=True, padx=20, pady=20)
+        
+        # Logo y encabezado
+        logo_label = tk.Label(main_frame, 
+                            text="GARCIA RINES Y NEUMATICOS",
+                            font=("Arial", 16, "bold"),
+                            bg=self.COLOR_BLANCO)
+        logo_label.pack(pady=(0, 10))
+        
+        # Información del ticket
+        info_frame = tk.Frame(main_frame, bg=self.COLOR_BLANCO)
+        info_frame.pack(fill='x', pady=(0, 10))
+        
+        # Número de ticket y fecha
+        ticket_info = tk.Label(info_frame,
+                            text=f"TICKET: {ticket_data['ticket']} [{ticket_data['fecha']}]",
+                            font=("Arial", 10),
+                            bg=self.COLOR_BLANCO)
+        ticket_info.pack(anchor='w')
+        
+        # Separador
+        ttk.Separator(main_frame, orient='horizontal').pack(fill='x', pady=10)
+        
+        # Frame para artículos con scroll
+        canvas = tk.Canvas(main_frame, bg=self.COLOR_BLANCO)
+        scrollbar = ttk.Scrollbar(main_frame, orient="vertical", command=canvas.yview)
+        items_frame = tk.Frame(canvas, bg=self.COLOR_BLANCO)
+        
+        # Configurar scroll
+        canvas.configure(yscrollcommand=scrollbar.set)
+        canvas.pack(side="left", fill="both", expand=True)
+        scrollbar.pack(side="right", fill="y")
+        
+        # Crear ventana en canvas
+        canvas.create_window((0, 0), window=items_frame, anchor="nw", width=canvas.winfo_reqwidth())
+        
+        # Procesar y mostrar los datos del ticket
+        lines = ticket_data['datos'].split('\n')
+        current_section = None
+        
+        for line in lines:
+            line = line.strip()
+            if not line:
+                continue
+                
+            # Encabezados de sección
+            if "CANT" in line and "DESCRIPCION" in line:
+                current_section = "items"
+                headers = tk.Label(items_frame,
+                                text=line,
+                                font=("Arial", 10, "bold"),
+                                bg=self.COLOR_BLANCO)
+                headers.pack(anchor='w')
+                continue
+                
+            if current_section == "items":
+                if "-------" in line:
+                    ttk.Separator(items_frame, orient='horizontal').pack(fill='x', pady=5)
+                    continue
+                    
+                if "IMPORTE:" in line or "EFECTIVO:" in line or "ADEUDA:" in line:
+                    amount_frame = tk.Frame(items_frame, bg=self.COLOR_BLANCO)
+                    amount_frame.pack(fill='x')
+                    
+                    label = tk.Label(amount_frame,
+                                text=line.split(':')[0] + ":",
+                                font=("Arial", 10),
+                                bg=self.COLOR_BLANCO)
+                    label.pack(side='left')
+                    
+                    amount = tk.Label(amount_frame,
+                                    text=line.split(':')[1],
+                                    font=("Arial", 10, "bold"),
+                                    bg=self.COLOR_BLANCO)
+                    amount.pack(side='right')
+                    continue
+                    
+                # Artículos normales
+                if line and not line.startswith("----"):
+                    item_frame = tk.Frame(items_frame, bg=self.COLOR_BLANCO)
+                    item_frame.pack(fill='x', pady=2)
+                    
+                    try:
+                        qty, desc, price = line.split(None, 2)
+                        
+                        qty_label = tk.Label(item_frame,
+                                        text=qty,
+                                        font=("Arial", 10),
+                                        bg=self.COLOR_BLANCO)
+                        qty_label.pack(side='left', padx=(0, 10))
+                        
+                        desc_label = tk.Label(item_frame,
+                                            text=desc,
+                                            font=("Arial", 10),
+                                            bg=self.COLOR_BLANCO)
+                        desc_label.pack(side='left', expand=True, anchor='w')
+                        
+                        price_label = tk.Label(item_frame,
+                                            text=price,
+                                            font=("Arial", 10),
+                                            bg=self.COLOR_BLANCO)
+                        price_label.pack(side='right')
+                    except ValueError:
+                        # Si la línea no tiene el formato esperado, mostrarla completa
+                        tk.Label(item_frame,
+                                text=line,
+                                font=("Arial", 10),
+                                bg=self.COLOR_BLANCO).pack(anchor='w')
+        
+        # Configurar el scrolling
+        def _on_frame_configure(event):
+            canvas.configure(scrollregion=canvas.bbox("all"))
+            canvas.itemconfig(canvas.find_withtag("all")[0], width=canvas.winfo_width())
+        
+        items_frame.bind('<Configure>', _on_frame_configure)
+        
+        # Botón de cerrar
+        close_button = tk.Button(main_frame,
+                                text="Cerrar",
+                                command=detail_window.destroy,
+                                bg=self.COLOR_ROJO,
+                                fg=self.COLOR_BLANCO,
+                                relief='flat',
+                                padx=20)
+        close_button.pack(pady=20)
+        
+        # Hacer la ventana modal
+        detail_window.transient(self.top)
+        detail_window.grab_set()
+    
 class CobranzaApp:
     def __init__(self, root):
         self.root = root

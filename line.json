@@ -20,13 +20,6 @@
         "dueDay": false,
         "promisePage": false
     },
-    "1500-0114": {
-        "day3": false,
-        "day2": false,
-        "day1": false,
-        "dueDay": false,
-        "promisePage": false
-    },
     "1500-0115": {
         "day3": false,
         "day2": false,
@@ -623,6 +616,13 @@
         "promisePage": false
     },
     "1500-0548": {
+        "day3": false,
+        "day2": false,
+        "day1": false,
+        "dueDay": false,
+        "promisePage": false
+    },
+    "1500-0279": {
         "day3": false,
         "day2": false,
         "day1": false,
