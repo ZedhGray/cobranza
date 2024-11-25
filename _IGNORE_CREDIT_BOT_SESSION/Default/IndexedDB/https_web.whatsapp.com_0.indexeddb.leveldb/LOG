@@ -1,0 +1,23 @@
+2024/11/19-10:28:37.132 1214 Reusing MANIFEST c:\Users\USER\Documents\GitHub\cobranza\_IGNORE_CREDIT_BOT_SESSION\Default\IndexedDB\https_web.whatsapp.com_0.indexeddb.leveldb/MANIFEST-000001
+2024/11/19-10:28:37.132 1214 Recovering log #48
+2024/11/19-10:28:37.148 1214 Reusing old log c:\Users\USER\Documents\GitHub\cobranza\_IGNORE_CREDIT_BOT_SESSION\Default\IndexedDB\https_web.whatsapp.com_0.indexeddb.leveldb/000048.log 
+2024/11/19-10:28:43.914 1670 Manual compaction at level-0 from '\x00\x19\x00\x00\x00' @ 72057594037927935 : 1 .. '\x00\x1a\x00\x00\x00' @ 0 : 0; will stop at (end)
+2024/11/19-10:28:43.918 1214 Level-0 table #54: started
+2024/11/19-10:28:43.931 1214 Level-0 table #54: 145657 bytes OK
+2024/11/19-10:28:43.933 1214 Delete type=0 #48
+2024/11/19-10:28:43.934 1214 Manual compaction at level-0 from '\x00\x1a\x00\x00\x00' @ 72057594037927935 : 1 .. '\x00\x1b\x00\x00\x00' @ 0 : 0; will stop at (end)
+2024/11/19-10:28:43.936 1214 Level-0 table #56: started
+2024/11/19-10:28:43.961 1214 Level-0 table #56: 440 bytes OK
+2024/11/19-10:28:43.963 1214 Delete type=0 #53
+2024/11/19-10:28:43.964 1214 Manual compaction at level-0 from '\x00\x1b\x00\x00\x00' @ 72057594037927935 : 1 .. '\x00\x1c\x00\x00\x00' @ 0 : 0; will stop at '\x00\x1b\x00\x00\x05' @ 75442 : 0
+2024/11/19-10:28:43.964 1214 Compacting 1@0 + 1@1 files
+2024/11/19-10:28:43.977 1214 Generated table #57@0: 3925 keys, 89384 bytes
+2024/11/19-10:28:43.977 1214 Compacted 1@0 + 1@1 files => 89384 bytes
+2024/11/19-10:28:43.979 1214 compacted to: files[ 0 1 1 0 0 0 0 ]
+2024/11/19-10:28:43.980 1214 Manual compaction at level-0 from '\x00\x1b\x00\x00\x05' @ 75442 : 0 .. '\x00\x1c\x00\x00\x00' @ 0 : 0; will stop at (end)
+2024/11/19-10:28:44.003 1670 Compacting 1@1 + 1@2 files
+2024/11/19-10:28:44.049 1670 Generated table #58@1: 16879 keys, 652334 bytes
+2024/11/19-10:28:44.049 1670 Compacted 1@1 + 1@2 files => 652334 bytes
+2024/11/19-10:28:44.051 1670 compacted to: files[ 0 0 1 0 0 0 0 ]
+2024/11/19-10:28:44.051 1670 Delete type=2 #54
+2024/11/19-10:28:44.051 1670 Delete type=2 #56

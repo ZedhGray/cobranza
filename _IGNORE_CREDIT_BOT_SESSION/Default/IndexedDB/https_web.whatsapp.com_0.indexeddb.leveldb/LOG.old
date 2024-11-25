@@ -1,0 +1,46 @@
+2024/11/19-10:21:36.221 2abc Reusing MANIFEST c:\Users\USER\Documents\GitHub\cobranza\_IGNORE_CREDIT_BOT_SESSION\Default\IndexedDB\https_web.whatsapp.com_0.indexeddb.leveldb/MANIFEST-000001
+2024/11/19-10:21:36.222 2abc Recovering log #36
+2024/11/19-10:21:36.285 2abc Reusing old log c:\Users\USER\Documents\GitHub\cobranza\_IGNORE_CREDIT_BOT_SESSION\Default\IndexedDB\https_web.whatsapp.com_0.indexeddb.leveldb/000036.log 
+2024/11/19-10:21:36.483 2abc Level-0 table #41: started
+2024/11/19-10:21:36.519 2abc Level-0 table #41: 369153 bytes OK
+2024/11/19-10:21:36.536 2abc Delete type=0 #36
+2024/11/19-10:21:36.536 2abc Manual compaction at level-0 from '\x00\x14\x00\x00\x00' @ 72057594037927935 : 1 .. '\x00\x15\x00\x00\x00' @ 0 : 0; will stop at (end)
+2024/11/19-10:21:36.541 2abc Level-0 table #43: started
+2024/11/19-10:21:36.567 2abc Level-0 table #43: 1005 bytes OK
+2024/11/19-10:21:36.571 2abc Delete type=0 #40
+2024/11/19-10:21:36.571 2abc Manual compaction at level-0 from '\x00\x15\x00\x00\x00' @ 72057594037927935 : 1 .. '\x00\x16\x00\x00\x00' @ 0 : 0; will stop at '\x00\x15\x00\x00\x05' @ 68604 : 0
+2024/11/19-10:21:36.571 2abc Compacting 1@0 + 1@1 files
+2024/11/19-10:21:36.658 2abc Generated table #44@0: 8851 keys, 201060 bytes
+2024/11/19-10:21:36.658 2abc Compacted 1@0 + 1@1 files => 201060 bytes
+2024/11/19-10:21:36.660 2abc compacted to: files[ 0 1 1 0 0 0 0 ]
+2024/11/19-10:21:36.660 2abc Delete type=2 #43
+2024/11/19-10:21:36.660 2abc Manual compaction at level-0 from '\x00\x15\x00\x00\x05' @ 68604 : 0 .. '\x00\x16\x00\x00\x00' @ 0 : 0; will stop at (end)
+2024/11/19-10:21:36.661 2abc Level-0 table #46: started
+2024/11/19-10:21:36.687 2abc Level-0 table #46: 328 bytes OK
+2024/11/19-10:21:36.689 2abc Delete type=2 #41
+2024/11/19-10:21:36.689 2abc Delete type=0 #42
+2024/11/19-10:21:36.690 2abc Manual compaction at level-0 from '\x00\x16\x00\x00\x00' @ 72057594037927935 : 1 .. '\x00\x17\x00\x00\x00' @ 0 : 0; will stop at '\x00\x16\x00\x00\x05' @ 68613 : 0
+2024/11/19-10:21:36.690 2abc Compacting 1@0 + 1@1 files
+2024/11/19-10:21:36.719 2abc Generated table #47@0: 8850 keys, 201004 bytes
+2024/11/19-10:21:36.719 2abc Compacted 1@0 + 1@1 files => 201004 bytes
+2024/11/19-10:21:36.721 2abc compacted to: files[ 0 1 1 0 0 0 0 ]
+2024/11/19-10:21:36.721 2abc Delete type=2 #46
+2024/11/19-10:21:36.722 2abc Manual compaction at level-0 from '\x00\x16\x00\x00\x05' @ 68613 : 0 .. '\x00\x17\x00\x00\x00' @ 0 : 0; will stop at (end)
+2024/11/19-10:21:36.722 2abc Level-0 table #49: started
+2024/11/19-10:21:36.733 2abc Level-0 table #49: 248 bytes OK
+2024/11/19-10:21:36.748 2abc Delete type=2 #44
+2024/11/19-10:21:36.748 2abc Delete type=0 #45
+2024/11/19-10:21:36.749 2abc Manual compaction at level-0 from '\x00\x17\x00\x00\x00' @ 72057594037927935 : 1 .. '\x00\x18\x00\x00\x00' @ 0 : 0; will stop at '\x00\x17\x00\x00\x05' @ 68619 : 0
+2024/11/19-10:21:36.749 2abc Compacting 1@0 + 1@1 files
+2024/11/19-10:21:36.763 2abc Generated table #50@0: 8848 keys, 200836 bytes
+2024/11/19-10:21:36.763 2abc Compacted 1@0 + 1@1 files => 200836 bytes
+2024/11/19-10:21:36.780 2abc compacted to: files[ 0 1 1 0 0 0 0 ]
+2024/11/19-10:21:36.781 2abc Delete type=2 #49
+2024/11/19-10:21:36.781 2abc Manual compaction at level-0 from '\x00\x17\x00\x00\x05' @ 68619 : 0 .. '\x00\x18\x00\x00\x00' @ 0 : 0; will stop at (end)
+2024/11/19-10:21:38.358 231c Compacting 1@1 + 1@2 files
+2024/11/19-10:21:38.415 231c Generated table #51@1: 15366 keys, 594082 bytes
+2024/11/19-10:21:38.415 231c Compacted 1@1 + 1@2 files => 594082 bytes
+2024/11/19-10:21:38.417 231c compacted to: files[ 0 0 1 0 0 0 0 ]
+2024/11/19-10:21:38.417 231c Delete type=2 #38
+2024/11/19-10:21:38.417 231c Delete type=2 #47
+2024/11/19-10:21:38.417 231c Delete type=2 #50

@@ -13,10 +13,9 @@ sys.executable = venv_path
 import tkinter as tk
 from tkinter import ttk
 from PIL import Image, ImageTk
-import json
 from datetime import datetime
 import re
-from database import get_client_states, update_client_states, get_db_connection, get_clients_data
+from database import get_client_states, get_db_connection, get_clients_data
 import logging
 from tkinter import messagebox
 from typing import Dict, Optional
@@ -998,9 +997,8 @@ class CobranzaApp:
         whatsapp_button.pack(side='right', padx=20)
 
     def open_whatsapp_bot(self):
-        bat_file = r'C:\Users\USER\Documents\GitHub\chatbotwapp\run_whatsapp_bot.bat'  # Reemplaza con la ruta real del archivo .bat
-        subprocess.Popen([bat_file], shell=True)
-    
+        bat_file = r'C:\Users\USER\Documents\GitHub\chatbotwapp\run_whatsapp_bot.bat'
+        os.startfile(bat_file)
     def load_initial_data(self):
         """Carga los datos iniciales de clientes y sus categorías"""
         try:
@@ -1166,6 +1164,8 @@ class CobranzaApp:
             
             # Categorizar basado en los días
             if diferencia.days < 30:
+                return "verde"
+            elif diferencia.days >= 30 and diferencia.days < 60:
                 return "amarillo"
             else:
                 return "rojo"
@@ -1229,7 +1229,7 @@ class CobranzaApp:
         categories_container.grid_columnconfigure(0, weight=1)
         
         # Crear las tres categorías usando grid en lugar de pack
-        self.create_category_section(categories_container, "ACUERDO DE PAGO", self.COLOR_VERDE, 0)
+        self.create_category_section(categories_container, "ACUERDO DE PAGO / MENOS DE 30 DIAS", self.COLOR_VERDE, 0)
         self.create_category_section(categories_container, "30 A 60 DIAS", self.COLOR_AMARILLO, 1)
         self.create_category_section(categories_container, "MAS DE 60 DIAS", self.COLOR_ROJO, 2)
         
