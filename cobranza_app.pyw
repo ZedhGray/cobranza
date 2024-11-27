@@ -1,6 +1,15 @@
 import os
 import sys
+import subprocess
 
+def install_package(package):
+    subprocess.check_call([sys.executable, "-m", "pip", "install", package])
+
+try:
+    import socketio
+except ImportError:
+    install_package('python-socketio')
+    import socketio
 # Ruta al entorno virtual
 venv_path = os.path.join(os.path.dirname(sys.argv[0]), 'venv', 'Scripts', 'python.exe')
 
@@ -22,6 +31,7 @@ from typing import Dict, Optional
 import pyodbc
 import threading
 import time
+import socketio
 from main import actualizar_datos
 
 def extract_ticket_number(ticket_text):
@@ -113,6 +123,19 @@ class DetalleClienteWindow:
         self.client_id = client_id
         self.setup_window()
 
+        # Inicializar el socket de comunicación con WhatsApp
+        self.sio = socketio.Client()
+        
+        # Configurar listeners de socket
+        self.setup_socket_listeners()
+        
+        # Conectar al servidor de socket
+        try:
+            self.sio.connect('http://localhost:3000')
+        except Exception as e:
+            messagebox.showerror("Error de Conexión", 
+                                 f"No se pudo conectar con WhatsApp: {str(e)}")
+        
         # Colores
         self.COLOR_ROJO = "#E31837"
         self.COLOR_NEGRO = "#333333"
@@ -235,8 +258,72 @@ class DetalleClienteWindow:
 
         self.promise_btn.bind("<Enter>", on_enter_promise)
         self.promise_btn.bind("<Leave>", on_leave_promise)
-
         
+        # Separador visual
+        separator = tk.Frame(control_container, height=1, bg=self.COLOR_GRIS_HOVER)
+        separator.pack(fill='x', pady=10)
+
+        # Botón de WhatsApp con estilo mejorado
+        whatsapp_btn = tk.Button(control_container, 
+                               text="Abrir Chat WhatsApp",
+                               font=("Arial", 10, "bold"),
+                               bg=self.COLOR_BLANCO,
+                               fg=self.COLOR_NEGRO,
+                               bd=0,  # Sin borde
+                               relief="flat",  # Estilo plano
+                               padx=15,  # Padding horizontal
+                               pady=8,   # Padding vertical
+                               width=15,  # Ancho fijo
+                               cursor="hand2",  # Cursor tipo mano
+                               command=self.abrir_chat_whatsapp)
+        
+        whatsapp_btn.pack(pady=(0,10))
+
+        # Configurar eventos hover para el botón de WhatsApp
+        def on_enter(e):
+            whatsapp_btn['bg'] = self.COLOR_GRIS_HOVER
+        def on_leave(e):
+            whatsapp_btn['bg'] = self.COLOR_BLANCO
+
+        whatsapp_btn.bind("<Enter>", on_enter)
+        whatsapp_btn.bind("<Leave>", on_leave)
+
+    def __del__(self):
+        # Asegurarse de desconectar el socket al cerrar
+        try:
+            self.sio.disconnect()
+        except:
+            pass
+
+    def setup_socket_listeners(self):
+        @self.sio.on('chat-opened')
+        def on_chat_opened(data):
+            if data.get('success'):
+                messagebox.showinfo("Éxito", "Chat de WhatsApp abierto")
+            else:
+                messagebox.showerror("Error", 
+                                     data.get('error', "No se pudo abrir el chat"))     
+    
+    def abrir_chat_whatsapp(self, telefono=None):
+        """
+        Abre un chat de WhatsApp para un cliente específico
+        
+        :param telefono: Número de teléfono. Si es None, intenta obtenerlo de los datos del cliente
+        """
+        # Si no se proporciona teléfono, intentar obtenerlo de los datos del cliente
+        if telefono is None:
+            telefono = self.client_data.get('telefono1')
+        
+        if not telefono:
+            messagebox.showerror("Error", "No se encontró número de teléfono")
+            return
+        
+        try:
+            # Emitir evento para abrir chat
+            self.sio.emit('open-chat', telefono)
+        except Exception as e:
+            messagebox.showerror("Error de Comunicación", 
+                                 f"No se pudo abrir el chat: {str(e)}")
     def create_cliente_frame(self):
         """Crea el frame principal del cliente"""
         client_frame = tk.LabelFrame(self.left_frame, text="CLIENTE", 
