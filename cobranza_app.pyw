@@ -304,51 +304,78 @@ class DetalleClienteWindow:
                 messagebox.showerror("Error", 
                                      data.get('error', "No se pudo abrir el chat"))     
     
+    
+    def formatear_telefono(self, telefono):
+        """
+        Formatea un número de teléfono para uso en WhatsApp Web.
+
+        Elimina todos los caracteres no numéricos y agrega el prefijo de país 521.
+
+        Args:
+            telefono (str): Número de teléfono a formatear.
+
+        Returns:
+            str: Número de teléfono formateado con prefijo 521.
+        """
+        # Elimina todos los caracteres no numéricos
+        cleaned = ''.join(filter(str.isdigit, telefono))
+        
+        # Agrega el prefijo 521 si no está presente
+        formatted = f"521{cleaned}" if not cleaned.startswith('52') else cleaned
+        
+        return formatted
+
     def abrir_chat_whatsapp(self, telefono=None):
         """
-        Abre un chat de WhatsApp para un cliente específico
-        
-        :param telefono: Número de teléfono. Si es None, intenta obtenerlo de los datos del cliente
+        Abre un chat de WhatsApp para un cliente específico.
+
+        Busca el número de teléfono en los datos del cliente si no se proporciona.
+        Formatea el número y emite un evento para abrir el chat.
+
+        Args:
+            telefono (str, optional): Número de teléfono a usar. 
+                                    Si es None, se busca en los datos del cliente.
         """
-        # Si no se proporciona teléfono, intentar obtenerlo de los datos del cliente
         if telefono is None:
             telefono = self.client_data.get('telefono1')
         
         if not telefono:
             messagebox.showerror("Error", "No se encontró número de teléfono")
             return
-        
         try:
-            # Emitir evento para abrir chat
-            self.sio.emit('open-chat', telefono)
+            # Formatear el número antes de enviarlo
+            telefono_formateado = self.formatear_telefono(telefono)
+            print(f"Número formateado: {telefono_formateado}")
+            
+            self.sio.emit('open-chat', telefono_formateado)
         except Exception as e:
             messagebox.showerror("Error de Comunicación", 
-                                 f"No se pudo abrir el chat: {str(e)}")
+                                f"No se pudo abrir el chat: {str(e)}")
     def create_cliente_frame(self):
-        """Crea el frame principal del cliente"""
-        client_frame = tk.LabelFrame(self.left_frame, text="CLIENTE", 
-                                   font=("Arial", 16, "bold"), bg=self.COLOR_BLANCO)
-        client_frame.pack(fill='x', padx=20, pady=(20,10))
+            """Crea el frame principal del cliente"""
+            client_frame = tk.LabelFrame(self.left_frame, text="CLIENTE", 
+                                    font=("Arial", 16, "bold"), bg=self.COLOR_BLANCO)
+            client_frame.pack(fill='x', padx=20, pady=(20,10))
 
-        info_container = tk.Frame(client_frame, bg=self.COLOR_BLANCO)
-        info_container.pack(fill='x', padx=20, pady=10)
+            info_container = tk.Frame(client_frame, bg=self.COLOR_BLANCO)
+            info_container.pack(fill='x', padx=20, pady=10)
 
-        self.create_info_field(info_container, "Número de Cliente:", str(self.client_id))
-        self.create_info_field(info_container, "Nombre:", self.client_data.get('nombre', 'N/A'))
-        self.create_info_field(info_container, "Teléfono:", self.client_data.get('telefono1', 'N/A'))
-        self.create_info_field(info_container, "Telefono Referencia:", self.client_data.get('telefono2', 'N/A'))
-        self.create_info_field(info_container, "Dirección:", self.client_data.get('direccion', 'N/A'))
-        self.create_info_field(info_container, "Saldo:", f"${self.client_data.get('saldo', 0):,.2f}")
-        self.create_info_field(info_container, "Crédito:", "Sí" if self.client_data.get('credito') else "No")
+            self.create_info_field(info_container, "Número de Cliente:", str(self.client_id))
+            self.create_info_field(info_container, "Nombre:", self.client_data.get('nombre', 'N/A'))
+            self.create_info_field(info_container, "Teléfono:", self.client_data.get('telefono1', 'N/A'))
+            self.create_info_field(info_container, "Telefono Referencia:", self.client_data.get('telefono2', 'N/A'))
+            self.create_info_field(info_container, "Dirección:", self.client_data.get('direccion', 'N/A'))
+            self.create_info_field(info_container, "Saldo:", f"${self.client_data.get('saldo', 0):,.2f}")
+            self.create_info_field(info_container, "Crédito:", "Sí" if self.client_data.get('credito') else "No")
 
-        estado_frame = tk.Frame(client_frame, bg=self.COLOR_BLANCO)
-        estado_frame.place(relx=1.0, x=-20, y=10, anchor='ne')
+            estado_frame = tk.Frame(client_frame, bg=self.COLOR_BLANCO)
+            estado_frame.place(relx=1.0, x=-20, y=10, anchor='ne')
 
-        estado_label = tk.Label(estado_frame, text="●", font=("Arial", 12), fg=self.COLOR_ROJO, bg=self.COLOR_BLANCO)
-        estado_label.pack(side='left')
+            estado_label = tk.Label(estado_frame, text="●", font=("Arial", 12), fg=self.COLOR_ROJO, bg=self.COLOR_BLANCO)
+            estado_label.pack(side='left')
 
-        estado_texto = tk.Label(estado_frame, text=self.client_data.get('estado', 'ACTIVO'), font=("Arial", 12), fg=self.COLOR_ROJO, bg=self.COLOR_BLANCO)
-        estado_texto.pack(side='left', padx=5)
+            estado_texto = tk.Label(estado_frame, text=self.client_data.get('estado', 'ACTIVO'), font=("Arial", 12), fg=self.COLOR_ROJO, bg=self.COLOR_BLANCO)
+            estado_texto.pack(side='left', padx=5)
 
     def create_info_field(self, parent, label, value):
         """Crea un campo de información"""
