@@ -300,7 +300,7 @@ class DetalleClienteWindow:
 
         # Nuevo botón de Company con estilo mejorado
         company_state = self.get_company_state(self.client_id)
-        company_text = "En Company" if company_state else "Company"
+        company_text = "No es empresa" if company_state else "Empresa"
         company_color = self.COLOR_ROJO if company_state else self.COLOR_BLANCO
         company_text_color = self.COLOR_BLANCO if company_state else self.COLOR_NEGRO
         
@@ -447,7 +447,7 @@ class DetalleClienteWindow:
                 conn.commit()
 
                 # Actualizar el botón con los nuevos estilos
-                new_text = "En Company" if new_state else "Company"
+                new_text = "No es empresa" if new_state else "Empresa"
                 new_bg_color = self.COLOR_ROJO if new_state else self.COLOR_BLANCO
                 new_fg_color = self.COLOR_BLANCO if new_state else self.COLOR_NEGRO
                 
