@@ -123,18 +123,24 @@ class DetalleClienteWindow:
         self.client_id = client_id
         self.setup_window()
 
-        # Inicializar el socket de comunicación con WhatsApp
-        self.sio = socketio.Client()
+        # Inicializar el socket como None
+        self.sio = None
+        # Verificar si el servidor de WhatsApp está disponible
+        self.whatsapp_available = self.check_whatsapp_server()
+        if self.whatsapp_available:
+            self.setup_socket_connection()
         
         # Configurar listeners de socket
         self.setup_socket_listeners()
         
-        # Conectar al servidor de socket
+            # Intentar conectar al servidor de socket sin mostrar error
         try:
-            self.sio.connect('http://localhost:3000')
+            if self.sio:  # Solo intentar conectar si sio existe
+                self.sio.connect('http://localhost:3000')
         except Exception as e:
-            messagebox.showerror("Error de Conexión", 
-                                 f"No se pudo conectar con WhatsApp: {str(e)}")
+            logging.debug(f"No se pudo conectar con WhatsApp: {str(e)}")
+            self.whatsapp_available = False
+            self.sio = None
         
         # Colores
         self.COLOR_ROJO = "#E31837"
@@ -169,6 +175,35 @@ class DetalleClienteWindow:
         self.create_adeudo_frame()
         self.create_control_panel()
 
+    def check_whatsapp_server(self):
+            """Verifica si el servidor de WhatsApp está disponible"""
+            try:
+                sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+                sock.settimeout(1)
+                result = sock.connect_ex(('localhost', 3000))
+                sock.close()
+                return result == 0
+            except Exception as e:
+                logging.debug(f"WhatsApp server no disponible: {str(e)}")
+                return False
+    def setup_socket_connection(self):
+        """Configura la conexión del socket si el servidor está disponible"""
+        try:
+            self.sio = socketio.Client()
+            
+            # Configurar listeners solo si self.sio existe
+            if self.sio is not None:
+                @self.sio.on('chat-opened')
+                def on_chat_opened(data):
+                    if data.get('success'):
+                        messagebox.showinfo("Éxito", "Chat de WhatsApp abierto")
+            
+            self.sio.connect('http://localhost:3000')
+            
+        except Exception as e:
+            logging.debug(f"No se pudo establecer conexión con WhatsApp: {str(e)}")
+            self.sio = None
+            self.whatsapp_available = False
     def setup_window(self):
         """Configura la ventana de detalles"""
         self.top.title(f"Detalle Cliente - {self.client_data.get('nombre', 'Sin nombre')}")
@@ -193,23 +228,23 @@ class DetalleClienteWindow:
                                 fg=self.COLOR_NEGRO)
         controls_label.pack(pady=(10,20))
 
-        # Estilo mejorado para el botón de agregar nota
+        # Botón de agregar nota con estilo mejorado
         add_note_btn = tk.Button(control_container, 
-                               text="+ Agregar Nota",
-                               font=("Arial", 10, "bold"),
-                               bg=self.COLOR_BLANCO,
-                               fg=self.COLOR_NEGRO,
-                               bd=0,  # Sin borde
-                               relief="flat",  # Estilo plano
-                               padx=15,  # Padding horizontal
-                               pady=8,   # Padding vertical
-                               width=15,  # Ancho fijo
-                               cursor="hand2",  # Cursor tipo mano
-                               command=lambda: self.show_note_dialog(self.client_id))
+                            text="+ Agregar Nota",
+                            font=("Arial", 10, "bold"),
+                            bg=self.COLOR_BLANCO,
+                            fg=self.COLOR_NEGRO,
+                            bd=0,
+                            relief="flat",
+                            padx=15,
+                            pady=8,
+                            width=15,
+                            cursor="hand2",
+                            command=lambda: self.show_note_dialog(self.client_id))
         
         add_note_btn.pack(pady=(0,10))
 
-        # Configurar eventos hover para el botón de nota
+        # Eventos hover para el botón de nota
         def on_enter_note(e):
             add_note_btn['bg'] = self.COLOR_GRIS_HOVER
         def on_leave_note(e):
@@ -229,17 +264,17 @@ class DetalleClienteWindow:
         text_color = self.COLOR_BLANCO if promise_state else self.COLOR_NEGRO
         
         self.promise_btn = tk.Button(control_container,
-                                   text=button_text,
-                                   font=("Arial", 10, "bold"),
-                                   bg=button_color,
-                                   fg=text_color,
-                                   bd=0,
-                                   relief="flat",
-                                   padx=15,
-                                   pady=8,
-                                   width=15,
-                                   cursor="hand2",
-                                   command=lambda: self.toggle_promise(self.client_id))
+                                text=button_text,
+                                font=("Arial", 10, "bold"),
+                                bg=button_color,
+                                fg=text_color,
+                                bd=0,
+                                relief="flat",
+                                padx=15,
+                                pady=8,
+                                width=15,
+                                cursor="hand2",
+                                command=lambda: self.toggle_promise(self.client_id))
         
         self.promise_btn.pack(pady=(0,10))
 
@@ -258,28 +293,69 @@ class DetalleClienteWindow:
 
         self.promise_btn.bind("<Enter>", on_enter_promise)
         self.promise_btn.bind("<Leave>", on_leave_promise)
-        
-        # Separador visual
-        separator = tk.Frame(control_container, height=1, bg=self.COLOR_GRIS_HOVER)
-        separator.pack(fill='x', pady=10)
 
-        # Botón de WhatsApp con estilo mejorado
+        # Separador visual
+        separator2 = tk.Frame(control_container, height=1, bg=self.COLOR_GRIS_HOVER)
+        separator2.pack(fill='x', pady=10)
+
+        # Nuevo botón de Company con estilo mejorado
+        company_state = self.get_company_state(self.client_id)
+        company_text = "En Company" if company_state else "Company"
+        company_color = self.COLOR_ROJO if company_state else self.COLOR_BLANCO
+        company_text_color = self.COLOR_BLANCO if company_state else self.COLOR_NEGRO
+        
+        self.company_btn = tk.Button(control_container,
+                                text=company_text,
+                                font=("Arial", 10, "bold"),
+                                bg=company_color,
+                                fg=company_text_color,
+                                bd=0,
+                                relief="flat",
+                                padx=15,
+                                pady=8,
+                                width=15,
+                                cursor="hand2",
+                                command=lambda: self.toggle_company(self.client_id))
+        
+        self.company_btn.pack(pady=(0,10))
+
+        # Configurar eventos hover para el botón de company
+        def on_enter_company(e):
+            if not company_state:
+                self.company_btn['bg'] = self.COLOR_GRIS_HOVER
+            else:
+                self.company_btn['bg'] = self.COLOR_ROJO_HOVER
+        
+        def on_leave_company(e):
+            if not company_state:
+                self.company_btn['bg'] = self.COLOR_BLANCO
+            else:
+                self.company_btn['bg'] = self.COLOR_ROJO
+
+        self.company_btn.bind("<Enter>", on_enter_company)
+        self.company_btn.bind("<Leave>", on_leave_company)
+
+        # Separador visual
+        separator3 = tk.Frame(control_container, height=1, bg=self.COLOR_GRIS_HOVER)
+        separator3.pack(fill='x', pady=10)
+
+        # Botón de WhatsApp
         whatsapp_btn = tk.Button(control_container, 
-                               text="Abrir Chat WhatsApp",
-                               font=("Arial", 10, "bold"),
-                               bg=self.COLOR_BLANCO,
-                               fg=self.COLOR_NEGRO,
-                               bd=0,  # Sin borde
-                               relief="flat",  # Estilo plano
-                               padx=15,  # Padding horizontal
-                               pady=8,   # Padding vertical
-                               width=15,  # Ancho fijo
-                               cursor="hand2",  # Cursor tipo mano
-                               command=self.abrir_chat_whatsapp)
+                            text="Abrir Chat WhatsApp",
+                            font=("Arial", 10, "bold"),
+                            bg=self.COLOR_BLANCO,
+                            fg=self.COLOR_NEGRO,
+                            bd=0,
+                            relief="flat",
+                            padx=15,
+                            pady=8,
+                            width=15,
+                            cursor="hand2",
+                            command=self.abrir_chat_whatsapp)
         
         whatsapp_btn.pack(pady=(0,10))
 
-        # Configurar eventos hover para el botón de WhatsApp
+        # Eventos hover para el botón de WhatsApp
         def on_enter(e):
             whatsapp_btn['bg'] = self.COLOR_GRIS_HOVER
         def on_leave(e):
@@ -289,22 +365,26 @@ class DetalleClienteWindow:
         whatsapp_btn.bind("<Leave>", on_leave)
 
     def __del__(self):
-        # Asegurarse de desconectar el socket al cerrar
-        try:
-            self.sio.disconnect()
-        except:
-            pass
+        """Limpieza al cerrar la ventana"""
+        if hasattr(self, 'sio') and self.sio is not None:
+            try:
+                self.sio.disconnect()
+            except:
+                pass
 
     def setup_socket_listeners(self):
+        """Configura los listeners del socket solo si está disponible"""
+        if self.sio is None:
+            return
+            
         @self.sio.on('chat-opened')
         def on_chat_opened(data):
             if data.get('success'):
                 messagebox.showinfo("Éxito", "Chat de WhatsApp abierto")
             else:
-                messagebox.showerror("Error", 
-                                     data.get('error', "No se pudo abrir el chat"))     
-    
-    
+                messagebox.showinfo("Información", 
+                                  "No se pudo abrir el chat de WhatsApp.\n" +
+                                  "Por favor, verifique que WhatsApp esté abierto.")
     def formatear_telefono(self, telefono):
         """
         Formatea un número de teléfono para uso en WhatsApp Web.
@@ -325,32 +405,95 @@ class DetalleClienteWindow:
         
         return formatted
 
+    def get_company_state(self, client_id):
+        """Obtiene el estado actual de company"""
+        try:
+            conn = get_db_connection()
+            if not conn:
+                return False
+            
+            cursor = conn.cursor()
+            cursor.execute("SELECT company FROM dbo.ClientsStates WHERE client_id = ?", (client_id,))
+            result = cursor.fetchone()
+            
+            if result:
+                return bool(result.company)
+            else:
+                return False
+        except pyodbc.Error as e:
+            logging.error(f"Error al obtener estado de company: {e}")
+            return False
+        finally:
+            if conn:
+                conn.close()
+    def toggle_company(self, client_id):
+        """Alterna el estado de company con actualización visual"""
+        conn = get_db_connection()
+        if not conn:
+            return
+
+        try:
+            cursor = conn.cursor()
+            cursor.execute("SELECT company FROM dbo.ClientsStates WHERE client_id = ?", (client_id,))
+            current_state = cursor.fetchone()
+
+            if current_state is not None:
+                new_state = not bool(current_state.company)
+                cursor.execute("""
+                    UPDATE dbo.ClientsStates 
+                    SET company = ?
+                    WHERE client_id = ?
+                """, (new_state, client_id))
+                conn.commit()
+
+                # Actualizar el botón con los nuevos estilos
+                new_text = "En Company" if new_state else "Company"
+                new_bg_color = self.COLOR_ROJO if new_state else self.COLOR_BLANCO
+                new_fg_color = self.COLOR_BLANCO if new_state else self.COLOR_NEGRO
+                
+                self.company_btn.configure(
+                    text=new_text,
+                    bg=new_bg_color,
+                    fg=new_fg_color
+                )
+
+                # Actualizar los eventos hover
+                def on_enter(e):
+                    if new_state:
+                        self.company_btn['bg'] = self.COLOR_ROJO_HOVER
+                    else:
+                        self.company_btn['bg'] = self.COLOR_GRIS_HOVER
+
+                def on_leave(e):
+                    self.company_btn['bg'] = new_bg_color
+
+                self.company_btn.bind("<Enter>", on_enter)
+                self.company_btn.bind("<Leave>", on_leave)
+
+        except pyodbc.Error as e:
+            logging.error(f"Error al actualizar estado de company: {e}")
+        finally:
+            if conn:
+                conn.close()
     def abrir_chat_whatsapp(self, telefono=None):
-        """
-        Abre un chat de WhatsApp para un cliente específico.
-
-        Busca el número de teléfono en los datos del cliente si no se proporciona.
-        Formatea el número y emite un evento para abrir el chat.
-
-        Args:
-            telefono (str, optional): Número de teléfono a usar. 
-                                    Si es None, se busca en los datos del cliente.
-        """
+        """Abre un chat de WhatsApp solo si el servidor está disponible"""
         if telefono is None:
             telefono = self.client_data.get('telefono1')
         
         if not telefono:
-            messagebox.showerror("Error", "No se encontró número de teléfono")
             return
+
+        # Verificar si WhatsApp está disponible
+        if not self.whatsapp_available or self.sio is None:
+            return
+                
         try:
-            # Formatear el número antes de enviarlo
             telefono_formateado = self.formatear_telefono(telefono)
-            print(f"Número formateado: {telefono_formateado}")
-            
-            self.sio.emit('open-chat', telefono_formateado)
+            if self.sio and self.sio.connected:
+                self.sio.emit('open-chat', telefono_formateado)
         except Exception as e:
-            messagebox.showerror("Error de Comunicación", 
-                                f"No se pudo abrir el chat: {str(e)}")
+            logging.debug(f"Error al abrir chat: {str(e)}")
+    
     def create_cliente_frame(self):
             """Crea el frame principal del cliente"""
             client_frame = tk.LabelFrame(self.left_frame, text="CLIENTE", 
@@ -1169,6 +1312,9 @@ class CobranzaApp:
         self.COLOR_VERDE = "#4CAF50"
         self.COLOR_AMARILLO = "#FFC107"
         
+        # Variable para controlar vista actual
+        self.current_view = "clientes"
+        
         # Configurar la ventana principal
         self.setup_window()
         
@@ -1180,6 +1326,7 @@ class CobranzaApp:
         self.main_frame = None
         
         self.create_header()
+        self.create_view_buttons()
         self.create_main_content()
         
     def load_image(self, path, size=None):
@@ -1291,6 +1438,56 @@ class CobranzaApp:
             logging.error(f"Error al cargar datos iniciales: {e}")
             messagebox.showerror("Error", "Error al cargar datos iniciales")
 
+    def create_view_buttons(self):
+        """Crea los botones de CLIENTES y EMPRESAS"""
+        buttons_frame = tk.Frame(self.root, bg=self.COLOR_ROJO)
+        buttons_frame.pack(fill='x')
+        
+        # Estilo común para los botones
+        button_style = {
+            'font': ('Arial', 12, 'bold'),
+            'bd': 0,
+            'pady': 5,
+            'padx': 20,
+            'cursor': 'hand2'
+        }
+        
+        # Botón CLIENTES
+        self.clientes_btn = tk.Button(
+            buttons_frame,
+            text="CLIENTES",
+            command=lambda: self.switch_view("clientes"),
+            bg=self.COLOR_BLANCO if self.current_view == "clientes" else self.COLOR_ROJO,
+            fg=self.COLOR_NEGRO if self.current_view == "clientes" else self.COLOR_BLANCO,
+            **button_style
+        )
+        self.clientes_btn.pack(side='left', padx=2)
+        
+        # Botón EMPRESAS
+        self.empresas_btn = tk.Button(
+            buttons_frame,
+            text="EMPRESAS",
+            command=lambda: self.switch_view("empresas"),
+            bg=self.COLOR_BLANCO if self.current_view == "empresas" else self.COLOR_ROJO,
+            fg=self.COLOR_NEGRO if self.current_view == "empresas" else self.COLOR_BLANCO,
+            **button_style
+        )
+        self.empresas_btn.pack(side='left', padx=2)
+    def switch_view(self, view):
+        """Cambia entre vista de clientes y empresas"""
+        if self.current_view != view:
+            self.current_view = view
+            # Actualizar estilo de botones
+            self.clientes_btn.configure(
+                bg=self.COLOR_BLANCO if view == "clientes" else self.COLOR_ROJO,
+                fg=self.COLOR_NEGRO if view == "clientes" else self.COLOR_BLANCO
+            )
+            self.empresas_btn.configure(
+                bg=self.COLOR_BLANCO if view == "empresas" else self.COLOR_ROJO,
+                fg=self.COLOR_NEGRO if view == "empresas" else self.COLOR_BLANCO
+            )
+            # Recargar contenido
+            self.refresh_ui()
     def obtener_datos_clientes(self) -> Dict:
         """
         Obtiene los datos de clientes desde la base de datos
@@ -1340,6 +1537,18 @@ class CobranzaApp:
             return {}
         finally:
             conn.close()
+
+    def should_show_client(self, client_id):
+            """Determina si un cliente debe mostrarse en la vista actual"""
+            estados_clientes = get_client_states()
+            
+            # Si el cliente no está en estados_clientes, asumimos que no es empresa
+            is_company = estados_clientes.get(client_id, {}).get('company', False)
+            
+            if self.current_view == "empresas":
+                return is_company
+            else:  # vista de clientes
+                return not is_company
 
     def recargar_datos(self):
         """Recarga todos los datos de la aplicación"""
@@ -1566,7 +1775,11 @@ class CobranzaApp:
         fecha_actual = datetime.now()
         
         # Insertar datos según la categoría
+        # Modificar el bucle de inserción para filtrar según la vista actual
         for clave, cliente in self.clientes_data.items():
+            if not self.should_show_client(clave):
+                continue
+                
             categoria = self.categorizar_cliente(clave)
             if ((color == self.COLOR_VERDE and categoria == "verde") or
                 (color == self.COLOR_AMARILLO and categoria == "amarillo") or
@@ -1575,7 +1788,6 @@ class CobranzaApp:
                 fecha_antigua = self.obtener_fecha_venta_antigua(clave)
                 if fecha_antigua:
                     fecha_str = fecha_antigua.strftime("%Y-%m-%d")
-                    # Calcular días vencidos
                     delta = fecha_actual - fecha_antigua
                     dias_vencidos = delta.days
                 else:
@@ -1583,13 +1795,12 @@ class CobranzaApp:
                     dias_vencidos = "N/A"
                 
                 tree.insert('', 'end', values=(
-                    clave,  # Se mantiene pero no se muestra
+                    clave,
                     cliente['nombre'],
                     f"${cliente['saldo']:,.2f}",
                     fecha_str,
                     dias_vencidos if dias_vencidos != "N/A" else "N/A"
                 ))
-        
         # Scrollbar
         scrollbar = ttk.Scrollbar(category_frame, orient='vertical', command=tree.yview)
         tree.configure(yscrollcommand=scrollbar.set)
@@ -1718,7 +1929,6 @@ class CobranzaApp:
         except Exception as e:
             messagebox.showerror("Error", f"Error al abrir detalle del cliente: {str(e)}")
             print(f"Error detallado: {e}")
-
 def iniciar_aplicacion():
     def launch_main_app():
         root = tk.Tk()

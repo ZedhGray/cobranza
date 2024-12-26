@@ -338,7 +338,7 @@ def get_client_states() -> dict:
     try:
         cursor = conn.cursor()
         query = """
-            SELECT client_id, day1, day2, day3, dueday, promisePage
+            SELECT client_id, day1, day2, day3, dueday, promisePage, company
             FROM dbo.ClientsStates
         """
         cursor.execute(query)
@@ -350,7 +350,8 @@ def get_client_states() -> dict:
                 "day2": bool(row.day2),
                 "day3": bool(row.day3),
                 "dueday": bool(row.dueday),
-                "promisePage": bool(row.promisePage)
+                "promisePage": bool(row.promisePage),
+                "company": bool(row.company)
             } for row in results
         }
         
@@ -359,7 +360,6 @@ def get_client_states() -> dict:
         return {}
     finally:
         conn.close()
-
 # database.py
 def get_client_notes(client_id: str = None) -> dict:
     """
