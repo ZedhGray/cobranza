@@ -18599,3 +18599,2075 @@
 2025-01-15 17:12:55,997 - INFO - Conexión exitosa a la base de datos
 2025-01-15 17:12:56,012 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
 2025-01-15 17:12:56,013 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:15,907 - INFO - === Iniciando actualización de datos ===
+2025-01-15 17:14:15,907 - INFO - Iniciando proceso de combinación de datos de clientes y ventas
+2025-01-15 17:14:15,907 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:16,011 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:16,011 - INFO - Ejecutando consulta SQL: 
+            SELECT 
+                Clave,
+                ISNULL(Estado, '') as Estado,
+                ISNULL(Fecha, '') as Fecha,
+                ISNULL(Nombre, '') as Nombre,
+                ISNULL(Direccion, '') as Direccion,
+                ISNULL(Telefono1, '') as Telefono1,
+                ISNULL(Telefono2, '') as Telefono2,
+                ISNULL(Descripcion, '') as Descripcion,
+                ISNULL(Email, '') as Email,
+                ISNULL(Referencia, '') as Referencia,
+                ISNULL(Obs, '') as Obs,
+                ISNULL(Credito, 0) as Credito,
+                ISNULL(MontoCredito, 0) as MontoCredito,
+                ISNULL(DiasCredito, 0) as DiasCredito,
+                ISNULL(InteresCredito, '') as InteresCredito,
+                ISNULL(Saldo, 0) as Saldo,
+                ISNULL(NL, 0) as NL,
+                ISNULL(NC, '') as NC,
+                ISNULL(Membresia, '') as Membresia,
+                ISNULL(Nivel, 0) as Nivel,
+                ISNULL(Modificado, '') as Modificado,
+                ISNULL(Et1, '') as Et1,
+                ISNULL(LineaDeCredito, '') as LineaDeCredito
+            FROM Clientes4
+            WHERE Saldo > 0
+                   
+        
+2025-01-15 17:14:16,018 - INFO - Registros encontrados: 95
+2025-01-15 17:14:16,021 - WARNING - Valor de fecha no válido: 21
+2025-01-15 17:14:16,021 - WARNING - Valor de fecha no válido: 19
+2025-01-15 17:14:16,021 - WARNING - Valor de fecha no válido: 41
+2025-01-15 17:14:16,021 - WARNING - Valor de fecha no válido: 823
+2025-01-15 17:14:16,021 - WARNING - Valor de fecha no válido: 44
+2025-01-15 17:14:16,021 - WARNING - Valor de fecha no válido: 694
+2025-01-15 17:14:16,021 - WARNING - Valor de fecha no válido: 51
+2025-01-15 17:14:16,021 - WARNING - Valor de fecha no válido: 878
+2025-01-15 17:14:16,021 - WARNING - Valor de fecha no válido: 573
+2025-01-15 17:14:16,021 - WARNING - Valor de fecha no válido: 978
+2025-01-15 17:14:16,021 - WARNING - Valor de fecha no válido: 807
+2025-01-15 17:14:16,021 - WARNING - Valor de fecha no válido: 663
+2025-01-15 17:14:16,021 - WARNING - Valor de fecha no válido: 589
+2025-01-15 17:14:16,021 - WARNING - Valor de fecha no válido: 77
+2025-01-15 17:14:16,022 - WARNING - Valor de fecha no válido: 886
+2025-01-15 17:14:16,022 - WARNING - Valor de fecha no válido: 85
+2025-01-15 17:14:16,022 - WARNING - Valor de fecha no válido: 868
+2025-01-15 17:14:16,022 - WARNING - Valor de fecha no válido: 279
+2025-01-15 17:14:16,022 - WARNING - Valor de fecha no válido: 108
+2025-01-15 17:14:16,022 - WARNING - Valor de fecha no válido: 778
+2025-01-15 17:14:16,022 - WARNING - Valor de fecha no válido: 859
+2025-01-15 17:14:16,022 - WARNING - Valor de fecha no válido: 908
+2025-01-15 17:14:16,022 - WARNING - Valor de fecha no válido: 141
+2025-01-15 17:14:16,022 - WARNING - Valor de fecha no válido: 984
+2025-01-15 17:14:16,022 - WARNING - Valor de fecha no válido: 178
+2025-01-15 17:14:16,022 - WARNING - Valor de fecha no válido: 642
+2025-01-15 17:14:16,022 - WARNING - Valor de fecha no válido: 832
+2025-01-15 17:14:16,022 - WARNING - Valor de fecha no válido: 52
+2025-01-15 17:14:16,022 - WARNING - Valor de fecha no válido: 181
+2025-01-15 17:14:16,023 - WARNING - Valor de fecha no válido: 187
+2025-01-15 17:14:16,023 - WARNING - Valor de fecha no válido: 231
+2025-01-15 17:14:16,023 - WARNING - Valor de fecha no válido: 636
+2025-01-15 17:14:16,023 - WARNING - Valor de fecha no válido: 217
+2025-01-15 17:14:16,023 - WARNING - Valor de fecha no válido: 745
+2025-01-15 17:14:16,023 - WARNING - Valor de fecha no válido: 936
+2025-01-15 17:14:16,023 - WARNING - Valor de fecha no válido: 720
+2025-01-15 17:14:16,023 - WARNING - Valor de fecha no válido: 917
+2025-01-15 17:14:16,023 - WARNING - Valor de fecha no válido: 337
+2025-01-15 17:14:16,023 - WARNING - Valor de fecha no válido: 1030
+2025-01-15 17:14:16,023 - WARNING - Valor de fecha no válido: 801
+2025-01-15 17:14:16,023 - WARNING - Valor de fecha no válido: 351
+2025-01-15 17:14:16,023 - WARNING - Valor de fecha no válido: 743
+2025-01-15 17:14:16,023 - WARNING - Valor de fecha no válido: 1075
+2025-01-15 17:14:16,023 - WARNING - Valor de fecha no válido: 192
+2025-01-15 17:14:16,024 - WARNING - Valor de fecha no válido: 864
+2025-01-15 17:14:16,024 - WARNING - Valor de fecha no válido: 1037
+2025-01-15 17:14:16,024 - WARNING - Valor de fecha no válido: 803
+2025-01-15 17:14:16,024 - WARNING - Valor de fecha no válido: 922
+2025-01-15 17:14:16,024 - WARNING - Valor de fecha no válido: 500
+2025-01-15 17:14:16,024 - WARNING - Valor de fecha no válido: 451
+2025-01-15 17:14:16,024 - WARNING - Valor de fecha no válido: 392
+2025-01-15 17:14:16,024 - WARNING - Valor de fecha no válido: 656
+2025-01-15 17:14:16,024 - WARNING - Valor de fecha no válido: 309
+2025-01-15 17:14:16,024 - WARNING - Valor de fecha no válido: 1021
+2025-01-15 17:14:16,024 - WARNING - Valor de fecha no válido: 601
+2025-01-15 17:14:16,024 - WARNING - Valor de fecha no válido: 535
+2025-01-15 17:14:16,024 - WARNING - Valor de fecha no válido: 629
+2025-01-15 17:14:16,024 - WARNING - Valor de fecha no válido: 979
+2025-01-15 17:14:16,024 - WARNING - Valor de fecha no válido: 673
+2025-01-15 17:14:16,025 - WARNING - Valor de fecha no válido: 977
+2025-01-15 17:14:16,025 - WARNING - Valor de fecha no válido: 733
+2025-01-15 17:14:16,025 - WARNING - Valor de fecha no válido: 888
+2025-01-15 17:14:16,025 - WARNING - Valor de fecha no válido: 1032
+2025-01-15 17:14:16,025 - WARNING - Valor de fecha no válido: 797
+2025-01-15 17:14:16,025 - WARNING - Valor de fecha no válido: 986
+2025-01-15 17:14:16,025 - WARNING - Valor de fecha no válido: 574
+2025-01-15 17:14:16,025 - WARNING - Valor de fecha no válido: 829
+2025-01-15 17:14:16,025 - WARNING - Valor de fecha no válido: 834
+2025-01-15 17:14:16,025 - WARNING - Valor de fecha no válido: 850
+2025-01-15 17:14:16,025 - WARNING - Valor de fecha no válido: 853
+2025-01-15 17:14:16,025 - WARNING - Valor de fecha no válido: 870
+2025-01-15 17:14:16,025 - WARNING - Valor de fecha no válido: 894
+2025-01-15 17:14:16,025 - WARNING - Valor de fecha no válido: 511
+2025-01-15 17:14:16,025 - WARNING - Valor de fecha no válido: 567
+2025-01-15 17:14:16,026 - WARNING - Valor de fecha no válido: 942
+2025-01-15 17:14:16,026 - WARNING - Valor de fecha no válido: 907
+2025-01-15 17:14:16,026 - WARNING - Valor de fecha no válido: 1001
+2025-01-15 17:14:16,026 - WARNING - Valor de fecha no válido: 1095
+2025-01-15 17:14:16,026 - WARNING - Valor de fecha no válido: 346
+2025-01-15 17:14:16,026 - WARNING - Valor de fecha no válido: 916
+2025-01-15 17:14:16,026 - WARNING - Valor de fecha no válido: 632
+2025-01-15 17:14:16,026 - WARNING - Valor de fecha no válido: 646
+2025-01-15 17:14:16,026 - WARNING - Valor de fecha no válido: 956
+2025-01-15 17:14:16,026 - WARNING - Valor de fecha no válido: 605
+2025-01-15 17:14:16,026 - WARNING - Valor de fecha no válido: 993
+2025-01-15 17:14:16,026 - WARNING - Valor de fecha no válido: 994
+2025-01-15 17:14:16,026 - WARNING - Valor de fecha no válido: 1008
+2025-01-15 17:14:16,026 - WARNING - Valor de fecha no válido: 1035
+2025-01-15 17:14:16,026 - WARNING - Valor de fecha no válido: 1043
+2025-01-15 17:14:16,027 - WARNING - Valor de fecha no válido: 1084
+2025-01-15 17:14:16,027 - WARNING - Valor de fecha no válido: 1055
+2025-01-15 17:14:16,027 - WARNING - Valor de fecha no válido: 1065
+2025-01-15 17:14:16,027 - WARNING - Valor de fecha no válido: 1094
+2025-01-15 17:14:16,027 - WARNING - Valor de fecha no válido: 1096
+2025-01-15 17:14:16,027 - WARNING - Valor de fecha no válido: 763
+2025-01-15 17:14:16,027 - INFO - Datos procesados exitosamente. Total de registros: 95
+2025-01-15 17:14:16,027 - INFO - Cerrando conexión a la base de datos
+2025-01-15 17:14:16,030 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:16,032 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:16,032 - INFO - Ejecutando consulta SQL para Ventas: 
+            SELECT 
+                Folio,
+                ISNULL(Estado, '') as Estado,
+                ISNULL(CveCte, '') as CveCte,
+                ISNULL(Cliente, '') as Cliente,
+                ISNULL(Fecha, '') as Fecha,
+                ISNULL(Hora, '') as Hora,
+                ISNULL(Total, 0) as Total,
+                ISNULL(Restante, 0) as Restante,
+                ISNULL(FechaPago, '') as FechaPago,
+                ISNULL(Paga, 0) as Paga,
+                ISNULL(Cambio, '') as Cambio,
+                ISNULL(Ticket, '') as Ticket,
+                ISNULL(Condiciones, '') as Condiciones,
+                ISNULL(FechaProg, '') as FechaProg,
+                ISNULL(Corte, 0) as Corte,
+                ISNULL(Vendedor, '') as Vendedor,
+                ISNULL(ComoPago, '') as ComoPago,
+                ISNULL(DiasCred, 0) as DiasCred,
+                ISNULL(IntCred, '') as IntCred,
+                ISNULL(Articulos, '') as Articulos,
+                ISNULL(BarCuenta, '') as BarCuenta,
+                ISNULL(BarMesero, '') as BarMesero,
+                ISNULL(NotasAdicionales, '') as NotasAdicionales,
+                ISNULL(IdBarCuenta, '') as IdBarCuenta,
+                ISNULL(Bitacora, '') as Bitacora,
+                ISNULL(Anticipo, 0) as Anticipo,
+                ISNULL(FolioPago, '') as FolioPago,
+                ISNULL(SaldoCliente, 0) as SaldoCliente,
+                ISNULL(Caja, 0) as Caja
+            FROM Ventas
+            WHERE Estado != 'PAGADA'
+            AND Estado != 'CANCELADA'
+            AND Estado IS NOT NULL
+            AND Restante > 0
+        
+2025-01-15 17:14:16,100 - INFO - Registros de Ventas encontrados: 197
+2025-01-15 17:14:16,104 - INFO - Datos de Ventas procesados exitosamente. Total de registros: 197
+2025-01-15 17:14:16,104 - INFO - Cerrando conexión a la base de datos
+2025-01-15 17:14:16,107 - INFO - Proceso de combinación completado. Clientes procesados: 95
+2025-01-15 17:14:16,121 - INFO - Datos combinados guardados exitosamente en clientes_ventas_combined.json
+2025-01-15 17:14:16,121 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:16,122 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:16,126 - INFO - Estados de clientes sincronizados exitosamente entre base de datos y line.json
+2025-01-15 17:14:16,126 - INFO - === Proceso completado ===
+2025-01-15 17:14:17,203 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:17,207 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:17,255 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:17,256 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:17,259 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:17,277 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:17,281 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:17,283 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:17,307 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:17,307 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:17,311 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:17,313 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:17,333 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:17,334 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:17,339 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:17,340 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:17,359 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:17,360 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:17,364 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:17,365 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:17,385 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:17,386 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:17,391 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:17,392 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:17,411 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:17,412 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:17,416 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:17,417 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:17,421 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:17,422 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:17,438 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:17,439 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:17,441 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:17,442 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:17,459 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:17,460 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:17,462 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:17,463 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:17,478 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:17,479 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:17,482 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:17,483 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:17,497 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:17,498 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:17,503 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:17,504 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:17,526 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:17,527 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:17,531 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:17,531 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:17,534 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:17,534 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:17,549 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:17,551 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:17,554 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:17,554 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:17,557 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:17,558 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:17,560 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:17,560 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:17,576 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:17,576 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:17,579 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:17,580 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:17,595 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:17,595 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:17,598 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:17,599 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:17,601 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:17,602 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:17,617 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:17,617 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:17,620 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:17,621 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:17,636 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:17,636 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:17,640 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:17,640 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:17,655 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:17,656 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:17,659 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:17,660 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:17,675 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:17,676 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:17,678 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:17,679 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:17,681 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:17,681 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:17,696 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:17,697 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:17,700 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:17,700 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:17,703 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:17,704 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:17,719 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:17,720 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:17,723 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:17,724 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:17,739 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:17,740 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:17,743 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:17,743 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:17,746 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:17,747 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:17,763 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:17,765 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:17,770 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:17,772 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:17,790 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:17,791 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:17,796 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:17,797 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:17,800 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:17,801 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:17,804 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:17,805 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:17,821 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:17,823 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:17,825 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:17,826 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:17,843 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:17,844 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:17,849 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:17,851 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:17,868 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:17,869 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:17,872 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:17,873 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:17,890 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:17,891 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:17,895 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:17,896 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:17,912 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:17,914 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:17,918 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:17,919 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:17,936 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:17,937 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:17,940 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:17,941 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:17,957 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:17,958 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:17,961 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:17,962 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:17,965 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:17,965 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:17,982 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:17,983 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:17,986 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:17,987 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:18,003 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:18,004 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:18,007 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:18,008 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:18,023 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:18,024 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:18,027 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:18,028 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:18,031 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:18,032 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:18,049 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:18,051 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:18,055 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:18,057 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:18,060 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:18,062 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:18,066 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:18,067 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:18,083 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:18,084 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:18,087 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:18,088 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:18,091 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:18,092 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:18,095 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:18,096 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:18,112 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:18,113 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:18,116 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:18,117 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:18,133 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:18,134 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:18,136 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:18,139 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:18,141 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:18,142 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:18,158 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:18,159 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:18,162 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:18,163 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:18,180 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:18,181 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:18,184 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:18,185 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:18,203 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:18,205 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:18,210 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:18,211 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:18,228 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:18,230 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:18,234 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:18,235 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:18,253 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:18,255 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:18,260 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:18,261 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:18,279 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:18,281 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:18,285 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:18,287 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:18,303 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:18,304 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:18,308 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:18,308 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:18,326 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:18,328 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:18,332 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:18,333 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:18,337 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:18,340 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:18,356 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:18,358 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:18,363 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:18,364 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:18,368 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:18,371 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:18,375 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:18,377 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:18,380 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:18,382 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:18,385 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:18,387 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:18,407 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:18,409 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:18,414 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:18,416 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:18,421 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:18,422 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:18,425 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:18,426 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:18,445 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:18,447 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:18,450 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:18,452 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:18,472 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:18,474 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:18,479 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:18,481 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:18,501 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:18,503 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:18,509 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:18,510 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:18,531 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:18,532 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:18,536 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:18,539 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:18,558 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:18,560 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:18,564 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:18,565 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:18,569 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:18,571 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:18,591 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:18,592 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:18,598 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:18,599 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:18,604 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:18,606 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:18,626 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:18,628 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:18,633 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:18,634 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:18,652 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:18,654 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:18,658 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:18,660 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:18,665 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:18,667 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:18,684 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:18,686 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:18,691 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:18,693 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:18,711 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:18,712 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:18,716 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:18,717 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:18,736 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:18,738 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:18,742 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:18,744 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:18,761 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:18,763 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:18,767 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:18,769 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:18,787 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:18,789 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:18,794 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:18,796 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:18,815 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:18,816 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:18,821 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:18,823 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:18,841 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:18,842 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:18,847 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:18,848 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:18,865 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:18,867 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:18,870 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:18,871 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:18,887 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:18,889 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:18,893 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:18,895 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:18,899 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:18,901 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:18,917 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:18,918 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:18,923 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:18,925 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:18,942 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:18,944 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:18,949 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:18,951 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:18,968 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:18,969 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:19,000 - DEBUG - STREAM b'IHDR' 16 13
+2025-01-15 17:14:19,002 - DEBUG - STREAM b'tEXt' 41 25
+2025-01-15 17:14:19,002 - DEBUG - STREAM b'IDAT' 78 100164
+2025-01-15 17:14:19,141 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:19,143 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:19,146 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:19,146 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:19,150 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:19,152 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:19,177 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:19,178 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:19,181 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:19,181 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:19,184 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:19,184 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:19,199 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:19,200 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:19,203 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:19,203 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:19,206 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:19,206 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:19,221 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:19,222 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:19,225 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:19,226 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:19,228 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:19,229 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:19,231 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:19,232 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:19,247 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:19,248 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:19,251 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:19,251 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:19,254 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:19,254 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:19,257 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:19,257 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:19,272 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:19,273 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:19,276 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:19,277 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:19,279 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:19,281 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:19,296 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:19,298 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:19,302 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:19,304 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:19,309 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:19,310 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:19,328 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:19,329 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:19,334 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:19,336 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:19,340 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:19,341 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:19,357 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:19,359 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:19,364 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:19,366 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:19,370 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:19,372 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:19,375 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:19,376 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:19,391 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:19,392 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:19,395 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:19,395 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:19,397 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:19,398 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:19,413 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:19,414 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:19,416 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:19,417 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:19,419 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:19,420 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:19,424 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:19,424 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:19,440 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:19,440 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:19,458 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:19,460 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:19,464 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:19,465 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:19,468 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:19,468 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:19,484 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:19,485 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:19,489 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:19,490 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:19,493 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:19,494 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:19,512 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:19,513 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:19,527 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:19,528 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:19,531 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:19,532 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:19,534 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:19,535 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:19,550 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:19,551 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:19,554 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:19,554 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:19,557 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:19,557 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:19,572 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:19,573 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:19,575 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:19,577 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:19,579 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:19,580 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:19,595 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:19,596 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:19,610 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:19,612 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:19,614 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:19,615 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:19,618 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:19,619 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:19,635 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:19,637 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:19,652 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:19,654 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:19,659 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:19,661 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:19,665 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:19,667 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:19,671 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:19,672 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:19,674 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:19,675 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:19,691 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:19,692 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:19,708 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:19,709 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:19,712 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:19,713 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:19,715 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:19,716 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:19,733 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:19,735 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:19,740 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:19,742 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:19,747 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:19,748 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:19,751 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:19,752 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:19,770 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:19,772 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:19,790 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:19,792 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:19,797 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:19,799 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:19,803 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:19,805 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:19,823 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:19,824 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:19,827 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:19,829 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:19,833 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:19,835 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:19,840 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:19,841 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:19,857 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:19,859 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:19,865 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:19,867 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:19,871 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:19,873 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:19,890 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:19,891 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:19,908 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:19,909 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:19,914 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:19,916 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:19,921 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:19,922 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:19,939 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:19,941 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:19,946 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:19,947 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:19,952 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:19,953 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:19,970 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:19,972 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:19,991 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:19,993 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:19,997 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:19,998 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:20,002 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:20,003 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:20,022 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:20,023 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:20,044 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:20,046 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:20,051 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:20,052 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:20,057 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:20,059 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:20,063 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:20,065 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:20,085 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:20,087 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:20,091 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:20,092 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:20,096 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:20,098 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:20,101 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:20,103 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:20,122 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:20,124 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:20,144 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:20,146 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:20,151 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:20,153 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:20,158 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:20,160 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:20,165 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:20,167 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:20,187 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:20,189 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:20,194 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:20,196 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:20,201 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:20,202 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:20,206 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:20,207 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:20,226 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:20,228 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:20,248 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:20,250 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:20,255 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:20,256 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:20,261 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:20,263 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:20,281 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:20,282 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:20,300 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:20,302 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:20,308 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:20,310 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:20,314 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:20,315 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:20,332 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:20,334 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:20,353 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:20,355 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:20,359 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:20,361 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:20,366 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:20,367 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:20,385 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:20,386 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:20,390 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:20,392 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:20,396 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:20,398 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:20,415 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:20,416 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:20,434 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:20,436 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:20,441 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:20,443 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:20,448 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:20,450 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:20,466 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:20,467 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:20,472 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:20,474 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:20,479 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:20,480 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:20,497 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:20,499 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:20,504 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:20,506 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:20,510 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:20,512 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:20,528 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:20,530 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:20,534 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:20,535 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:20,540 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:20,541 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:20,558 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:20,560 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:20,578 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:20,580 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:20,585 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:20,586 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:20,591 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:20,592 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:20,610 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:20,611 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:20,630 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:20,632 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:20,636 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:20,638 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:20,641 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:20,642 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:20,660 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:20,661 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:20,679 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:20,681 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:20,686 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:20,687 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:20,693 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:20,694 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:20,711 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:20,713 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:20,731 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:20,732 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:20,737 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:20,739 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:20,744 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:20,746 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:20,763 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:20,766 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:20,783 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:20,785 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:20,790 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:20,792 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:20,796 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:20,797 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:20,814 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:20,816 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:20,835 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:20,837 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:20,841 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:20,843 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:20,846 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:20,848 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:20,867 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:20,868 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:20,889 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:20,891 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:20,896 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:20,897 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:20,902 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:20,904 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:20,924 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:20,926 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:20,947 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:20,949 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:20,954 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:20,956 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:20,961 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:20,962 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:20,983 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:20,985 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:21,005 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:21,007 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:21,012 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:21,014 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:21,017 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:21,019 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:21,039 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:21,041 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:21,062 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:21,064 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:21,069 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:21,071 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:21,076 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:21,077 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:21,096 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:21,097 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:21,114 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:21,116 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:21,118 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:21,120 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:21,123 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:21,124 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:21,141 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:21,143 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:21,162 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:21,164 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:21,169 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:21,171 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:21,176 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:21,177 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:21,197 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:21,198 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:21,203 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:21,205 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:21,210 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:21,212 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:21,229 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:21,231 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:21,251 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:21,252 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:21,257 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:21,259 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:21,264 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:21,265 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:21,282 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:21,283 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:21,302 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:21,304 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:21,309 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:21,311 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:21,316 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:21,318 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:21,336 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:21,338 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:21,356 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:21,357 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:21,361 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:21,362 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:21,366 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:21,367 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:21,386 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:21,387 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:21,403 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:21,405 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:21,409 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:21,411 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:21,416 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:21,417 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:21,438 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:21,440 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:21,445 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:21,447 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:21,452 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:21,453 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:21,473 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:21,474 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:21,495 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:21,497 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:21,502 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:21,504 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:21,509 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:21,510 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:21,531 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:21,533 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:21,552 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:21,554 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:21,559 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:21,561 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:21,564 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:21,566 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:21,586 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:21,588 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:21,609 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:21,610 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:21,615 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:21,617 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:21,622 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:21,624 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:21,643 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:21,645 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:21,666 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:21,668 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:21,673 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:21,675 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:21,680 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:21,682 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:21,700 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:21,702 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:21,707 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:21,708 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:21,714 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:21,715 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:21,732 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:21,733 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:21,736 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:21,737 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:21,740 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:21,741 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:21,756 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:21,757 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:21,760 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:21,760 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:21,763 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:21,764 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:21,780 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:21,782 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:21,786 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:21,788 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:21,793 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:21,794 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:21,811 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:21,813 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:21,817 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:21,819 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:21,824 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:21,825 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:21,842 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:21,844 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:21,849 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:21,851 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:21,856 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:21,858 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:21,875 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:21,877 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:21,882 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:21,884 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:21,888 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:21,888 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:21,906 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:21,907 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:21,912 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:21,914 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:21,918 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:21,920 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:21,937 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:21,938 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:21,943 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:21,945 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:21,950 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:21,951 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:21,970 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:21,972 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:21,977 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:21,979 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:21,983 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:21,984 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:22,001 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:22,003 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:22,008 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:22,010 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:22,014 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:22,016 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:22,034 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:22,036 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:22,041 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:22,042 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:22,047 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:22,048 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:22,066 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:22,067 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:22,072 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:22,073 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:22,078 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:22,079 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:22,097 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:22,099 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:22,103 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:22,104 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:22,109 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:22,110 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:22,127 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:22,128 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:22,133 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:22,134 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:22,139 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:22,140 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:22,157 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:22,158 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:22,163 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:22,165 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:22,169 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:22,171 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:22,189 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:22,190 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:22,196 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:22,197 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:22,201 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:22,202 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:22,219 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:22,221 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:22,226 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:22,227 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:22,232 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:22,233 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:22,250 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:22,252 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:22,257 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:22,258 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:22,263 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:22,265 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:22,281 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:22,283 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:22,287 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:22,288 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:22,293 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:22,295 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:22,312 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:22,314 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:22,317 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:22,318 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:22,321 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:22,322 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:22,338 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:22,339 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:22,342 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:22,343 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:22,345 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:22,346 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:22,363 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:22,364 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:22,368 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:22,369 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:22,375 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:22,376 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:22,398 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:22,402 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:22,409 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:22,411 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:22,414 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:22,416 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:22,433 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:22,434 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:22,450 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:22,451 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:22,454 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:22,455 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:22,457 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:22,458 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:22,461 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:22,463 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:22,468 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:22,469 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:22,471 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:22,472 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:22,474 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:22,476 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:22,479 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:22,480 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:22,483 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:22,484 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:22,487 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:22,488 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:22,492 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:22,493 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:22,496 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:22,497 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:22,500 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:22,501 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:22,519 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:22,521 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:22,542 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:22,543 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:22,549 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:22,550 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:22,555 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:22,557 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:22,561 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:22,563 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:22,566 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:22,567 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:22,572 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:22,573 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:22,577 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:22,580 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:22,582 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:22,582 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:22,605 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:22,606 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:22,625 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:22,626 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:22,630 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:22,631 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:22,635 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:22,637 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:22,640 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:22,641 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:22,645 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:22,646 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:22,650 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:22,651 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:22,670 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:22,672 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:22,677 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:22,678 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:22,683 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:22,685 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:22,689 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:22,690 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:22,693 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:22,694 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:22,713 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:22,714 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:22,719 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:22,720 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:22,725 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:22,727 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:22,732 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:22,733 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:22,737 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:22,738 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:22,742 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:22,743 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:22,747 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:22,748 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:22,768 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:22,770 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:22,773 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:22,775 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:22,780 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:22,781 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:22,799 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:22,801 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:22,806 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:22,808 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:22,812 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:22,814 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:22,817 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:22,818 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:22,821 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:22,822 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:22,839 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:22,840 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:22,844 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:22,845 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:22,850 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:22,852 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:22,856 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:22,858 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:22,860 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:22,862 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:22,865 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:22,866 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:22,882 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:22,883 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:22,886 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:22,887 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:22,891 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:22,891 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:22,894 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:22,895 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:22,898 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:22,899 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:22,902 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:22,903 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:22,906 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:22,907 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:22,909 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:22,911 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:22,927 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:22,929 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:22,932 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:22,933 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:22,936 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:22,937 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:22,952 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:22,954 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:22,970 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:22,971 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:22,974 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:22,975 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:22,979 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:22,980 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:22,996 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:22,997 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:23,000 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:23,001 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:23,004 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:23,005 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:23,021 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:23,022 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:23,025 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:23,026 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:23,029 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:23,030 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:23,033 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:23,034 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:23,036 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:23,037 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:23,039 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:23,040 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:23,043 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:23,044 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:23,060 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:23,061 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:23,063 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:23,064 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:23,067 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:23,068 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:23,072 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:23,073 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:23,076 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:23,077 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:23,079 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:23,080 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:23,084 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:23,085 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:23,100 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:23,101 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:23,104 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:23,105 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:23,108 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:23,109 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:23,125 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:23,126 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:23,128 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:23,129 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:23,131 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:23,132 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:23,148 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:23,149 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:23,152 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:23,153 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:23,157 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:23,157 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:23,160 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:23,161 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:23,164 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:23,165 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:23,181 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:23,182 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:23,185 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:23,186 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:23,188 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:23,189 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:23,205 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:23,206 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:23,209 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:23,210 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:23,213 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:23,214 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:23,217 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:23,219 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:23,221 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:23,223 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:23,226 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:23,227 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:23,230 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:23,231 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:23,248 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:23,250 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:23,254 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:23,256 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:23,261 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:23,263 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:23,283 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:23,285 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:23,290 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:23,292 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:23,295 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:23,297 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:23,318 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:23,320 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:23,324 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:23,326 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:23,330 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:23,331 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:23,352 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:23,353 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:23,357 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:23,359 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:23,364 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:23,366 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:23,386 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:23,388 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:23,391 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:23,393 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:23,398 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:23,400 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:23,438 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:23,439 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:23,443 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:23,444 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:23,448 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:23,449 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:23,468 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:23,470 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:23,474 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:23,475 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:23,479 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:23,480 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:23,499 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:23,500 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:23,503 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:23,505 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:23,508 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:23,509 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:23,526 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:23,527 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:23,530 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:23,531 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:23,534 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:23,535 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:23,550 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:23,552 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:23,554 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:23,555 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:23,558 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:23,559 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:23,574 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:23,576 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:23,579 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:23,580 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:23,583 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:23,584 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:23,600 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:23,601 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:23,603 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:23,604 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:23,607 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:23,608 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:23,611 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:23,612 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:23,615 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:23,616 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:23,632 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:23,633 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:23,636 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:23,637 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:23,640 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:23,641 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:23,658 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:23,660 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:23,665 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:23,666 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:23,671 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:23,672 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:23,690 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:23,691 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:23,696 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:23,697 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:23,701 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:23,702 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:23,720 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:23,721 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:23,727 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:23,728 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:23,732 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:23,734 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:23,736 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:23,737 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:23,740 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:23,741 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:23,757 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:23,758 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:23,761 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:23,762 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:23,764 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:23,765 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:23,782 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:23,783 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:23,788 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:23,790 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:23,795 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:23,797 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:23,817 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:23,819 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:23,823 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:23,825 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:23,829 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:23,831 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:23,850 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:23,851 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:23,855 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:23,856 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:23,860 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:23,861 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:23,882 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:23,884 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:23,888 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:23,890 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:23,894 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:23,895 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:23,899 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:23,900 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:23,904 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:23,905 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:23,924 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:23,925 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:23,928 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:23,930 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:23,933 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:23,934 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:23,953 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:23,954 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:23,957 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:23,958 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:23,962 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:23,963 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:23,981 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:23,983 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:23,986 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:23,988 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:23,992 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:23,993 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:24,014 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:24,016 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:24,037 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:24,039 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:24,044 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:24,045 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:24,051 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:24,053 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:24,072 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:24,074 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:24,079 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:24,080 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:24,085 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:24,087 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:24,092 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:24,093 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:24,096 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:24,097 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:24,100 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:24,101 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:24,104 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:24,104 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:24,107 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:24,107 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:24,110 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:24,111 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:24,113 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:24,115 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:24,117 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:24,118 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:24,121 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:24,121 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:24,124 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:24,124 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:24,139 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:24,140 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:24,143 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:24,143 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:24,146 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:24,147 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:24,192 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:24,193 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:24,197 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:24,198 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:24,201 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:24,201 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:24,216 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:24,217 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:24,221 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:24,221 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:24,224 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:24,225 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:24,227 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:24,228 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:24,231 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:24,231 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:24,246 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:24,247 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:24,250 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:24,250 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:24,253 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:24,254 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:24,256 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:24,257 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:24,259 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:24,260 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:24,275 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:24,275 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:24,278 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:24,278 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:24,281 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:24,282 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:24,296 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:24,297 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:24,300 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:24,301 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:24,303 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:24,304 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:24,320 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:24,320 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:24,323 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:24,324 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:24,327 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:24,328 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:24,344 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:24,345 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:24,348 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:24,349 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:24,352 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:24,353 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:24,369 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:24,370 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:24,373 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:24,374 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:24,377 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:24,378 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:24,396 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:24,397 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:24,400 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:24,401 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:24,405 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:24,406 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:24,423 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:24,424 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:24,428 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:24,430 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:24,434 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:24,436 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:24,438 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:24,439 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:24,442 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:24,443 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:24,446 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:24,447 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:24,449 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:24,451 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:24,454 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:24,455 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:24,458 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:24,459 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:24,462 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:24,463 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:24,465 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:24,467 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:24,470 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:24,471 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:24,474 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:24,475 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:24,492 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:24,492 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:24,495 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:24,496 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:24,499 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:24,500 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:24,503 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:24,504 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:24,507 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:24,508 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:24,511 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:24,512 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:24,515 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:24,516 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:24,519 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:24,520 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:24,539 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:24,540 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:24,544 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:24,546 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:24,549 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:24,551 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:24,555 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:24,556 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:24,560 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:24,561 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:24,565 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:24,566 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:24,585 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:24,587 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:24,591 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:24,592 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:24,595 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:24,596 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:24,599 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:24,601 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:24,603 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:24,604 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:24,627 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:24,628 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:24,631 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:24,631 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:24,634 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:24,635 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:24,638 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:24,639 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:24,644 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:24,645 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:24,649 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:24,650 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:24,655 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:24,656 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:24,675 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:24,677 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:24,680 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:24,681 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:24,685 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:24,686 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:24,706 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:24,707 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:24,712 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:24,714 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:24,719 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:24,720 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:24,724 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:24,725 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:24,729 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:24,730 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:24,750 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:24,752 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:24,757 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:24,758 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:24,763 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:24,765 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:24,769 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:24,770 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:24,774 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:24,775 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:24,779 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:24,780 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:24,797 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:24,799 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:24,804 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:24,806 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:24,811 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:24,812 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:24,815 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:24,816 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:24,818 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:24,819 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:24,824 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:24,825 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:24,828 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:24,829 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:24,833 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:24,834 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:24,850 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:24,852 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:24,855 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:24,857 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:24,860 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:24,861 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:24,878 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:24,879 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:24,884 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:24,886 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:24,890 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:24,891 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:24,908 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:24,910 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:24,914 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:24,916 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:24,920 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:24,921 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:24,939 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:24,940 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:24,945 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:24,947 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:24,952 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:24,953 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:24,956 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:24,958 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:24,960 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:24,961 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:24,964 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:24,965 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:24,968 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:24,969 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:24,984 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:24,985 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:24,988 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:24,989 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:24,992 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:24,993 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:24,996 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:24,997 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:25,000 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:25,001 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:25,003 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:25,005 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:25,008 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:25,009 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:25,026 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:25,027 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:25,031 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:25,032 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:25,037 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:25,039 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:25,059 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:25,060 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:25,065 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:25,066 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:25,071 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:25,073 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:25,093 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:25,095 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:25,100 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:25,102 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:25,107 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:25,108 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:25,112 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:25,113 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:25,117 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:25,118 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:25,137 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:25,139 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:25,144 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:25,146 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:25,151 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:25,153 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:25,171 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:25,173 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:25,192 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:25,193 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:25,197 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:25,198 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:25,202 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:25,203 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:25,207 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:25,208 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:25,212 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:25,213 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:25,216 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:25,218 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:25,221 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:25,222 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:25,241 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:25,243 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:25,246 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:25,248 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:25,251 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:25,253 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:25,272 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:25,273 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:25,277 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:25,278 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:25,282 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:25,283 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:25,302 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:25,303 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:25,306 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:25,307 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:25,309 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:25,310 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:25,326 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:25,327 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:25,329 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:25,329 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:25,333 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:25,334 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:25,349 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:25,350 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:25,353 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:25,354 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:25,356 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:25,357 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:25,372 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:25,373 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:25,376 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:25,376 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:25,380 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:25,382 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:25,398 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:25,399 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:25,402 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:25,403 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:25,405 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:25,406 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:25,422 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:25,424 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:25,429 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:25,431 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:25,436 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:25,437 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:25,453 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:25,455 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:25,459 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:25,461 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:25,465 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:25,467 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:25,484 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:25,485 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:25,490 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:25,491 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:25,496 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:25,497 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:25,515 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:25,516 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:25,521 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:25,522 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:25,527 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:25,529 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:25,544 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:25,546 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:25,550 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:25,552 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:25,556 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:25,558 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:25,561 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:25,562 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:25,565 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:25,566 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:25,582 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:25,583 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:25,585 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:25,586 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:25,589 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:25,590 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:25,606 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:25,607 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:25,612 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:25,613 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:25,618 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:25,620 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:25,637 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:25,638 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:25,643 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:25,645 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:25,650 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:25,651 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:25,688 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:25,689 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:25,693 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:25,694 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:25,697 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:25,698 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:25,701 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:25,702 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:25,705 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:25,706 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:25,732 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:25,733 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:25,737 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:25,738 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:25,741 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:25,742 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:25,758 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:25,759 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:25,762 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:25,763 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:25,766 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:25,767 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:25,782 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:25,782 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:25,785 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:25,786 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:25,790 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:25,790 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:25,807 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:25,808 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:25,811 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:25,812 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:25,815 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:25,816 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:25,832 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:25,833 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:25,850 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:25,851 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:25,854 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:25,855 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:25,858 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:25,858 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:25,861 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:25,862 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:25,865 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:25,866 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:25,883 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:25,884 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:25,900 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:25,902 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:25,905 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:25,907 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:25,912 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:25,913 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:25,933 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:25,934 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:25,955 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:25,957 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:25,963 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:25,964 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:25,968 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:25,969 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:25,990 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:25,991 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:26,012 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:26,014 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:26,019 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:26,021 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:26,026 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:26,027 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:26,048 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:26,049 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:26,053 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:26,055 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:26,060 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:26,061 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:26,080 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:26,082 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:26,101 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:26,102 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:26,106 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:26,107 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:26,111 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:26,112 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:26,116 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:26,117 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:26,120 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:26,121 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:26,125 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:26,126 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:26,130 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:26,131 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:26,135 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:26,137 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:26,140 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:26,142 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:26,145 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:26,147 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:26,150 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:26,152 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:26,155 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:26,156 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:26,160 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:26,161 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:26,179 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:26,180 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:26,197 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:26,199 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:26,205 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:26,207 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:26,211 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:26,213 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:26,230 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:26,232 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:26,250 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:26,252 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:26,257 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:26,258 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:26,263 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:26,265 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:26,282 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:26,284 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:26,303 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:26,305 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:26,309 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:26,311 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:26,316 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:26,318 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:26,323 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:26,325 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:26,329 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:26,330 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:26,347 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:26,348 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:26,366 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:26,368 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:26,373 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:26,375 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:26,380 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:26,382 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:26,387 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:26,389 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:26,392 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:26,393 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:26,410 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:26,411 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:26,428 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:26,429 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:26,432 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:26,433 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:26,435 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:26,436 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:26,452 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:26,453 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:26,468 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:26,469 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:26,472 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:26,473 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:26,476 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:26,476 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:26,492 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:26,493 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:26,509 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:26,510 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:26,513 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:26,514 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:26,516 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:26,517 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:26,533 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:26,534 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:26,549 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:26,550 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:26,554 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:26,555 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:26,558 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:26,560 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:26,580 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:26,581 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:26,600 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:26,601 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:26,605 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:26,606 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:26,610 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:26,611 - INFO - Conexión exitosa a la base de datos
+2025-01-15 17:14:26,630 - INFO - Intentando conectar a la base de datos: 192.168.1.70\SQLEXPRESS/Ventus
+2025-01-15 17:14:26,631 - INFO - Conexión exitosa a la base de datos
