@@ -214,7 +214,7 @@ class DetalleClienteWindow:
         x = (screen_width - window_width) // 2
         y = (screen_height - window_height) // 2
         self.top.geometry(f"{window_width}x{window_height}+{x}+{y}")
-           
+    
     def create_control_panel(self):
         """Crea el panel de control lateral derecho con estilo mejorado"""
         # Frame contenedor con borde redondeado
@@ -253,11 +253,42 @@ class DetalleClienteWindow:
         add_note_btn.bind("<Enter>", on_enter_note)
         add_note_btn.bind("<Leave>", on_leave_note)
 
+        # Nuevos botones para notas rápidas
+        quick_notes = [
+            ("Buzón", "Mandó a buzón de voz"),
+            ("No disponible", "El número marcado no está disponible"),
+            ("Pasa hoy", "El cliente hizo una promesa de pago hoy")
+        ]
+
+        for btn_text, note_text in quick_notes:
+            btn = tk.Button(control_container,
+                        text=btn_text,
+                        font=("Arial", 10),
+                        bg=self.COLOR_BLANCO,
+                        fg=self.COLOR_NEGRO,
+                        bd=0,
+                        relief="flat",
+                        padx=15,
+                        pady=8,
+                        width=15,
+                        cursor="hand2",
+                        command=lambda t=note_text: self.create_quick_note(t))
+            btn.pack(pady=(0,10))
+
+            # Eventos hover para cada botón
+            def on_enter(e, button=btn):
+                button['bg'] = self.COLOR_GRIS_HOVER
+            def on_leave(e, button=btn):
+                button['bg'] = self.COLOR_BLANCO
+
+            btn.bind("<Enter>", on_enter)
+            btn.bind("<Leave>", on_leave)
+
         # Separador visual
         separator = tk.Frame(control_container, height=1, bg=self.COLOR_GRIS_HOVER)
         separator.pack(fill='x', pady=10)
 
-        # Botón de promesa con estilo mejorado
+        # Resto de los botones (promise, company, whatsapp)
         promise_state = self.get_promise_state(self.client_id)
         button_text = "En Promesa" if promise_state else "Promesa"
         button_color = self.COLOR_ROJO if promise_state else self.COLOR_BLANCO
@@ -372,6 +403,14 @@ class DetalleClienteWindow:
             except:
                 pass
 
+    def create_quick_note(self, note_text):
+        """Crea una nota rápida sin mostrar el diálogo"""
+        if self.save_note_to_db(self.client_id, note_text):
+            # Obtener las notas actualizadas y actualizar la interfaz
+            notes = self.get_client_notes(self.client_id)
+            self.refresh_notes_display(notes)
+        else:
+            tk.messagebox.showerror("Error", "No se pudo guardar la nota")
     def setup_socket_listeners(self):
         """Configura los listeners del socket solo si está disponible"""
         if self.sio is None:
