@@ -289,44 +289,6 @@ class DetalleClienteWindow:
         separator = tk.Frame(control_container, height=1, bg=self.COLOR_GRIS_HOVER)
         separator.pack(fill='x', pady=10)
 
-        # Resto de los botones (promise, company, whatsapp)
-        promise_state = self.get_promise_state(self.client_id)
-        button_text = "En Promesa" if promise_state else "Promesa"
-        button_color = self.COLOR_ROJO if promise_state else self.COLOR_BLANCO
-        text_color = self.COLOR_BLANCO if promise_state else self.COLOR_NEGRO
-        
-        self.promise_btn = tk.Button(control_container,
-                                text=button_text,
-                                font=("Arial", 10, "bold"),
-                                bg=button_color,
-                                fg=text_color,
-                                bd=0,
-                                relief="flat",
-                                padx=15,
-                                pady=8,
-                                width=15,
-                                cursor="hand2",
-                                command=lambda: self.toggle_promise(self.client_id))
-        
-        self.promise_btn.pack(pady=(0,10))
-
-        # Configurar eventos hover para el botón de promesa
-        def on_enter_promise(e):
-            if not promise_state:
-                self.promise_btn['bg'] = self.COLOR_GRIS_HOVER
-            else:
-                self.promise_btn['bg'] = self.COLOR_ROJO_HOVER
-        
-        def on_leave_promise(e):
-            if not promise_state:
-                self.promise_btn['bg'] = self.COLOR_BLANCO
-            else:
-                self.promise_btn['bg'] = self.COLOR_ROJO
-
-        self.promise_btn.bind("<Enter>", on_enter_promise)
-        self.promise_btn.bind("<Leave>", on_leave_promise)
-
-        #
         calendar_btn = tk.Button(control_container,
                             text="Fecha Promesa",
                             font=("Arial", 10, "bold"),
@@ -350,11 +312,12 @@ class DetalleClienteWindow:
         
         calendar_btn.bind("<Enter>", on_enter_calendar)
         calendar_btn.bind("<Leave>", on_leave_calendar)
+
         # Separador visual
         separator2 = tk.Frame(control_container, height=1, bg=self.COLOR_GRIS_HOVER)
         separator2.pack(fill='x', pady=10)
 
-        # Nuevo botón de Company con estilo mejorado
+        # Botón de Company con estilo mejorado
         company_state = self.get_company_state(self.client_id)
         company_text = "No es empresa" if company_state else "Empresa"
         company_color = self.COLOR_ROJO if company_state else self.COLOR_BLANCO
