@@ -25,7 +25,7 @@
         "day2": false,
         "day1": false,
         "dueDay": false,
-        "promisePage": true
+        "promisePage": false
     },
     "1500-0124": {
         "day3": false,
@@ -46,7 +46,7 @@
         "day2": false,
         "day1": false,
         "dueDay": false,
-        "promisePage": true
+        "promisePage": false
     },
     "1500-0140": {
         "day3": false,
@@ -88,14 +88,14 @@
         "day2": false,
         "day1": false,
         "dueDay": false,
-        "promisePage": true
+        "promisePage": false
     },
     "1500-0225": {
         "day3": false,
         "day2": false,
         "day1": false,
         "dueDay": false,
-        "promisePage": true
+        "promisePage": false
     },
     "1500-0123": {
         "day3": false,
@@ -116,7 +116,7 @@
         "day2": false,
         "day1": false,
         "dueDay": false,
-        "promisePage": true
+        "promisePage": false
     },
     "1500-0250": {
         "day3": false,
@@ -144,7 +144,7 @@
         "day2": false,
         "day1": false,
         "dueDay": false,
-        "promisePage": true
+        "promisePage": false
     },
     "1500-0345": {
         "day3": false,
@@ -165,14 +165,14 @@
         "day2": false,
         "day1": false,
         "dueDay": false,
-        "promisePage": true
+        "promisePage": false
     },
     "1500-0391": {
         "day3": false,
         "day2": false,
         "day1": false,
         "dueDay": false,
-        "promisePage": true
+        "promisePage": false
     },
     "1500-0408": {
         "day3": false,
@@ -186,14 +186,14 @@
         "day2": false,
         "day1": false,
         "dueDay": false,
-        "promisePage": true
+        "promisePage": false
     },
     "1500-0280": {
         "day3": false,
         "day2": false,
         "day1": false,
         "dueDay": false,
-        "promisePage": true
+        "promisePage": false
     },
     "1500-0367": {
         "day3": false,
@@ -207,7 +207,7 @@
         "day2": false,
         "day1": false,
         "dueDay": false,
-        "promisePage": true
+        "promisePage": false
     },
     "1500-0471": {
         "day3": false,
@@ -263,14 +263,14 @@
         "day2": false,
         "day1": false,
         "dueDay": false,
-        "promisePage": true
+        "promisePage": false
     },
     "1500-0587": {
         "day3": false,
         "day2": false,
         "day1": false,
         "dueDay": false,
-        "promisePage": true
+        "promisePage": false
     },
     "1500-0593": {
         "day3": false,
@@ -284,7 +284,7 @@
         "day2": false,
         "day1": false,
         "dueDay": false,
-        "promisePage": true
+        "promisePage": false
     },
     "1500-0290": {
         "day3": false,
@@ -300,21 +300,7 @@
         "dueDay": false,
         "promisePage": false
     },
-    "1500-0633": {
-        "day3": false,
-        "day2": false,
-        "day1": false,
-        "dueDay": false,
-        "promisePage": false
-    },
     "1500-0650": {
-        "day3": false,
-        "day2": false,
-        "day1": false,
-        "dueDay": false,
-        "promisePage": false
-    },
-    "1500-0670": {
         "day3": false,
         "day2": false,
         "day1": false,
@@ -333,7 +319,7 @@
         "day2": false,
         "day1": false,
         "dueDay": false,
-        "promisePage": true
+        "promisePage": false
     },
     "1500-0682": {
         "day3": false,
@@ -347,7 +333,7 @@
         "day2": false,
         "day1": false,
         "dueDay": false,
-        "promisePage": true
+        "promisePage": false
     },
     "1500-0456": {
         "day3": false,
@@ -382,7 +368,7 @@
         "day2": false,
         "day1": false,
         "dueDay": false,
-        "promisePage": true
+        "promisePage": false
     },
     "1500-0171": {
         "day3": false,
@@ -424,14 +410,7 @@
         "day2": false,
         "day1": false,
         "dueDay": false,
-        "promisePage": false
-    },
-    "1500-0516": {
-        "day3": false,
-        "day2": false,
-        "day1": false,
-        "dueDay": false,
-        "promisePage": false
+        "promisePage": true
     },
     "1500-0488": {
         "day3": false,
@@ -445,23 +424,16 @@
         "day2": false,
         "day1": false,
         "dueDay": false,
-        "promisePage": false
+        "promisePage": true
     },
     "1500-0195": {
         "day3": false,
         "day2": false,
         "day1": false,
         "dueDay": false,
-        "promisePage": false
+        "promisePage": true
     },
     "1500-0237": {
-        "day3": false,
-        "day2": false,
-        "day1": false,
-        "dueDay": false,
-        "promisePage": false
-    },
-    "1500-0416": {
         "day3": false,
         "day2": false,
         "day1": false,
@@ -473,30 +445,9 @@
         "day2": false,
         "day1": false,
         "dueDay": false,
-        "promisePage": false
-    },
-    "1500-0422": {
-        "day3": false,
-        "day2": false,
-        "day1": false,
-        "dueDay": false,
-        "promisePage": false
+        "promisePage": true
     },
     "1500-0453": {
-        "day3": false,
-        "day2": false,
-        "day1": false,
-        "dueDay": false,
-        "promisePage": false
-    },
-    "1500-0599": {
-        "day3": false,
-        "day2": false,
-        "day1": false,
-        "dueDay": false,
-        "promisePage": false
-    },
-    "1500-0674": {
         "day3": false,
         "day2": false,
         "day1": false,
@@ -658,6 +609,69 @@
         "promisePage": false
     },
     "1500-0690": {
+        "day3": false,
+        "day2": false,
+        "day1": false,
+        "dueDay": false,
+        "promisePage": false
+    },
+    "1500-0257": {
+        "day3": false,
+        "day2": false,
+        "day1": false,
+        "dueDay": false,
+        "promisePage": false
+    },
+    "1500-0318": {
+        "day3": false,
+        "day2": false,
+        "day1": false,
+        "dueDay": false,
+        "promisePage": false
+    },
+    "1500-0324": {
+        "day3": false,
+        "day2": false,
+        "day1": false,
+        "dueDay": false,
+        "promisePage": false
+    },
+    "1500-0447": {
+        "day3": false,
+        "day2": false,
+        "day1": false,
+        "dueDay": false,
+        "promisePage": false
+    },
+    "1500-0452": {
+        "day3": false,
+        "day2": false,
+        "day1": false,
+        "dueDay": false,
+        "promisePage": false
+    },
+    "1500-0378": {
+        "day3": false,
+        "day2": false,
+        "day1": false,
+        "dueDay": false,
+        "promisePage": false
+    },
+    "1500-0589": {
+        "day3": false,
+        "day2": false,
+        "day1": false,
+        "dueDay": false,
+        "promisePage": false
+    },
+    "1500-0541": {
+        "day3": false,
+        "day2": false,
+        "day1": false,
+        "dueDay": false,
+        "promisePage": false
+    },
+    "1500-0672": {
         "day3": false,
         "day2": false,
         "day1": false,

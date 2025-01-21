@@ -338,7 +338,7 @@ def get_client_states() -> dict:
     try:
         cursor = conn.cursor()
         query = """
-            SELECT client_id, day1, day2, day3, dueday, promisePage, company
+            SELECT client_id, day1, day2, day3, dueday, promisePage, company, promiseDate
             FROM dbo.ClientsStates
         """
         cursor.execute(query)
@@ -351,7 +351,8 @@ def get_client_states() -> dict:
                 "day3": bool(row.day3),
                 "dueday": bool(row.dueday),
                 "promisePage": bool(row.promisePage),
-                "company": bool(row.company)
+                "company": bool(row.company),
+                "promiseDate": row.promiseDate
             } for row in results
         }
         
@@ -516,6 +517,40 @@ def update_client_states_wsp(client_id: str, states: dict = None) -> bool:
         
     except pyodbc.Error as e:
         logging.error(f"Error al actualizar estados del cliente {client_id}: {e}")
+        return False
+    finally:
+        conn.close()
+        
+
+def update_promise_date(client_id: str, promise_date: datetime.date) -> bool:
+    """
+    Actualiza la fecha de promesa de pago para un cliente específico.
+    
+    Args:
+        client_id (str): ID del cliente
+        promise_date (datetime.date): Nueva fecha de promesa
+        
+    Returns:
+        bool: True si la actualización fue exitosa, False en caso contrario
+    """
+    conn = get_db_connection()
+    if not conn:
+        logging.error("No se pudo establecer conexión con la base de datos")
+        return False
+    
+    try:
+        cursor = conn.cursor()
+        query = """
+            UPDATE dbo.ClientsStates 
+            SET promiseDate = ?
+            WHERE client_id = ?
+        """
+        cursor.execute(query, (promise_date, client_id))
+        conn.commit()
+        return True
+        
+    except pyodbc.Error as e:
+        logging.error(f"Error al actualizar fecha de promesa: {e}")
         return False
     finally:
         conn.close()

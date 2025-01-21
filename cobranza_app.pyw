@@ -22,9 +22,9 @@ sys.executable = venv_path
 import tkinter as tk
 from tkinter import ttk
 from PIL import Image, ImageTk
-from datetime import datetime
+from datetime import date, datetime
 import re
-from database import get_client_states, get_db_connection, get_clients_data
+from database import get_client_states, get_db_connection, get_clients_data, update_promise_date
 import logging
 from tkinter import messagebox
 from typing import Dict, Optional
@@ -32,6 +32,7 @@ import pyodbc
 import threading
 import time
 import socketio
+from tkcalendar import Calendar
 from main import actualizar_datos
 
 def extract_ticket_number(ticket_text):
@@ -207,7 +208,7 @@ class DetalleClienteWindow:
     def setup_window(self):
         """Configura la ventana de detalles"""
         self.top.title(f"Detalle Cliente - {self.client_data.get('nombre', 'Sin nombre')}")
-        window_width = 800
+        window_width = 1000
         window_height = 800
         screen_width = self.top.winfo_screenwidth()
         screen_height = self.top.winfo_screenheight()
@@ -325,6 +326,30 @@ class DetalleClienteWindow:
         self.promise_btn.bind("<Enter>", on_enter_promise)
         self.promise_btn.bind("<Leave>", on_leave_promise)
 
+        #
+        calendar_btn = tk.Button(control_container,
+                            text="Fecha Promesa",
+                            font=("Arial", 10, "bold"),
+                            bg=self.COLOR_BLANCO,
+                            fg=self.COLOR_NEGRO,
+                            bd=0,
+                            relief="flat",
+                            padx=15,
+                            pady=8,
+                            width=15,
+                            cursor="hand2",
+                            command=self.show_calendar_dialog)
+        
+        calendar_btn.pack(pady=(0,10))
+        
+        # Eventos hover para el botón de calendario
+        def on_enter_calendar(e):
+            calendar_btn['bg'] = self.COLOR_GRIS_HOVER
+        def on_leave_calendar(e):
+            calendar_btn['bg'] = self.COLOR_BLANCO
+        
+        calendar_btn.bind("<Enter>", on_enter_calendar)
+        calendar_btn.bind("<Leave>", on_leave_calendar)
         # Separador visual
         separator2 = tk.Frame(control_container, height=1, bg=self.COLOR_GRIS_HOVER)
         separator2.pack(fill='x', pady=10)
@@ -573,21 +598,43 @@ class DetalleClienteWindow:
         return frame
     
     def create_timeline_frame(self, client_id):
-        """Crea el frame principal de la timeline"""
+        """Crea el frame principal de la timeline con scroll"""
         timeline_frame = tk.LabelFrame(self.left_frame, text="LINEA DE TIEMPO", 
-                                     font=("Arial", 16, "bold"), bg=self.COLOR_BLANCO)
+                                    font=("Arial", 16, "bold"), bg=self.COLOR_BLANCO)
         timeline_frame.pack(fill='x', padx=20, pady=10)
 
-        self.canvas = tk.Canvas(timeline_frame, bg=self.COLOR_BLANCO, height=300)
-        scrollbar = ttk.Scrollbar(timeline_frame, orient="vertical", command=self.canvas.yview)
+        # Crear un frame con altura fija
+        fixed_height_frame = tk.Frame(timeline_frame, height=400, bg=self.COLOR_BLANCO)
+        fixed_height_frame.pack(fill='x', expand=True)
+        fixed_height_frame.pack_propagate(False)  # Mantener altura fija
+
+        # Canvas y scrollbar para el contenido - Asignar a self
+        self.canvas = tk.Canvas(fixed_height_frame, bg=self.COLOR_BLANCO)
+        self.scrollbar = ttk.Scrollbar(fixed_height_frame, orient="vertical", command=self.canvas.yview)
+        
+        # Frame interior para el contenido
         self.interior_frame = tk.Frame(self.canvas, bg=self.COLOR_BLANCO)
-        self.canvas.configure(yscrollcommand=scrollbar.set)
+        
+        # Configurar el scroll
+        self.canvas.configure(yscrollcommand=self.scrollbar.set)
+        
+        # Empaquetar los widgets
+        self.scrollbar.pack(side="right", fill="y")
+        self.canvas.pack(side="left", fill="both", expand=True)
+        
+        # Crear ventana en el canvas
+        self.canvas_window = self.canvas.create_window((0, 0), window=self.interior_frame, anchor="nw")
 
-        self.canvas.pack(side="left", fill="both", expand=True, padx=(0, 5))
-        scrollbar.pack(side="right", fill="y")
+        # Configurar el scroll para que se ajuste al contenido
+        def configure_scroll(event):
+            self.canvas.configure(scrollregion=self.canvas.bbox("all"))
+            # Asegurar que el ancho del frame interior coincida con el canvas
+            self.canvas.itemconfig(self.canvas_window, width=self.canvas.winfo_width())
 
-        self.canvas.create_window((0, 0), window=self.interior_frame, anchor="nw")
+        self.interior_frame.bind('<Configure>', configure_scroll)
+        self.canvas.bind('<Configure>', lambda e: self.canvas.itemconfig(self.canvas_window, width=self.canvas.winfo_width()))
 
+        # Crear las secciones dentro del interior_frame
         states_section = tk.Frame(self.interior_frame, bg=self.COLOR_BLANCO)
         states_section.pack(fill='x', expand=True)
         self.create_states_section(states_section, client_id)
@@ -596,13 +643,11 @@ class DetalleClienteWindow:
         notes_section.pack(fill='x', expand=True, pady=(20, 0))
         self.create_notes_section(notes_section, client_id)
 
-        def _configure_interior(event):
-            size = (self.interior_frame.winfo_reqwidth(), self.interior_frame.winfo_reqheight())
-            self.canvas.config(scrollregion="0 0 %s %s" % size)
-            if self.interior_frame.winfo_reqwidth() != self.canvas.winfo_width():
-                self.canvas.config(width=self.interior_frame.winfo_reqwidth())
-
-        self.interior_frame.bind('<Configure>', _configure_interior)
+        # Agregar bind para el mousewheel
+        def on_mousewheel(event):
+            self.canvas.yview_scroll(int(-1*(event.delta/120)), "units")
+        
+        self.canvas.bind_all("<MouseWheel>", on_mousewheel)
         
     def create_states_section(self, container, client_id):
         """Crea la sección de estados en la timeline"""
@@ -792,27 +837,42 @@ class DetalleClienteWindow:
 
         # Crear nuevos widgets para cada nota
         for note in notes:
+            # Frame principal de la nota con fondo gris claro
             note_frame = tk.Frame(self.notes_container, bg=self.COLOR_GRIS_CLARO)
             note_frame.pack(fill='x', padx=20, pady=10)
+            note_frame.grid_columnconfigure(1, weight=1)  # Hacer que la columna del texto se expanda
 
+            # Frame para la marca de tiempo
+            timestamp_frame = tk.Frame(note_frame, bg=self.COLOR_GRIS_CLARO)
+            timestamp_frame.grid(row=0, column=0, padx=10, sticky='nw')
+
+            # Etiqueta de tiempo
             timestamp = note['timestamp'].strftime('%Y-%m-%d %H:%M:%S')
-            tk.Label(note_frame, 
+            tk.Label(timestamp_frame, 
                     text=f"Nota del {timestamp}", 
                     font=("Arial", 10, "bold"), 
-                    bg=self.COLOR_GRIS_CLARO).pack(side='left', padx=10)
+                    bg=self.COLOR_GRIS_CLARO).pack(anchor='w')
 
-            note_text = tk.Label(note_frame, 
+            # Frame para el texto de la nota
+            text_frame = tk.Frame(note_frame, bg=self.COLOR_GRIS_CLARO)
+            text_frame.grid(row=0, column=1, padx=(0, 10), sticky='ew')
+            text_frame.grid_columnconfigure(0, weight=1)
+
+            # Etiqueta del texto de la nota con ajuste de línea
+            note_text = tk.Label(text_frame, 
                             text=note['text'], 
                             font=("Arial", 10), 
-                            bg=self.COLOR_GRIS_CLARO, 
-                            wraplength=600, 
-                            anchor='w')
-            note_text.pack(side='left', fill='x', expand=True, padx=10)
+                            bg=self.COLOR_GRIS_CLARO,
+                            justify='left',
+                            anchor='w',
+                            wraplength=400)  # Ajustar este valor según sea necesario
+            note_text.grid(row=0, column=0, sticky='ew')
 
         # Actualizar el canvas para mostrar las nuevas notas
         self.interior_frame.update_idletasks()
-        self.canvas.configure(scrollregion=self.canvas.bbox("all"))
-   
+        if hasattr(self, 'canvas'):
+            self.canvas.configure(scrollregion=self.canvas.bbox("all"))
+    
     def save_note_to_db(self, client_id, note_text):
         """Guarda una nueva nota en la base de datos"""
         conn = get_db_connection()
@@ -949,6 +1009,121 @@ class DetalleClienteWindow:
 
         # Enfocar el campo de texto automáticamente
         note_text.focus_set()      
+    
+    ################################
+    
+    def show_calendar_dialog(self):
+        """Muestra un diálogo con un calendario para seleccionar la fecha de promesa"""
+        dialog = tk.Toplevel(self.top)
+        dialog.title("Seleccionar Fecha de Promesa")
+        dialog.configure(bg=self.COLOR_BLANCO)
+        
+        # Hacer la ventana modal
+        dialog.transient(self.top)
+        dialog.grab_set()
+        
+        # Configurar tamaño y posición
+        dialog_width = 300
+        dialog_height = 400
+        parent_x = self.top.winfo_x()
+        parent_y = self.top.winfo_y()
+        parent_width = self.top.winfo_width()
+        parent_height = self.top.winfo_height()
+        
+        x = parent_x + (parent_width - dialog_width) // 2
+        y = parent_y + (parent_height - dialog_height) // 2
+        
+        dialog.geometry(f"{dialog_width}x{dialog_height}+{x}+{y}")
+        
+        # Frame principal
+        main_frame = tk.Frame(dialog, bg=self.COLOR_BLANCO)
+        main_frame.pack(fill='both', expand=True, padx=20, pady=20)
+        
+        # Título
+        title_label = tk.Label(main_frame,
+                            text="Seleccione la fecha de promesa",
+                            font=("Arial", 12, "bold"),
+                            bg=self.COLOR_BLANCO)
+        title_label.pack(pady=(0, 10))
+        
+        # Calendario con la fecha mínima corregida
+        cal = Calendar(main_frame,
+                    selectmode='day',
+                    date_pattern='yyyy-mm-dd',
+                    mindate=date.today(),
+                    locale='es_ES')
+            
+        cal.pack(pady=10)
+        
+        # Después del calendario, agregar el selector de método de pago
+        payment_frame = tk.Frame(main_frame, bg=self.COLOR_BLANCO)
+        payment_frame.pack(fill='x', pady=10)
+        
+        payment_label = tk.Label(payment_frame,
+                            text="Método de pago:",
+                            font=("Arial", 10),
+                            bg=self.COLOR_BLANCO)
+        payment_label.pack(side='left', padx=5)
+        
+        # Variable para almacenar la selección del método de pago
+        payment_method = tk.StringVar(value="No especificado")
+        
+        # Crear el menú desplegable
+        payment_select = ttk.Combobox(payment_frame,
+                                    textvariable=payment_method,
+                                    values=["No especificado", "Transferencia", "Cheque"],
+                                    state="readonly",
+                                    width=15)
+        payment_select.pack(side='left', padx=5)
+        
+        def save_date():
+            selected_date = datetime.strptime(cal.get_date(), '%Y-%m-%d').date()
+            selected_payment = payment_method.get()
+            
+            if update_promise_date(self.client_id, selected_date):
+                # Crear nota automática con el método de pago
+                note_text = f"Promesa de pago generada para el día {selected_date.strftime('%d/%m/%Y')}. Método de pago: {selected_payment}"
+                
+                if self.save_note_to_db(self.client_id, note_text):
+                    notes = self.get_client_notes(self.client_id)
+                    self.refresh_notes_display(notes)
+                    dialog.destroy()
+                    messagebox.showinfo("Éxito", "Fecha de promesa guardada correctamente")
+                else:
+                    messagebox.showerror("Error", "No se pudo guardar la nota")
+            else:
+                messagebox.showerror("Error", "No se pudo guardar la fecha de promesa")
+        
+        # Frame para botones
+        button_frame = tk.Frame(main_frame, bg=self.COLOR_BLANCO)
+        button_frame.pack(fill='x', pady=(10, 0))
+        
+        # Botones
+        cancel_btn = tk.Button(button_frame,
+                            text="Cancelar",
+                            command=dialog.destroy,
+                            font=("Arial", 10),
+                            bg=self.COLOR_GRIS,
+                            fg=self.COLOR_NEGRO,
+                            bd=0,
+                            padx=15,
+                            pady=5,
+                            relief="flat",
+                            cursor="hand2")
+        cancel_btn.pack(side='right', padx=5)
+        
+        save_btn = tk.Button(button_frame,
+                            text="Guardar",
+                            command=save_date,
+                            font=("Arial", 10, "bold"),
+                            bg=self.COLOR_ROJO,
+                            fg=self.COLOR_BLANCO,
+                            bd=0,
+                            padx=15,
+                            pady=5,
+                            relief="flat",
+                            cursor="hand2")
+        save_btn.pack(side='right', padx=5)
     
     #Adeudo frame =================================================================
     
@@ -1350,6 +1525,7 @@ class CobranzaApp:
         # Colores para categorías
         self.COLOR_VERDE = "#4CAF50"
         self.COLOR_AMARILLO = "#FFC107"
+        self.COLOR_AZUL = "#87CEEB"
         
         # Variable para controlar vista actual
         self.current_view = "clientes"
@@ -1424,25 +1600,45 @@ class CobranzaApp:
         cobranza_label.pack(side='left', padx=20)
         
         # Calcular deuda total
-        deuda_total = sum(cliente['saldo'] for cliente in self.clientes_data.values())
+        total_clientes = sum(cliente['saldo'] for clave, cliente in self.clientes_data.items() 
+                            if not self.should_show_client(clave))
+        total_empresas = sum(cliente['saldo'] for clave, cliente in self.clientes_data.items() 
+                            if self.should_show_client(clave))
+        deuda_total = total_clientes + total_empresas
         
         # Frame para la deuda total
         deuda_frame = tk.Frame(header_frame, bg=self.COLOR_ROJO)
         deuda_frame.pack(side='right', padx=20)
         
+        # Total general
         deuda_label = tk.Label(deuda_frame,
                             text="Deuda Total:",
                             font=("Arial", 12, "bold"),
                             bg=self.COLOR_ROJO,
                             fg=self.COLOR_BLANCO)
-        deuda_label.pack(side='left', padx=(0, 10))
+        deuda_label.pack(anchor='e', pady=(0,5))
         
         deuda_monto = tk.Label(deuda_frame,
                             text=f"${deuda_total:,.2f}",
                             font=("Arial", 12, "bold"),
                             bg=self.COLOR_ROJO,
                             fg=self.COLOR_BLANCO)
-        deuda_monto.pack(side='left')
+        deuda_monto.pack(anchor='e')
+        
+        # Desglose por tipo
+        clientes_label = tk.Label(deuda_frame,
+                            text=f"Clientes: ${total_clientes:,.2f}",
+                            font=("Arial", 10),
+                            bg=self.COLOR_ROJO,
+                            fg=self.COLOR_BLANCO)
+        clientes_label.pack(anchor='e')
+        
+        empresas_label = tk.Label(deuda_frame,
+                            text=f"Empresas: ${total_empresas:,.2f}",
+                            font=("Arial", 10),
+                            bg=self.COLOR_ROJO,
+                            fg=self.COLOR_BLANCO)
+        empresas_label.pack(anchor='e')
         
         reload_button = tk.Button(header_frame, 
                             text="⟳ Recargar Datos",
@@ -1465,6 +1661,15 @@ class CobranzaApp:
                                 command=self.open_whatsapp_bot)
         whatsapp_button.pack(side='right', padx=20)
 
+    def calcular_total_categoria(self, categoria: str) -> float:
+        """Calcula el total de deuda para una categoría específica"""
+        total = 0
+        for clave, cliente in self.clientes_data.items():
+            if not self.should_show_client(clave):
+                continue
+            if self.categorizar_cliente(clave) == categoria:
+                total += cliente['saldo']
+        return total
     def open_whatsapp_bot(self):
         bat_file = r'C:\Users\USER\Documents\GitHub\chatbotwapp\run_whatsapp_bot.bat'
         os.startfile(bat_file)
@@ -1663,35 +1868,50 @@ class CobranzaApp:
         
     def categorizar_cliente(self, cliente_id: str) -> str:
         """
-        Categoriza un cliente basado en su historial de ventas y estado en ClientsStates.
+        Categoriza un cliente basado en su historial de ventas, estado y promesa de pago.
+        Solo considera promesas de pago vigentes o futuras.
         
         Args:
             cliente_id: str - ID del cliente
             
         Returns:
-            str: "verde", "amarillo", o "rojo" según la categorización
+            str: "promesa", "verde", "amarillo", o "rojo" según la categorización
         """
         try:
             # Obtener estados de clientes de la base de datos
             estados_clientes = get_client_states()
             
-            # Verificar primero si tiene promisePage
-            if cliente_id in estados_clientes and estados_clientes[cliente_id]['promisePage']:
-                return "verde"
+            # Verificar si tiene promiseDate y si es vigente
+            fecha_actual = datetime.now().date()  # Solo la fecha, sin hora
             
-            # Obtener la fecha de venta más antigua
+            if cliente_id in estados_clientes and estados_clientes[cliente_id].get('promiseDate'):
+                promise_date = estados_clientes[cliente_id]['promiseDate']
+                
+                # Asegurar que promiseDate sea un objeto date
+                if isinstance(promise_date, datetime):
+                    promise_date = promise_date.date()
+                elif isinstance(promise_date, str):
+                    try:
+                        promise_date = datetime.strptime(promise_date, "%Y-%m-%d").date()
+                    except ValueError:
+                        # Si el formato de fecha es inválido, tratar como si no hubiera promesa
+                        promise_date = None
+                
+                # Solo categorizar como promesa si la fecha es hoy o futura
+                if promise_date and promise_date >= fecha_actual:
+                    return "promesa"
+            
+            # Si no tiene promesa vigente, continuar con la categorización normal
             fecha_venta_antigua = self.obtener_fecha_venta_antigua(cliente_id)
             if not fecha_venta_antigua:
                 return "rojo"
             
             # Calcular la diferencia de días
-            fecha_actual = datetime.now()
-            # Asegurar que ambas fechas son datetime para la comparación
             if isinstance(fecha_venta_antigua, datetime):
-                diferencia = fecha_actual - fecha_venta_antigua
+                diferencia = fecha_actual - fecha_venta_antigua.date()
             else:
                 fecha_venta_antigua = datetime.combine(fecha_venta_antigua, datetime.min.time())
-                diferencia = fecha_actual - fecha_venta_antigua
+                diferencia = fecha_actual - fecha_venta_antigua.date()
             
             # Categorizar basado en los días
             if diferencia.days < 30:
@@ -1757,12 +1977,13 @@ class CobranzaApp:
         categories_container.grid_rowconfigure(0, weight=1)
         categories_container.grid_rowconfigure(1, weight=1)
         categories_container.grid_rowconfigure(2, weight=1)
-        categories_container.grid_columnconfigure(0, weight=1)
+        categories_container.grid_rowconfigure(3, weight=1)
         
         # Crear las tres categorías usando grid en lugar de pack
-        self.create_category_section(categories_container, "ACUERDO DE PAGO / MENOS DE 30 DIAS", self.COLOR_VERDE, 0)
-        self.create_category_section(categories_container, "30 A 60 DIAS", self.COLOR_AMARILLO, 1)
-        self.create_category_section(categories_container, "MAS DE 60 DIAS", self.COLOR_ROJO, 2)
+        self.create_category_section(categories_container, "PROMESA DE PAGO", self.COLOR_AZUL, 0)
+        self.create_category_section(categories_container, "MENOS DE 30 DIAS", self.COLOR_VERDE, 1)
+        self.create_category_section(categories_container, "30 A 60 DIAS", self.COLOR_AMARILLO, 2)
+        self.create_category_section(categories_container, "MAS DE 60 DIAS", self.COLOR_ROJO, 3)
         
         # Frame para detalles del cliente (derecha - 1/3 del ancho)
         self.detalles_frame = tk.LabelFrame(self.main_frame,
@@ -1775,22 +1996,43 @@ class CobranzaApp:
         """
         Crea una sección de categoría en la interfaz.
         """
-        # Frame para la categoría
-        category_frame = tk.LabelFrame(parent, text=title,
-                                    font=("Arial", 12, "bold"),
-                                    bg=self.COLOR_BLANCO,
-                                    fg=color)
+        # Calcular el total para esta categoría
+        categoria = "promesa" if "PROMESA" in title else \
+                "verde" if "30 DIAS" in title else \
+                "amarillo" if "30 A 60" in title else "rojo"
+        total_categoria = self.calcular_total_categoria(categoria)
+        
+        # Frame para la categoría completa
+        category_frame = tk.LabelFrame(parent, bg=self.COLOR_BLANCO)
         category_frame.grid(row=row, column=0, sticky='nsew', padx=5, pady=5)
         
-        # Configurar el category_frame para expandirse
-        category_frame.grid_rowconfigure(0, weight=1)
-        category_frame.grid_columnconfigure(0, weight=1)
+        # Frame para el título y total
+        title_frame = tk.Frame(category_frame, bg=self.COLOR_BLANCO)
+        title_frame.pack(fill='x', padx=5, pady=2)
+        
+        # Label para el título
+        title_label = tk.Label(title_frame,
+                            text=title,
+                            font=("Arial", 12, "bold"),
+                            fg=color,
+                            bg=self.COLOR_BLANCO)
+        title_label.pack(side='left')
+        
+        # Label para el total
+        total_label = tk.Label(title_frame,
+                            text=f"Total: ${total_categoria:,.2f}",
+                            font=("Arial", 10),
+                            fg=color,
+                            bg=self.COLOR_BLANCO)
+        total_label.pack(side='right')
         
         # Crear Treeview con columna oculta para la clave
-        visible_columns = ('Nombre', 'Monto', 'Fecha de compra', 'Días vencidos')
-        tree = ttk.Treeview(category_frame, columns=('Clave',) + ('Nombre', 'Monto', 'Fecha', 'Dias'), show='headings')
+        tree = ttk.Treeview(category_frame, 
+                        columns=('Clave', 'Nombre', 'Monto', 'Fecha', 'Dias'),
+                        show='headings',
+                        height=5)
         
-        # Configurar columnas - la columna Clave tiene width=0 para ocultarla
+        # Configurar columnas
         tree.column('Clave', width=0, stretch=False)
         tree.column('Nombre', width=250, minwidth=250)
         tree.column('Monto', width=100, minwidth=100)
@@ -1803,26 +2045,35 @@ class CobranzaApp:
         tree.heading('Fecha', text='Fecha de compra')
         tree.heading('Dias', text='Días vencidos')
         
-        # Estilo para el Treeview
+        # Estilo para el Treeview y configuración de tags para colores
         style = ttk.Style()
         style.configure("Treeview",
                     background=self.COLOR_BLANCO,
                     foreground=self.COLOR_NEGRO,
                     fieldbackground=self.COLOR_BLANCO)
         
+        # Configurar tags para los diferentes colores de fondo
+        tree.tag_configure('promise', background='#87CEEB')  # Azul claro para promesas
+        tree.tag_configure('recent', background='#90EE90')   # Verde claro para menos de 30 días
+        tree.tag_configure('medium', background='#FFE4B5')   # Amarillo para 30-60 días
+        tree.tag_configure('late', background='#FFB6C1')     # Rojo claro para más de 60 días
+        
         # Fecha actual
         fecha_actual = datetime.now()
         
+        # Obtener estados de clientes para verificar promesas
+        estados_clientes = get_client_states()
+        
         # Insertar datos según la categoría
-        # Modificar el bucle de inserción para filtrar según la vista actual
         for clave, cliente in self.clientes_data.items():
             if not self.should_show_client(clave):
                 continue
                 
-            categoria = self.categorizar_cliente(clave)
-            if ((color == self.COLOR_VERDE and categoria == "verde") or
-                (color == self.COLOR_AMARILLO and categoria == "amarillo") or
-                (color == self.COLOR_ROJO and categoria == "rojo")):
+            categoria_cliente = self.categorizar_cliente(clave)
+            if ((color == self.COLOR_AZUL and categoria_cliente == "promesa") or
+                (color == self.COLOR_VERDE and categoria_cliente == "verde") or
+                (color == self.COLOR_AMARILLO and categoria_cliente == "amarillo") or
+                (color == self.COLOR_ROJO and categoria_cliente == "rojo")):
                 
                 fecha_antigua = self.obtener_fecha_venta_antigua(clave)
                 if fecha_antigua:
@@ -1833,25 +2084,43 @@ class CobranzaApp:
                     fecha_str = "N/A"
                     dias_vencidos = "N/A"
                 
-                tree.insert('', 'end', values=(
+                # Determinar el tag según la categoría
+                tag = None
+                if categoria_cliente == "promesa":
+                    tag = 'promise'
+                elif categoria_cliente == "verde":
+                    tag = 'recent'
+                elif categoria_cliente == "amarillo":
+                    tag = 'medium'
+                else:  # rojo
+                    tag = 'late'
+                
+                item = tree.insert('', 'end', values=(
                     clave,
                     cliente['nombre'],
                     f"${cliente['saldo']:,.2f}",
                     fecha_str,
                     dias_vencidos if dias_vencidos != "N/A" else "N/A"
                 ))
+                
+                if tag:
+                    tree.item(item, tags=(tag,))
+        
         # Scrollbar
         scrollbar = ttk.Scrollbar(category_frame, orient='vertical', command=tree.yview)
         tree.configure(yscrollcommand=scrollbar.set)
         
-        # Usar grid para el tree y scrollbar
-        tree.grid(row=0, column=0, sticky='nsew')
-        scrollbar.grid(row=0, column=1, sticky='ns')
+        # Colocar Treeview y scrollbar
+        tree.pack(side='left', fill='both', expand=True, padx=(5,0), pady=5)
+        scrollbar.pack(side='right', fill='y', pady=5)
         
         # Vincular eventos
         tree.bind('<<TreeviewSelect>>', self.mostrar_detalles_cliente)
         tree.bind('<Double-1>', self.abrir_detalle_cliente)
-    
+        
+        # Configurar el grid para expandirse apropiadamente
+        parent.grid_rowconfigure(row, weight=1)
+        parent.grid_columnconfigure(0, weight=1)  
     def mostrar_detalles_cliente(self, event):
         # Obtener el Treeview que generó el evento
         tree = event.widget
@@ -1968,6 +2237,7 @@ class CobranzaApp:
         except Exception as e:
             messagebox.showerror("Error", f"Error al abrir detalle del cliente: {str(e)}")
             print(f"Error detallado: {e}")
+
 def iniciar_aplicacion():
     def launch_main_app():
         root = tk.Tk()

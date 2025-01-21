@@ -6,6 +6,7 @@ Esta es una aplicación desarrollada en Python que hace [insert brief descriptio
 
 - Python 3.7 o superior
 - pip (el administrador de paquetes de Python)
+- pip install tkcalendar  
 
 ## Instalación
 
