@@ -554,3 +554,90 @@ def update_promise_date(client_id: str, promise_date: datetime.date) -> bool:
         return False
     finally:
         conn.close()
+        
+        
+
+def sync_clients_to_buro():
+    """
+    Synchronize clients from Clientes4 to ClientsBuro database.
+    Only adds missing clients, does not modify existing ones.
+    """
+    conn = get_db_connection()
+    if not conn:
+        logging.error("No se pudo establecer conexión con la base de datos")
+        return False
+    
+    try:
+        cursor = conn.cursor()
+        
+        # Fetch all client IDs from Clientes4
+        cursor.execute("SELECT Clave FROM Clientes4")
+        clientes_clave = [str(row.Clave) for row in cursor.fetchall()]
+        
+        # Check which clients already exist in ClientsBuro
+        placeholders = ','.join(['?'] * len(clientes_clave))
+        cursor.execute(f"""
+            SELECT client_id FROM dbo.ClientsBuro 
+            WHERE client_id IN ({placeholders})
+        """, clientes_clave)
+        existing_clients = [str(row.client_id) for row in cursor.fetchall()]
+        
+        # Identify and insert missing clients
+        missing_clients = set(clientes_clave) - set(existing_clients)
+        
+        if missing_clients:
+            insert_query = """
+                INSERT INTO dbo.ClientsBuro (client_id, credit)
+                VALUES (?, 0)
+            """
+            for client_id in missing_clients:
+                cursor.execute(insert_query, (client_id,))
+            
+            conn.commit()
+            logging.info(f"Added {len(missing_clients)} new clients to ClientsBuro")
+        else:
+            logging.info("No new clients to add to ClientsBuro")
+        
+        return True
+        
+    except pyodbc.Error as e:
+        logging.error(f"Error al sincronizar clientes: {e}")
+        return False
+    finally:
+        conn.close()
+
+
+def get_clients_without_credit():
+    """
+    Retrieve clients from ClientsBuro with credit set to True (1)
+    """
+    conn = get_db_connection()
+    if not conn:
+        logging.error("No se pudo establecer conexión con la base de datos")
+        return {}
+    
+    try:
+        cursor = conn.cursor()
+        query = """
+            SELECT cb.client_id, c.Nombre, c.Saldo
+            FROM dbo.ClientsBuro cb
+            JOIN Clientes4 c ON cb.client_id = c.Clave
+            WHERE cb.credit = 1
+        """
+        cursor.execute(query)
+        results = cursor.fetchall()
+        
+        clients_with_credit = {
+            str(row.client_id): {
+                'nombre': row.Nombre,
+                'saldo': row.Saldo  # Add saldo to the dictionary
+            } for row in results
+        }
+        
+        return clients_with_credit
+        
+    except pyodbc.Error as e:
+        logging.error(f"Error al obtener clientes con crédito: {e}")
+        return {}
+    finally:
+        conn.close()

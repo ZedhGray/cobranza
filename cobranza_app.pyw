@@ -24,7 +24,7 @@ from tkinter import ttk
 from PIL import Image, ImageTk
 from datetime import date, datetime
 import re
-from database import get_client_states, get_db_connection, get_clients_data, update_promise_date
+from database import get_client_states, get_db_connection, get_clients_data, update_promise_date, sync_clients_to_buro, get_clients_without_credit
 import logging
 from tkinter import messagebox
 from typing import Dict, Optional
@@ -209,7 +209,7 @@ class DetalleClienteWindow:
         """Configura la ventana de detalles"""
         self.top.title(f"Detalle Cliente - {self.client_data.get('nombre', 'Sin nombre')}")
         window_width = 1000
-        window_height = 800
+        window_height = 950
         screen_width = self.top.winfo_screenwidth()
         screen_height = self.top.winfo_screenheight()
         x = (screen_width - window_width) // 2
@@ -258,7 +258,7 @@ class DetalleClienteWindow:
         quick_notes = [
             ("Buzón", "Mandó a buzón de voz"),
             ("No disponible", "El número marcado no está disponible"),
-            ("Pasa hoy", "El cliente hizo una promesa de pago hoy")
+            ("Notifico a Whats", "Se le notifico via whatsapp")
         ]
 
         for btn_text, note_text in quick_notes:
@@ -383,6 +383,46 @@ class DetalleClienteWindow:
         whatsapp_btn.bind("<Enter>", on_enter)
         whatsapp_btn.bind("<Leave>", on_leave)
 
+        # Buro state
+        buro_state = self.get_buro_state(self.client_id)
+        buro_text = "En Buro" if buro_state else "Buro"
+        buro_color = self.COLOR_ROJO if buro_state else self.COLOR_BLANCO
+        buro_text_color = self.COLOR_BLANCO if buro_state else self.COLOR_NEGRO
+
+        self.buro_btn = tk.Button(control_container,
+                                text=buro_text,
+                                font=("Arial", 10, "bold"),
+                                bg=buro_color,
+                                fg=buro_text_color,
+                                bd=0,
+                                relief="flat",
+                                padx=15,
+                                pady=8,
+                                width=15,
+                                cursor="hand2",
+                                command=lambda: self.toggle_buro(self.client_id))
+
+        self.buro_btn.pack(pady=(0,10))
+
+        # Configurar eventos hover para el botón de buro
+        def on_enter_buro(e):
+            if not buro_state:
+                self.buro_btn['bg'] = self.COLOR_GRIS_HOVER
+            else:
+                self.buro_btn['bg'] = self.COLOR_ROJO_HOVER
+
+        def on_leave_buro(e):
+            if not buro_state:
+                self.buro_btn['bg'] = self.COLOR_BLANCO
+            else:
+                self.buro_btn['bg'] = self.COLOR_ROJO
+
+        self.buro_btn.bind("<Enter>", on_enter_buro)
+        self.buro_btn.bind("<Leave>", on_leave_buro)
+
+        # Separador visual
+        separator4 = tk.Frame(control_container, height=1, bg=self.COLOR_GRIS_HOVER)
+        separator4.pack(fill='x', pady=10)
     def __del__(self):
         """Limpieza al cerrar la ventana"""
         if hasattr(self, 'sio') and self.sio is not None:
@@ -499,6 +539,78 @@ class DetalleClienteWindow:
 
         except pyodbc.Error as e:
             logging.error(f"Error al actualizar estado de company: {e}")
+        finally:
+            if conn:
+                conn.close()
+    
+    def get_buro_state(self, client_id):
+        """Obtiene el estado actual de buro de crédito"""
+        try:
+            conn = get_db_connection()
+            if not conn:
+                return False
+            
+            cursor = conn.cursor()
+            cursor.execute("SELECT credit FROM dbo.ClientsBuro WHERE client_id = ?", (client_id,))
+            result = cursor.fetchone()
+            
+            if result:
+                return bool(result.credit)
+            else:
+                return False
+        except pyodbc.Error as e:
+            logging.error(f"Error al obtener estado de buro de crédito: {e}")
+            return False
+        finally:
+            if conn:
+                conn.close()
+
+    def toggle_buro(self, client_id):
+        """Alterna el estado de buro de crédito con actualización visual"""
+        conn = get_db_connection()
+        if not conn:
+            return
+
+        try:
+            cursor = conn.cursor()
+            cursor.execute("SELECT credit FROM dbo.ClientsBuro WHERE client_id = ?", (client_id,))
+            current_state = cursor.fetchone()
+
+            if current_state is not None:
+                new_state = not bool(current_state.credit)
+                cursor.execute("""
+                    UPDATE dbo.ClientsBuro 
+                    SET credit = ?
+                    WHERE client_id = ?
+                """, (new_state, client_id))
+                conn.commit()
+
+                # Actualizar el botón con los nuevos estilos
+                new_text = "En Buro" if new_state else "Buro"
+                new_bg_color = self.COLOR_ROJO if new_state else self.COLOR_BLANCO
+                new_fg_color = self.COLOR_BLANCO if new_state else self.COLOR_NEGRO
+                
+                self.buro_btn.configure(
+                    text=new_text,
+                    bg=new_bg_color,
+                    fg=new_fg_color
+                )
+
+                # Actualizar los eventos hover
+                def on_enter(e):
+                    if new_state:
+                        self.buro_btn['bg'] = self.COLOR_ROJO_HOVER
+                    else:
+                        self.buro_btn['bg'] = self.COLOR_GRIS_HOVER
+
+                def on_leave(e):
+                    self.buro_btn['bg'] = new_bg_color
+
+                self.buro_btn.bind("<Enter>", on_enter)
+                self.buro_btn.bind("<Leave>", on_leave)
+
+        except pyodbc.Error as e:
+            logging.error(f"Error al actualizar estado de buro de crédito: {e}")
         finally:
             if conn:
                 conn.close()
@@ -1034,7 +1146,7 @@ class DetalleClienteWindow:
         # Crear el menú desplegable
         payment_select = ttk.Combobox(payment_frame,
                                     textvariable=payment_method,
-                                    values=["No especificado", "Transferencia", "Cheque"],
+                                    values=["Efectivo", "Tarjeta", "Transferencia", "Cheque", "No especificado"],
                                     state="readonly",
                                     width=15)
         payment_select.pack(side='left', padx=5)
@@ -1332,55 +1444,31 @@ class DetalleClienteWindow:
         detail_window.title(f"Ticket #{ticket_data['ticket']}")
         
         # Configurar geometría
-        window_width = 400
-        window_height = 750
+        window_width = 420
+        window_height = 700  # Aumentado para acomodar el contenido adicional
         screen_width = detail_window.winfo_screenwidth()
         screen_height = detail_window.winfo_screenheight()
         x = (screen_width - window_width) // 2
-        y = (screen_height - window_height) // 2
+        y = 0
         detail_window.geometry(f"{window_width}x{window_height}+{x}+{y}")
         detail_window.configure(bg=self.COLOR_BLANCO)
         
-        # Frame principal con padding
+        # Frame principal con padding y scroll
         main_frame = tk.Frame(detail_window, bg=self.COLOR_BLANCO)
         main_frame.pack(fill='both', expand=True, padx=20, pady=20)
         
-        # Logo y encabezado
-        logo_label = tk.Label(main_frame, 
-                            text="GARCIA RINES Y NEUMATICOS",
-                            font=("Arial", 16, "bold"),
-                            bg=self.COLOR_BLANCO)
-        logo_label.pack(pady=(0, 10))
-        
-        # Información del ticket
-        info_frame = tk.Frame(main_frame, bg=self.COLOR_BLANCO)
-        info_frame.pack(fill='x', pady=(0, 10))
-        
-        # Número de ticket y fecha
-        ticket_info = tk.Label(info_frame,
-                            text=f"TICKET: {ticket_data['ticket']} [{ticket_data['fecha']}]",
-                            font=("Arial", 10),
-                            bg=self.COLOR_BLANCO)
-        ticket_info.pack(anchor='w')
-        
-        # Separador
-        ttk.Separator(main_frame, orient='horizontal').pack(fill='x', pady=10)
-        
-        # Frame para artículos con scroll
+        # Canvas para scroll
         canvas = tk.Canvas(main_frame, bg=self.COLOR_BLANCO)
         scrollbar = ttk.Scrollbar(main_frame, orient="vertical", command=canvas.yview)
-        items_frame = tk.Frame(canvas, bg=self.COLOR_BLANCO)
+        content_frame = tk.Frame(canvas, bg=self.COLOR_BLANCO)
         
-        # Configurar scroll
         canvas.configure(yscrollcommand=scrollbar.set)
         canvas.pack(side="left", fill="both", expand=True)
         scrollbar.pack(side="right", fill="y")
+        canvas.create_window((0, 0), window=content_frame, anchor="nw")
         
-        # Crear ventana en canvas
-        canvas.create_window((0, 0), window=items_frame, anchor="nw", width=canvas.winfo_reqwidth())
-        
-        # Procesar y mostrar los datos del ticket
-        lines = ticket_data['datos'].split('\n')
+        # Procesar el contenido del ticket
+        lines = ticket_data['datos'].split('\r\n')
         current_section = None
         
         for line in lines:
@@ -1388,79 +1476,82 @@ class DetalleClienteWindow:
             if not line:
                 continue
                 
-            # Encabezados de sección
-            if "CANT" in line and "DESCRIPCION" in line:
-                current_section = "items"
-                headers = tk.Label(items_frame,
-                                text=line,
-                                font=("Arial", 10, "bold"),
-                                bg=self.COLOR_BLANCO)
-                headers.pack(anchor='w')
+            # Título de la empresa
+            if "GARCIA RINES" in line:
+                tk.Label(content_frame, 
+                        text=line,
+                        font=("Courier", 12, "bold"),
+                        bg=self.COLOR_BLANCO).pack(pady=(0, 10))
                 continue
                 
-            if current_section == "items":
-                if "-------" in line:
-                    ttk.Separator(items_frame, orient='horizontal').pack(fill='x', pady=5)
-                    continue
-                    
-                if "IMPORTE:" in line or "EFECTIVO:" in line or "ADEUDA:" in line:
-                    amount_frame = tk.Frame(items_frame, bg=self.COLOR_BLANCO)
-                    amount_frame.pack(fill='x')
-                    
-                    label = tk.Label(amount_frame,
-                                text=line.split(':')[0] + ":",
-                                font=("Arial", 10),
-                                bg=self.COLOR_BLANCO)
-                    label.pack(side='left')
-                    
-                    amount = tk.Label(amount_frame,
-                                    text=line.split(':')[1],
-                                    font=("Arial", 10, "bold"),
-                                    bg=self.COLOR_BLANCO)
-                    amount.pack(side='right')
-                    continue
-                    
-                # Artículos normales
-                if line and not line.startswith("----"):
-                    item_frame = tk.Frame(items_frame, bg=self.COLOR_BLANCO)
-                    item_frame.pack(fill='x', pady=2)
-                    
-                    try:
-                        qty, desc, price = line.split(None, 2)
-                        
-                        qty_label = tk.Label(item_frame,
-                                        text=qty,
-                                        font=("Arial", 10),
-                                        bg=self.COLOR_BLANCO)
-                        qty_label.pack(side='left', padx=(0, 10))
-                        
-                        desc_label = tk.Label(item_frame,
-                                            text=desc,
-                                            font=("Arial", 10),
-                                            bg=self.COLOR_BLANCO)
-                        desc_label.pack(side='left', expand=True, anchor='w')
-                        
-                        price_label = tk.Label(item_frame,
-                                            text=price,
-                                            font=("Arial", 10),
-                                            bg=self.COLOR_BLANCO)
-                        price_label.pack(side='right')
-                    except ValueError:
-                        # Si la línea no tiene el formato esperado, mostrarla completa
-                        tk.Label(item_frame,
-                                text=line,
-                                font=("Arial", 10),
-                                bg=self.COLOR_BLANCO).pack(anchor='w')
+            # Información del ticket
+            if line.startswith("TICKET:"):
+                tk.Label(content_frame,
+                        text=line,
+                        font=("Courier", 10),
+                        bg=self.COLOR_BLANCO).pack(anchor='w')
+                continue
+                
+            # Cliente
+            if line.startswith("CLIENTE:"):
+                tk.Label(content_frame,
+                        text=line,
+                        font=("Courier", 10),
+                        bg=self.COLOR_BLANCO).pack(anchor='w')
+                continue
+                
+            # Encabezados y separadores
+            if "CANT" in line and "DESCRIPCION" in line:
+                tk.Label(content_frame,
+                        text=line,
+                        font=("Courier", 10),
+                        bg=self.COLOR_BLANCO).pack(anchor='w')
+                continue
+                
+            if "--------" in line or "=======" in line:
+                tk.Label(content_frame,
+                        text=line,
+                        font=("Courier", 10),
+                        bg=self.COLOR_BLANCO).pack(fill='x')
+                continue
+                
+            # Artículos y montos
+            if "ARTICULOS" in line or "IMPORTE:" in line or "ADEUDA:" in line:
+                tk.Label(content_frame,
+                        text=line,
+                        font=("Courier", 10),
+                        bg=self.COLOR_BLANCO,
+                        justify='right').pack(anchor='e')
+                continue
+                
+            # Pagaré
+            if "DEBO Y PAGARE" in line:
+                current_section = "pagare"
+                
+            if current_section == "pagare":
+                tk.Label(content_frame,
+                        text=line,
+                        font=("Courier", 10),
+                        bg=self.COLOR_BLANCO).pack(anchor='center')
+                if "ACEPTO" in line:
+                    current_section = None
+                continue
+                
+            # Líneas normales (artículos y otros)
+            tk.Label(content_frame,
+                    text=line,
+                    font=("Courier", 10),
+                    bg=self.COLOR_BLANCO,
+                    justify='left').pack(anchor='w')
         
         # Configurar el scrolling
         def _on_frame_configure(event):
             canvas.configure(scrollregion=canvas.bbox("all"))
-            canvas.itemconfig(canvas.find_withtag("all")[0], width=canvas.winfo_width())
-        
-        items_frame.bind('<Configure>', _on_frame_configure)
+            
+        content_frame.bind('<Configure>', _on_frame_configure)
         
         # Botón de cerrar
-        close_button = tk.Button(main_frame,
+        close_button = tk.Button(detail_window,
                                 text="Cerrar",
                                 command=detail_window.destroy,
                                 bg=self.COLOR_ROJO,
@@ -1472,7 +1563,7 @@ class DetalleClienteWindow:
         # Hacer la ventana modal
         detail_window.transient(self.top)
         detail_window.grab_set()
-    
+
 class CobranzaApp:
     def __init__(self, root):
         self.root = root
@@ -1646,7 +1737,7 @@ class CobranzaApp:
             messagebox.showerror("Error", "Error al cargar datos iniciales")
 
     def create_view_buttons(self):
-        """Crea los botones de CLIENTES y EMPRESAS"""
+        """Crea los botones de CLIENTES, EMPRESAS y BURO DE CREDITO"""
         buttons_frame = tk.Frame(self.root, bg=self.COLOR_ROJO)
         buttons_frame.pack(fill='x')
         
@@ -1662,7 +1753,7 @@ class CobranzaApp:
         # Botón CLIENTES
         self.clientes_btn = tk.Button(
             buttons_frame,
-            text="CLIENTES",
+            text="CREDITOS PERSONALES",
             command=lambda: self.switch_view("clientes"),
             bg=self.COLOR_BLANCO if self.current_view == "clientes" else self.COLOR_ROJO,
             fg=self.COLOR_NEGRO if self.current_view == "clientes" else self.COLOR_BLANCO,
@@ -1673,15 +1764,27 @@ class CobranzaApp:
         # Botón EMPRESAS
         self.empresas_btn = tk.Button(
             buttons_frame,
-            text="EMPRESAS",
+            text="CREDITOS EMPRESARIALES",
             command=lambda: self.switch_view("empresas"),
             bg=self.COLOR_BLANCO if self.current_view == "empresas" else self.COLOR_ROJO,
             fg=self.COLOR_NEGRO if self.current_view == "empresas" else self.COLOR_BLANCO,
             **button_style
         )
         self.empresas_btn.pack(side='left', padx=2)
+        
+        # Botón BURO DE CREDITO
+        self.buro_btn = tk.Button(
+            buttons_frame,
+            text="BURO DE CREDITO",
+            command=lambda: self.switch_view("buro"),
+            bg=self.COLOR_BLANCO if self.current_view == "buro" else self.COLOR_ROJO,
+            fg=self.COLOR_NEGRO if self.current_view == "buro" else self.COLOR_BLANCO,
+            **button_style
+        )
+        self.buro_btn.pack(side='left', padx=2)
+
     def switch_view(self, view):
-        """Cambia entre vista de clientes y empresas"""
+        """Cambia entre vista de clientes, empresas y buro de credito"""
         if self.current_view != view:
             self.current_view = view
             # Actualizar estilo de botones
@@ -1692,6 +1795,10 @@ class CobranzaApp:
             self.empresas_btn.configure(
                 bg=self.COLOR_BLANCO if view == "empresas" else self.COLOR_ROJO,
                 fg=self.COLOR_NEGRO if view == "empresas" else self.COLOR_BLANCO
+            )
+            self.buro_btn.configure(
+                bg=self.COLOR_BLANCO if view == "buro" else self.COLOR_ROJO,
+                fg=self.COLOR_NEGRO if view == "buro" else self.COLOR_BLANCO
             )
             # Recargar contenido
             self.refresh_ui()
@@ -1922,38 +2029,92 @@ class CobranzaApp:
             conn.close()
       
     def create_main_content(self):
-        # Contenedor principal que ocupará todo el espacio disponible
+        # Limpiar cualquier frame existente
+        if self.main_frame:
+            self.main_frame.destroy()
+        
+        # Contenedor principal
         self.main_frame = tk.Frame(self.root, bg=self.COLOR_BLANCO)
         self.main_frame.pack(fill='both', expand=True, padx=20, pady=20)
         
-        # Lista de clientes (izquierda - 2/3 del ancho)
-        clientes_frame = tk.LabelFrame(self.main_frame, text="CLIENTES", 
-                                     font=("Arial", 16, "bold"),
-                                     bg=self.COLOR_BLANCO)
-        clientes_frame.pack(side='left', fill='both', expand=True, padx=(0,10))
-        
-        # Frame contenedor para las categorías
-        categories_container = tk.Frame(clientes_frame, bg=self.COLOR_BLANCO)
-        categories_container.pack(fill='both', expand=True, padx=5, pady=5)
-        
-        # Distribuir el espacio vertical equitativamente entre las tres categorías
-        categories_container.grid_rowconfigure(0, weight=1)
-        categories_container.grid_rowconfigure(1, weight=1)
-        categories_container.grid_rowconfigure(2, weight=1)
-        categories_container.grid_rowconfigure(3, weight=1)
-        
-        # Crear las tres categorías usando grid en lugar de pack
-        self.create_category_section(categories_container, "PROMESA DE PAGO", self.COLOR_AZUL, 0)
-        self.create_category_section(categories_container, "MENOS DE 30 DIAS", self.COLOR_VERDE, 1)
-        self.create_category_section(categories_container, "30 A 60 DIAS", self.COLOR_AMARILLO, 2)
-        self.create_category_section(categories_container, "MAS DE 60 DIAS", self.COLOR_ROJO, 3)
-        
-        # Frame para detalles del cliente (derecha - 1/3 del ancho)
-        self.detalles_frame = tk.LabelFrame(self.main_frame,
-                                          text="ADEUDO",
-                                          font=("Arial", 16, "bold"),
-                                          bg=self.COLOR_BLANCO)
-        self.detalles_frame.pack(side='right', fill='both', expand=True, padx=(10,0))
+        if self.current_view == "buro":
+            # Sincronizar clientes antes de mostrar
+            sync_clients_to_buro()
+            
+            # Obtener clientes sin crédito
+            clientes_sin_credito = get_clients_without_credit()
+            
+            # Frame para Buro de Credito
+            buro_frame = tk.LabelFrame(self.main_frame, 
+                                    text="CLIENTES SIN CREDITO", 
+                                    font=("Arial", 16, "bold"),
+                                    bg=self.COLOR_BLANCO)
+            buro_frame.pack(fill='both', expand=True)
+            
+            # Crear Treeview
+            columns = ('ID', 'Nombre', 'Saldo')
+            tree = ttk.Treeview(buro_frame, columns=columns, show='headings')
+            
+            # Configurar columnas
+            tree.column('ID', width=100, anchor='center')
+            tree.column('Nombre', width=300)
+            tree.column('Saldo', width=150, anchor='e')
+            
+            # Configurar headings
+            tree.heading('ID', text='ID Cliente')
+            tree.heading('Nombre', text='Nombre')
+            tree.heading('Saldo', text='Saldo Pendiente')
+            
+            # Insertar datos
+            for client_id, datos in clientes_sin_credito.items():
+                tree.insert('', 'end', values=(
+                    client_id, 
+                    datos['nombre'], 
+                    f"${datos['saldo']:,.2f}"
+                ))
+            
+            # Scrollbar
+            scrollbar = ttk.Scrollbar(buro_frame, orient='vertical', command=tree.yview)
+            tree.configure(yscrollcommand=scrollbar.set)
+            
+            # Colocar Treeview y scrollbar
+            tree.pack(side='left', fill='both', expand=True)
+            scrollbar.pack(side='right', fill='y')
+            
+           
+        else:
+            # Contenedor principal que ocupará todo el espacio disponible
+            self.main_frame = tk.Frame(self.root, bg=self.COLOR_BLANCO)
+            self.main_frame.pack(fill='both', expand=True, padx=20, pady=20)
+            
+            # Lista de clientes (izquierda - 2/3 del ancho)
+            clientes_frame = tk.LabelFrame(self.main_frame, text="CLIENTES", 
+                                        font=("Arial", 16, "bold"),
+                                        bg=self.COLOR_BLANCO)
+            clientes_frame.pack(side='left', fill='both', expand=True, padx=(0,10))
+            
+            # Frame contenedor para las categorías
+            categories_container = tk.Frame(clientes_frame, bg=self.COLOR_BLANCO)
+            categories_container.pack(fill='both', expand=True, padx=5, pady=5)
+            
+            # Distribuir el espacio vertical equitativamente entre las tres categorías
+            categories_container.grid_rowconfigure(0, weight=1)
+            categories_container.grid_rowconfigure(1, weight=1)
+            categories_container.grid_rowconfigure(2, weight=1)
+            categories_container.grid_rowconfigure(3, weight=1)
+            
+            # Crear las tres categorías usando grid en lugar de pack
+            self.create_category_section(categories_container, "PROMESA DE PAGO", self.COLOR_AZUL, 0)
+            self.create_category_section(categories_container, "MENOS DE 30 DIAS", self.COLOR_VERDE, 1)
+            self.create_category_section(categories_container, "30 A 60 DIAS", self.COLOR_AMARILLO, 2)
+            self.create_category_section(categories_container, "MAS DE 60 DIAS", self.COLOR_ROJO, 3)
+            
+            # Frame para detalles del cliente (derecha - 1/3 del ancho)
+            self.detalles_frame = tk.LabelFrame(self.main_frame,
+                                            text="ADEUDO",
+                                            font=("Arial", 16, "bold"),
+                                            bg=self.COLOR_BLANCO)
+            self.detalles_frame.pack(side='right', fill='both', expand=True, padx=(10,0))
 
     def create_category_section(self, parent, title, color, row):
         """
