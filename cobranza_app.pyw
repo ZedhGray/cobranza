@@ -2066,21 +2066,26 @@ class CobranzaApp:
             # Obtener clientes sin crédito
             clientes_sin_credito = get_clients_without_credit()
             
-            # Frame para Buro de Credito
+            # Frame para Buro de Credito - Ahora usando pack con expand=True
             buro_frame = tk.LabelFrame(self.main_frame, 
                                     text="CLIENTES SIN CREDITO", 
                                     font=("Arial", 16, "bold"),
                                     bg=self.COLOR_BLANCO)
-            buro_frame.pack(fill='both', expand=True)
+            buro_frame.pack(fill='both', expand=True, padx=5, pady=5)
+            
+            # Configurar el estilo para centrar el texto en todas las tablas
+            style = ttk.Style()
+            style.configure("Treeview", anchor="center")  # Centra el texto en todas las celdas
+            style.configure("Treeview.Heading", anchor="center")  # Centra los encabezados
             
             # Crear Treeview
             columns = ('ID', 'Nombre', 'Saldo')
-            tree = ttk.Treeview(buro_frame, columns=columns, show='headings')
+            tree = ttk.Treeview(buro_frame, columns=columns, show='headings', style="Treeview")
             
             # Configurar columnas
             tree.column('ID', width=100, anchor='center')
-            tree.column('Nombre', width=300)
-            tree.column('Saldo', width=150, anchor='e')
+            tree.column('Nombre', width=300, anchor='center')
+            tree.column('Saldo', width=150, anchor='center')
             
             # Configurar headings
             tree.heading('ID', text='ID Cliente')
@@ -2095,15 +2100,18 @@ class CobranzaApp:
                     f"${datos['saldo']:,.2f}"
                 ))
             
+            # Frame contenedor para el tree y scrollbar
+            tree_frame = tk.Frame(buro_frame)
+            tree_frame.pack(fill='both', expand=True, padx=5, pady=5)
+            
             # Scrollbar
-            scrollbar = ttk.Scrollbar(buro_frame, orient='vertical', command=tree.yview)
+            scrollbar = ttk.Scrollbar(tree_frame, orient='vertical', command=tree.yview)
             tree.configure(yscrollcommand=scrollbar.set)
             
-            # Colocar Treeview y scrollbar
+            # Colocar Treeview y scrollbar usando pack
             tree.pack(side='left', fill='both', expand=True)
             scrollbar.pack(side='right', fill='y')
             
-           
         else:
             # Contenedor principal que ocupará todo el espacio disponible
             self.main_frame = tk.Frame(self.root, bg=self.COLOR_BLANCO)
@@ -2124,6 +2132,11 @@ class CobranzaApp:
             categories_container.grid_rowconfigure(1, weight=1)
             categories_container.grid_rowconfigure(2, weight=1)
             categories_container.grid_rowconfigure(3, weight=1)
+            
+            # Configurar el estilo para centrar el texto en todas las tablas
+            style = ttk.Style()
+            style.configure("Treeview", anchor="center")  # Centra el texto en todas las celdas
+            style.configure("Treeview.Heading", anchor="center")  # Centra los encabezados
             
             # Crear las tres categorías usando grid en lugar de pack
             self.create_category_section(categories_container, "PROMESA DE PAGO", self.COLOR_AZUL, 0)
@@ -2172,24 +2185,29 @@ class CobranzaApp:
                             bg=self.COLOR_BLANCO)
         total_label.pack(side='right')
         
+        # Frame contenedor para el tree y scrollbar
+        tree_container = tk.Frame(category_frame, bg=self.COLOR_BLANCO)
+        tree_container.pack(fill='both', expand=True, padx=5, pady=5)
+        
         # Crear Treeview con columna oculta para la clave
-        tree = ttk.Treeview(category_frame, 
+        tree = ttk.Treeview(tree_container, 
                         columns=('Clave', 'Nombre', 'Monto', 'Fecha', 'Dias'),
                         show='headings',
-                        height=5)
+                        height=5,
+                        style="Treeview")
         
         # Configurar columnas
         tree.column('Clave', width=0, stretch=False)
-        tree.column('Nombre', width=250, minwidth=250)
-        tree.column('Monto', width=100, minwidth=100)
-        tree.column('Fecha', width=100, minwidth=100)
-        tree.column('Dias', width=100, minwidth=100)
+        tree.column('Nombre', width=250, minwidth=250, anchor='center')
+        tree.column('Monto', width=100, minwidth=100, anchor='center')
+        tree.column('Fecha', width=100, minwidth=100, anchor='center')
+        tree.column('Dias', width=100, minwidth=100, anchor='center')
         
-        # Configurar headings
-        tree.heading('Nombre', text='Nombre')
-        tree.heading('Monto', text='Monto')
-        tree.heading('Fecha', text='Fecha de compra')
-        tree.heading('Dias', text='Días vencidos')
+        # Configurar headings - centrados
+        tree.heading('Nombre', text='Nombre', anchor='center')
+        tree.heading('Monto', text='Monto', anchor='center')
+        tree.heading('Fecha', text='Fecha de compra', anchor='center')
+        tree.heading('Dias', text='Días vencidos', anchor='center')
         
         # Estilo para el Treeview y configuración de tags para colores
         style = ttk.Style()
@@ -2253,12 +2271,12 @@ class CobranzaApp:
                     tree.item(item, tags=(tag,))
         
         # Scrollbar
-        scrollbar = ttk.Scrollbar(category_frame, orient='vertical', command=tree.yview)
+        scrollbar = ttk.Scrollbar(tree_container, orient='vertical', command=tree.yview)
         tree.configure(yscrollcommand=scrollbar.set)
         
         # Colocar Treeview y scrollbar
-        tree.pack(side='left', fill='both', expand=True, padx=(5,0), pady=5)
-        scrollbar.pack(side='right', fill='y', pady=5)
+        tree.pack(side='left', fill='both', expand=True)
+        scrollbar.pack(side='right', fill='y')
         
         # Vincular eventos
         tree.bind('<<TreeviewSelect>>', self.mostrar_detalles_cliente)
@@ -2280,9 +2298,13 @@ class CobranzaApp:
         cliente_clave = tree.item(selected_item)['values'][0]
         cliente = self.clientes_data[cliente_clave]
         
+        # Frame principal para detalles
+        details_container = tk.Frame(self.detalles_frame, bg=self.COLOR_BLANCO)
+        details_container.pack(fill='both', expand=True, padx=10, pady=10)
+        
         # Sección de Saldo Total
-        saldo_frame = tk.Frame(self.detalles_frame, bg=self.COLOR_BLANCO)
-        saldo_frame.pack(fill='x', padx=10, pady=10)
+        saldo_frame = tk.Frame(details_container, bg=self.COLOR_BLANCO)
+        saldo_frame.pack(fill='x', padx=5, pady=5)
         
         saldo_label = tk.Label(saldo_frame,
                             text="Saldo Total:",
@@ -2298,31 +2320,41 @@ class CobranzaApp:
         saldo_value.pack(side='right')
         
         # Separador
-        separator = ttk.Separator(self.detalles_frame, orient='horizontal')
-        separator.pack(fill='x', padx=10, pady=10)
+        separator = ttk.Separator(details_container, orient='horizontal')
+        separator.pack(fill='x', padx=5, pady=10)
         
         # Título de Ventas
-        ventas_title = tk.Label(self.detalles_frame,
+        ventas_title = tk.Label(details_container,
                             text="Tickets Pendientes",
                             font=("Arial", 11, "bold"),
                             bg=self.COLOR_BLANCO)
-        ventas_title.pack(padx=10, pady=(0, 10))
+        ventas_title.pack(pady=(0, 10))
         
         # Frame para la lista de ventas
-        ventas_container = tk.Frame(self.detalles_frame, bg=self.COLOR_BLANCO)
-        ventas_container.pack(fill='both', expand=True, padx=10)
+        ventas_container = tk.Frame(details_container, bg=self.COLOR_BLANCO)
+        ventas_container.pack(fill='both', expand=True, padx=5, pady=5)
+        
+        # Configurar el estilo para centrar el texto
+        style = ttk.Style()
+        style.configure("Treeview", anchor="center")
+        style.configure("Treeview.Heading", anchor="center")
         
         # Crear Treeview para ventas
         columns = ('Ticket', 'Fecha', 'Total')
-        ventas_tree = ttk.Treeview(ventas_container, columns=columns, show='headings', height=10)
+        ventas_tree = ttk.Treeview(ventas_container, 
+                                columns=columns, 
+                                show='headings', 
+                                height=10,
+                                style="Treeview")
         
-        # Configurar columnas
-        ventas_tree.column('Ticket', width=80, minwidth=80)
-        ventas_tree.column('Fecha', width=100, minwidth=100)
-        ventas_tree.column('Total', width=100, minwidth=100)
+        # Configurar columnas con anchor='center'
+        ventas_tree.column('Ticket', width=80, minwidth=80, anchor='center')
+        ventas_tree.column('Fecha', width=100, minwidth=100, anchor='center')
+        ventas_tree.column('Total', width=100, minwidth=100, anchor='center')
         
+        # Configurar headings - centrados
         for col in columns:
-            ventas_tree.heading(col, text=col)
+            ventas_tree.heading(col, text=col, anchor='center')
         
         # Obtener y ordenar ventas
         if 'ventas' in cliente:
@@ -2341,13 +2373,24 @@ class CobranzaApp:
                     f"${venta['total']:,.2f}"
                 ))
         
+        # Frame contenedor para el árbol y la barra de desplazamiento
+        tree_frame = tk.Frame(ventas_container, bg=self.COLOR_BLANCO)
+        tree_frame.pack(fill='both', expand=True)
+        
         # Scrollbar para las ventas
-        scrollbar = ttk.Scrollbar(ventas_container, orient='vertical', command=ventas_tree.yview)
+        scrollbar = ttk.Scrollbar(tree_frame, orient='vertical', command=ventas_tree.yview)
         ventas_tree.configure(yscrollcommand=scrollbar.set)
         
         # Colocar Treeview y scrollbar
         ventas_tree.pack(side='left', fill='both', expand=True)
         scrollbar.pack(side='right', fill='y')
+        
+        # Ajustar el estilo del Treeview
+        style = ttk.Style()
+        style.configure("Treeview",
+                    background=self.COLOR_BLANCO,
+                    foreground=self.COLOR_NEGRO,
+                    fieldbackground=self.COLOR_BLANCO)
 
     def abrir_detalle_cliente(self, event):
         try:
