@@ -1085,7 +1085,7 @@ class DetalleClienteWindow:
         # Enfocar el campo de texto automáticamente
         note_text.focus_set()      
     
-    ################################
+    #############################################################################################
     
     def show_calendar_dialog(self):
         """Muestra un diálogo con un calendario para seleccionar la fecha de promesa"""
@@ -1173,7 +1173,7 @@ class DetalleClienteWindow:
         button_frame = tk.Frame(main_frame, bg=self.COLOR_BLANCO)
         button_frame.pack(fill='x', pady=(10, 0))
         
-        # Botones
+        # Botón Cancelar con estilo
         cancel_btn = tk.Button(button_frame,
                             text="Cancelar",
                             command=dialog.destroy,
@@ -1187,6 +1187,7 @@ class DetalleClienteWindow:
                             cursor="hand2")
         cancel_btn.pack(side='right', padx=5)
         
+        # Botón Guardar con estilo
         save_btn = tk.Button(button_frame,
                             text="Guardar",
                             command=save_date,
