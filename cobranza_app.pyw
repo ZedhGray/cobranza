@@ -2050,67 +2050,208 @@ class CobranzaApp:
         finally:
             conn.close()
       
+    def create_buro_section(self, parent):
+        """
+        Crea una sección para la vista de buró de crédito utilizando todo el espacio disponible.
+        """
+        # Frame principal - Usar fill='both' y expand=True para ocupar todo el espacio
+        buro_frame = tk.Frame(parent)
+        buro_frame.pack(fill='both', expand=True)
+
+        # Frame superior para el título y total
+        header_frame = tk.Frame(buro_frame)
+        header_frame.pack(fill='x', padx=10, pady=20)
+
+        # Título
+        title_label = tk.Label(
+            header_frame,
+            text="CLIENTES EN BURÓ DE CRÉDITO",
+            font=("Arial", 16, "bold")
+        )
+        title_label.pack(side='left')
+
+        # Calcular el total de deuda en buró
+        total_buro = sum(datos['saldo'] for datos in get_clients_without_credit().values())
+
+        # Label para el total
+        total_label = tk.Label(
+            header_frame,
+            text=f"Deuda Total en Buró: ${total_buro:,.2f}",
+            font=("Arial", 12, "bold"),
+            fg=self.COLOR_ROJO
+        )
+        total_label.pack(side='right')
+
+        # Frame contenedor principal - Usar fill='both' y expand=True
+        content_frame = tk.Frame(buro_frame)
+        content_frame.pack(fill='both', expand=True, padx=10, pady=(0,5))
+
+        # Frame para la tabla - Usar fill='both' y expand=True
+        table_frame = tk.Frame(content_frame)
+        table_frame.pack(side='left', fill='both', expand=True, padx=(0,5))
+
+        # Frame para detalles
+        details_frame = tk.LabelFrame(
+            content_frame,
+            text="DETALLES",
+            font=("Arial", 12, "bold")
+        )
+        details_frame.pack(side='right', fill='both', expand=True, padx=(5,0))
+
+        # Configurar el estilo para la tabla
+        style = ttk.Style()
+        style.configure(
+            "Buro.Treeview",
+            font=('Arial', 10),
+            rowheight=25
+        )
+
+        # Crear Treeview con scrollbar
+        columns = ('ID', 'Nombre', 'Saldo', 'Última Compra', 'Días en Buró')
+        tree = ttk.Treeview(
+            table_frame,
+            columns=columns,
+            show='headings',
+            style="Buro.Treeview"
+        )
+
+        # Configurar columnas
+        tree.column('ID', width=100, anchor='center')
+        tree.column('Nombre', width=300, anchor='center')
+        tree.column('Saldo', width=120, anchor='center')
+        tree.column('Última Compra', width=120, anchor='center')
+        tree.column('Días en Buró', width=100, anchor='center')
+
+        for col in columns:
+            tree.heading(col, text=col, anchor='center')
+
+        # Scrollbar
+        scrollbar = ttk.Scrollbar(table_frame, orient='vertical', command=tree.yview)
+        tree.configure(yscrollcommand=scrollbar.set)
+
+        # Colocar elementos - Usar fill='both' y expand=True para el tree
+        tree.pack(side='left', fill='both', expand=True)
+        scrollbar.pack(side='right', fill='y')
+
+        # Insertar datos
+        clientes_sin_credito = get_clients_without_credit()
+        for client_id, datos in clientes_sin_credito.items():
+            fecha_ultima_compra = self.obtener_fecha_venta_antigua(client_id)
+            dias_en_buro = ""
+            if fecha_ultima_compra:
+                dias_en_buro = (datetime.now() - fecha_ultima_compra).days
+
+            tree.insert('', 'end', values=(
+                client_id,
+                datos['nombre'],
+                f"${datos['saldo']:,.2f}",
+                fecha_ultima_compra.strftime("%Y-%m-%d") if fecha_ultima_compra else "N/A",
+                f"{dias_en_buro} días" if dias_en_buro else "N/A"
+            ))
+
+        # Vincular eventos
+        tree.bind('<<TreeviewSelect>>', lambda e: self.mostrar_detalles_cliente_buro(e, details_frame))
+        tree.bind('<Double-1>', self.abrir_detalle_cliente)
+
+        # Label de detalles inicial
+        tk.Label(details_frame, 
+                text="Seleccione un cliente para ver detalles",
+                font=("Arial", 10)).pack(expand=True)
+    def mostrar_detalles_cliente_buro(self, event, details_frame):
+        """
+        Muestra los detalles del cliente seleccionado en el panel de detalles del buró.
+        """
+        # Limpiar el frame de detalles
+        for widget in details_frame.winfo_children():
+            widget.destroy()
+
+        try:
+            # Obtener el cliente seleccionado
+            tree = event.widget
+            selected_item = tree.selection()[0]
+            values = tree.item(selected_item)['values']
+            cliente_id = values[0]
+            
+            # Obtener datos detallados del cliente
+            clientes_sin_credito = get_clients_without_credit()
+            cliente = clientes_sin_credito.get(str(cliente_id))
+            
+            if not cliente:
+                return
+                
+            # Crear widgets para mostrar la información
+            tk.Label(details_frame,
+                    text=f"Cliente: {cliente['nombre']}",
+                    font=("Arial", 11, "bold"),
+                    bg=self.COLOR_BLANCO).pack(anchor='w', padx=10, pady=5)
+                    
+            tk.Label(details_frame,
+                    text=f"ID: {cliente_id}",
+                    font=("Arial", 10),
+                    bg=self.COLOR_BLANCO).pack(anchor='w', padx=10, pady=2)
+                    
+            tk.Label(details_frame,
+                    text=f"Saldo: ${cliente['saldo']:,.2f}",
+                    font=("Arial", 10, "bold"),
+                    fg=self.COLOR_ROJO,
+                    bg=self.COLOR_BLANCO).pack(anchor='w', padx=10, pady=2)
+                    
+            # Mostrar información adicional si está disponible
+            fecha_ultima = self.obtener_fecha_venta_antigua(cliente_id)
+            if fecha_ultima:
+                dias = (datetime.now() - fecha_ultima).days
+                tk.Label(details_frame,
+                        text=f"Última compra: {fecha_ultima.strftime('%Y-%m-%d')}",
+                        font=("Arial", 10),
+                        bg=self.COLOR_BLANCO).pack(anchor='w', padx=10, pady=2)
+                        
+                tk.Label(details_frame,
+                        text=f"Días en buró: {dias}",
+                        font=("Arial", 10),
+                        bg=self.COLOR_BLANCO).pack(anchor='w', padx=10, pady=2)
+                        
+            # Botón para ver detalles completos
+            tk.Button(details_frame,
+                    text="Ver Detalles Completos",
+                    command=lambda: self.abrir_detalle_cliente(event),
+                    font=("Arial", 10),
+                    bg=self.COLOR_ROJO,
+                    fg=self.COLOR_BLANCO,
+                    cursor="hand2").pack(pady=10)
+                    
+        except Exception as e:
+            logging.error(f"Error al mostrar detalles del cliente: {e}")
+            tk.Label(details_frame,
+                    text="Error al cargar detalles",
+                    font=("Arial", 10),
+                    fg="red",
+                    bg=self.COLOR_BLANCO).pack(expand=True)
     def create_main_content(self):
-        # Limpiar cualquier frame existente
+        """
+        Versión modificada de create_main_content que maximiza el espacio
+        """
         if self.main_frame:
             self.main_frame.destroy()
+
+        # Contenedor principal sin padding
+        self.main_frame = tk.Frame(self.root, bg="blue")
+        self.main_frame.pack(fill='both', expand=True)
         
-        # Contenedor principal
-        self.main_frame = tk.Frame(self.root, bg=self.COLOR_BLANCO)
-        self.main_frame.pack(fill='both', expand=True, padx=20, pady=20)
-        
+        # Configurar el contenedor como flexbox vertical
+        self.main_frame.grid_columnconfigure(0, weight=1)
+        self.main_frame.grid_rowconfigure(0, weight=1)
+
+        # Contenedor interno para la sección de buro
+        self.buro_section_frame = tk.Frame(self.main_frame)
+        self.buro_section_frame.grid(row=0, column=0, sticky="nsew")
+
         if self.current_view == "buro":
-            # Sincronizar clientes antes de mostrar
             sync_clients_to_buro()
+            self.create_buro_section(self.buro_section_frame)
             
-            # Obtener clientes sin crédito
-            clientes_sin_credito = get_clients_without_credit()
-            
-            # Frame para Buro de Credito - Ahora usando pack con expand=True
-            buro_frame = tk.LabelFrame(self.main_frame, 
-                                    text="CLIENTES SIN CREDITO", 
-                                    font=("Arial", 16, "bold"),
-                                    bg=self.COLOR_BLANCO)
-            buro_frame.pack(fill='both', expand=True, padx=5, pady=5)
-            
-            # Configurar el estilo para centrar el texto en todas las tablas
-            style = ttk.Style()
-            style.configure("Treeview", anchor="center")  # Centra el texto en todas las celdas
-            style.configure("Treeview.Heading", anchor="center")  # Centra los encabezados
-            
-            # Crear Treeview
-            columns = ('ID', 'Nombre', 'Saldo')
-            tree = ttk.Treeview(buro_frame, columns=columns, show='headings', style="Treeview")
-            
-            # Configurar columnas
-            tree.column('ID', width=100, anchor='center')
-            tree.column('Nombre', width=300, anchor='center')
-            tree.column('Saldo', width=150, anchor='center')
-            
-            # Configurar headings
-            tree.heading('ID', text='ID Cliente')
-            tree.heading('Nombre', text='Nombre')
-            tree.heading('Saldo', text='Saldo Pendiente')
-            
-            # Insertar datos
-            for client_id, datos in clientes_sin_credito.items():
-                tree.insert('', 'end', values=(
-                    client_id, 
-                    datos['nombre'], 
-                    f"${datos['saldo']:,.2f}"
-                ))
-            
-            # Frame contenedor para el tree y scrollbar
-            tree_frame = tk.Frame(buro_frame)
-            tree_frame.pack(fill='both', expand=True, padx=5, pady=5)
-            
-            # Scrollbar
-            scrollbar = ttk.Scrollbar(tree_frame, orient='vertical', command=tree.yview)
-            tree.configure(yscrollcommand=scrollbar.set)
-            
-            # Colocar Treeview y scrollbar usando pack
-            tree.pack(side='left', fill='both', expand=True)
-            scrollbar.pack(side='right', fill='y')
+            # Agregar un espacio vacío al final de la sección de buró
+            empty_space = tk.Frame(self.buro_section_frame, bg=self.buro_section_frame.cget("bg"), height=200)
+            empty_space.pack(fill='both', expand=True)
             
         else:
             # Contenedor principal que ocupará todo el espacio disponible
@@ -2426,7 +2567,7 @@ class CobranzaApp:
         except Exception as e:
             messagebox.showerror("Error", f"Error al abrir detalle del cliente: {str(e)}")
             print(f"Error detallado: {e}")
-            
+
 def iniciar_aplicacion():
     def launch_main_app():
         root = tk.Tk()
