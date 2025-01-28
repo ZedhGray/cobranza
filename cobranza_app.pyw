@@ -1939,20 +1939,40 @@ class CobranzaApp:
     def categorizar_cliente(self, cliente_id: str) -> str:
         """
         Categoriza un cliente basado en su historial de ventas, estado y promesa de pago.
-        Solo considera promesas de pago vigentes o futuras.
+        No categoriza clientes que estén en buró de crédito.
         
         Args:
             cliente_id: str - ID del cliente
             
         Returns:
             str: "promesa", "verde", "amarillo", o "rojo" según la categorización
+            None: si el cliente está en buró de crédito
         """
         try:
+            # Primero verificar si el cliente está en buró de crédito
+            conn = get_db_connection()
+            if not conn:
+                return "rojo"
+                
+            cursor = conn.cursor()
+            query = """
+                SELECT credit
+                FROM ClientsBuro
+                WHERE client_id = ?
+            """
+            cursor.execute(query, (cliente_id,))
+            result = cursor.fetchone()
+            
+            # Si el cliente está en buró (credit = True/1), retornar None
+            if result and result.credit:
+                return None
+                
+            # Si no está en buró o no tiene registro, continuar con la categorización normal
             # Obtener estados de clientes de la base de datos
             estados_clientes = get_client_states()
             
             # Verificar si tiene promiseDate y si es vigente
-            fecha_actual = datetime.now().date()  # Solo la fecha, sin hora
+            fecha_actual = datetime.now().date()
             
             if cliente_id in estados_clientes and estados_clientes[cliente_id].get('promiseDate'):
                 promise_date = estados_clientes[cliente_id]['promiseDate']
@@ -1964,7 +1984,6 @@ class CobranzaApp:
                     try:
                         promise_date = datetime.strptime(promise_date, "%Y-%m-%d").date()
                     except ValueError:
-                        # Si el formato de fecha es inválido, tratar como si no hubiera promesa
                         promise_date = None
                 
                 # Solo categorizar como promesa si la fecha es hoy o futura
@@ -1994,6 +2013,9 @@ class CobranzaApp:
         except Exception as e:
             logging.error(f"Error al categorizar cliente {cliente_id}: {e}")
             return "rojo"  # Por defecto si hay error
+        finally:
+            if 'conn' in locals() and conn:
+                conn.close()
     
     def procesar_todos_clientes(self):
         """
@@ -2361,7 +2383,7 @@ class CobranzaApp:
         except Exception as e:
             messagebox.showerror("Error", f"Error al abrir detalle del cliente: {str(e)}")
             print(f"Error detallado: {e}")
-
+            
 def iniciar_aplicacion():
     def launch_main_app():
         root = tk.Tk()
