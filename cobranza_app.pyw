@@ -1599,6 +1599,7 @@ class CobranzaApp:
         self.create_view_buttons()
         self.create_main_content()
         
+
     def load_image(self, path, size=None):
         """Método para cargar y mantener referencia a las imágenes"""
         try:
@@ -1654,12 +1655,18 @@ class CobranzaApp:
                                 fg=self.COLOR_BLANCO)
         cobranza_label.pack(side='left', padx=20)
         
-        # Calcular deuda total
+        # Calcular todos los totales
         total_clientes = sum(cliente['saldo'] for clave, cliente in self.clientes_data.items() 
                             if not self.should_show_client(clave))
         total_empresas = sum(cliente['saldo'] for clave, cliente in self.clientes_data.items() 
                             if self.should_show_client(clave))
-        deuda_total = total_clientes + total_empresas
+        
+        # Obtener el total de buró
+        clientes_buro = get_clients_without_credit()
+        total_buro = sum(cliente['saldo'] for cliente in clientes_buro.values())
+        
+        # Calcular el total general incluyendo buró
+        deuda_total = total_clientes + total_empresas + total_buro
         
         # Frame para la deuda total
         deuda_frame = tk.Frame(header_frame, bg=self.COLOR_ROJO)
@@ -1694,6 +1701,14 @@ class CobranzaApp:
                             bg=self.COLOR_ROJO,
                             fg=self.COLOR_BLANCO)
         empresas_label.pack(anchor='e')
+        
+        # Agregar el total de buró
+        buro_label = tk.Label(deuda_frame,
+                            text=f"Buró: ${total_buro:,.2f}",
+                            font=("Arial", 10),
+                            bg=self.COLOR_ROJO,
+                            fg=self.COLOR_BLANCO)
+        buro_label.pack(anchor='e')
         
         reload_button = tk.Button(header_frame, 
                             text="⟳ Recargar Datos",
@@ -2106,6 +2121,10 @@ class CobranzaApp:
             font=('Arial', 10),
             rowheight=25
         )
+        
+        # Configurar el tag para el fondo rojo claro
+        style.map('Buro.Treeview',
+            background=[('selected', '#FFB6C1')])  # Color cuando está seleccionado
 
         # Crear Treeview con scrollbar
         columns = ('ID', 'Nombre', 'Saldo', 'Última Compra', 'Días en Buró')
@@ -2115,6 +2134,9 @@ class CobranzaApp:
             show='headings',
             style="Buro.Treeview"
         )
+
+        # Configurar el tag para el fondo rojo claro
+        tree.tag_configure('buro', background='#FFB6C1')  # Mismo color rojo claro que los de más de 60 días
 
         # Configurar columnas
         tree.column('ID', width=100, anchor='center')
@@ -2148,7 +2170,7 @@ class CobranzaApp:
                 f"${datos['saldo']:,.2f}",
                 fecha_ultima_compra.strftime("%Y-%m-%d") if fecha_ultima_compra else "N/A",
                 f"{dias_en_buro} días" if dias_en_buro else "N/A"
-            ))
+            ), tags=('buro',))  # Aplicar el tag 'buro' a todas las filas
 
         # Vincular eventos
         tree.bind('<<TreeviewSelect>>', lambda e: self.mostrar_detalles_cliente_buro(e, details_frame))
@@ -2251,7 +2273,7 @@ class CobranzaApp:
             self.create_buro_section(self.buro_section_frame)
             
             # Agregar un espacio vacío al final de la sección de buró
-            empty_space = tk.Frame(self.buro_section_frame, bg=self.buro_section_frame.cget("bg"), height=200)
+            empty_space = tk.Frame(self.buro_section_frame, bg=self.buro_section_frame.cget("bg"), height=300)
             empty_space.pack(fill='both', expand=True)
             
         else:
