@@ -77,96 +77,257 @@ class LoadingSplash:
     def __init__(self, root):
         self.root = root
         self.root.title("Sistema de Cobranza")
-        self.user_session = UserSession()  # Inicializar la sesión
-        window_width = 300
-        window_height = 250  # Increased height for login
+        self.user_session = UserSession()
+        
+        # Configuración de la ventana
+        window_width = 350
+        window_height = 450
         screen_width = root.winfo_screenwidth()
         screen_height = root.winfo_screenheight()
         center_x = int(screen_width/2 - window_width/2)
         center_y = int(screen_height/2 - window_height/2)
         self.root.geometry(f'{window_width}x{window_height}+{center_x}+{center_y}')
         
+        # Colores y estilos
+        self.COLORS = {
+            'primary': '#e31837',      # Rojo Empresa color
+            'secondary': '#f8f9fa',    # Gris muy claro
+            'text': '#202124',         # Casi negro
+            'error': '#d93025',        # Rojo error
+            'white': '#ffffff',        # Blanco
+            'border': '#dadce0'        # Gris borde
+        }
+        
+        # Configuración de la ventana
         self.root.overrideredirect(True)
-        self.root.attributes('-topmost', True)
+        self.root.configure(bg=self.COLORS['white'])
         
-        self.frame = ttk.Frame(root)
-        self.frame.pack(expand=True, fill='both', padx=20, pady=20)
+        # Crear borde personalizado
+        self.create_window_border()
         
-        # Loading section
-        self.status_label = ttk.Label(
-            self.frame, 
+        # Frame principal con sombra
+        self.main_frame = tk.Frame(
+            self.root,
+            bg=self.COLORS['white'],
+            highlightbackground=self.COLORS['border'],
+            highlightthickness=1
+        )
+        self.main_frame.pack(expand=True, fill='both', padx=10, pady=10)
+        
+        # Logo o título
+        self.create_header()
+        
+        # Frame de carga
+        self.loading_frame = tk.Frame(self.main_frame, bg=self.COLORS['white'])
+        self.loading_frame.pack(expand=True, fill='both', padx=20, pady=10)
+        
+        # Status y progreso
+        self.create_loading_widgets()
+        
+        # Frame de login
+        self.create_login_frame()
+        
+        # Ocultar login inicialmente
+        self.login_frame.pack_forget()
+
+    def create_window_border(self):
+        """Crea una barra de título personalizada"""
+        title_bar = tk.Frame(
+            self.root,
+            bg=self.COLORS['primary'],
+            height=30
+        )
+        title_bar.pack(fill='x')
+        
+        # Título
+        title_label = tk.Label(
+            title_bar,
+            text="Sistema de Cobranza",
+            bg=self.COLORS['primary'],
+            fg=self.COLORS['white'],
+            font=('Segoe UI', 10)
+        )
+        title_label.pack(side='left', padx=10)
+        
+        
+        # Botón cerrar
+        close_button = tk.Label(
+            title_bar,
+            text="×",
+            bg=self.COLORS['primary'],
+            fg=self.COLORS['white'],
+            font=('Segoe UI', 13, 'bold'),
+            cursor='hand2'
+        )
+        close_button.pack(side='right', padx=10)
+        close_button.bind('<Button-1>', lambda e: self.root.destroy())
+        
+        # Hacer la ventana arrastrable
+        title_bar.bind('<Button-1>', self.start_move)
+        title_bar.bind('<B1-Motion>', self.on_move)
+
+    def create_header(self):
+            """Crea el encabezado con logo"""
+            header_frame = tk.Frame(self.main_frame, bg=self.COLORS['white'])
+            header_frame.pack(fill='x', pady=20)
+            
+            # Aquí podrías agregar un logo real
+            logo_label = tk.Label(
+                header_frame,
+                text="📊",  # Emoji como placeholder del logo
+                font=('Segoe UI', 36),
+                bg=self.COLORS['white'],
+                fg=self.COLORS['primary']
+            )
+            logo_label.pack()
+            
+            company_label = tk.Label(
+                header_frame,
+                text="Sistema de Cobranza",
+                font=('Segoe UI', 14, 'bold'),
+                bg=self.COLORS['white'],
+                fg=self.COLORS['text']
+            )
+            company_label.pack(pady=(5,0))
+            
+            # Añadimos el subtítulo
+            subtitle_label = tk.Label(
+                header_frame,
+                text="Garcia Automotriz",
+                font=('Segoe UI', 12),  # Fuente un poco más pequeña que el título
+                bg=self.COLORS['white'],
+                fg=self.COLORS['text']
+            )
+            subtitle_label.pack(pady=(2,0))
+
+    def create_loading_widgets(self):
+        """Crea los widgets de carga con estilo moderno"""
+        self.status_label = tk.Label(
+            self.loading_frame,
             text="Actualizando datos...",
-            font=('Helvetica', 10)
+            font=('Segoe UI', 10),
+            bg=self.COLORS['white'],
+            fg=self.COLORS['text']
         )
         self.status_label.pack(pady=10)
         
-        self.progress = ttk.Progressbar(
-            self.frame,
-            mode='indeterminate',
-            length=200
+        # Frame para la barra de progreso con fondo gris
+        progress_frame = tk.Frame(
+            self.loading_frame,
+            bg=self.COLORS['secondary'],
+            height=6,
+            width=200
         )
-        self.progress.pack(pady=10)
+        progress_frame.pack(pady=10)
+        progress_frame.pack_propagate(False)
         
-        self.message = ttk.Label(
-            self.frame,
+        # Barra de progreso moderna
+        self.progress = ttk.Progressbar(
+            progress_frame,
+            mode='indeterminate',
+            length=200,
+            style='Modern.Horizontal.TProgressbar'
+        )
+        self.progress.pack(expand=True, fill='both')
+        
+        # Configurar estilo de la barra de progreso
+        style = ttk.Style()
+        style.configure(
+            'Modern.Horizontal.TProgressbar',
+            troughcolor=self.COLORS['secondary'],
+            background=self.COLORS['primary'],
+            thickness=6
+        )
+        
+        self.message = tk.Label(
+            self.loading_frame,
             text="Por favor espere mientras se actualizan los datos",
-            font=('Helvetica', 8),
+            font=('Segoe UI', 9),
+            fg=self.COLORS['text'],
+            bg=self.COLORS['white'],
             wraplength=250,
             justify='center'
         )
         self.message.pack(pady=10)
+
+    def create_login_frame(self):
+        """Crea el frame de login con diseño moderno"""
+        self.login_frame = tk.Frame(self.main_frame, bg=self.COLORS['white'])
+        self.login_frame.pack(fill='x', pady=10, padx=20)
         
-        # Login section
-        self.login_frame = ttk.LabelFrame(self.frame, text="Login")
-        self.login_frame.pack(fill='x', pady=10)
-        
-        self.login_var = tk.StringVar()
-        self.login_entry = ttk.Entry(
-            self.login_frame, 
-            textvariable=self.login_var,
-            font=('Helvetica', 10),
-            show="*"
+        # Frame para el campo de entrada
+        entry_frame = tk.Frame(
+            self.login_frame,
+            bg=self.COLORS['white'],
+            highlightbackground=self.COLORS['border'],
+            highlightthickness=1
         )
-        self.login_entry.pack(pady=5, padx=5, fill='x')
+        entry_frame.pack(fill='x', pady=5)
         
-        self.error_label = ttk.Label(
+        # Icono de usuario
+        user_icon = tk.Label(
+            entry_frame,
+            text="👤",  # Emoji como placeholder
+            font=('Segoe UI', 12),
+            bg=self.COLORS['white']
+        )
+        user_icon.pack(side='left', padx=5)
+        
+        # Campo de entrada
+        self.login_var = tk.StringVar()
+        self.login_entry = tk.Entry(
+            entry_frame,
+            textvariable=self.login_var,
+            font=('Segoe UI', 10),
+            show="●",
+            bd=0,
+            bg=self.COLORS['white']
+        )
+        self.login_entry.pack(side='left', fill='x', expand=True, padx=5, pady=8)
+        
+        # Mensaje de error
+        self.error_label = tk.Label(
             self.login_frame,
             text="",
-            foreground='red',
-            font=('Helvetica', 8)
+            font=('Segoe UI', 8),
+            fg=self.COLORS['error'],
+            bg=self.COLORS['white']
         )
-        self.error_label.pack(pady=2)
+        self.error_label.pack(pady=5)
         
-        # Bind Return key to login
+        # Bind eventos
         self.login_entry.bind('<Return>', self.attempt_login)
         
-        # Initially hide login until loading completes
-        self.login_frame.pack_forget()
-        
-        self.root.splash_references = {
-            'status_label': self.status_label,
-            'progress': self.progress,
-            'message': self.message,
-            'login_frame': self.login_frame,
-            'login_entry': self.login_entry
-        }
-        
+        # Hover effects para el entry frame
+        entry_frame.bind('<Enter>', lambda e: entry_frame.configure(highlightbackground=self.COLORS['primary']))
+        entry_frame.bind('<Leave>', lambda e: entry_frame.configure(highlightbackground=self.COLORS['border']))
+
+    def start_move(self, event):
+        self.x = event.x
+        self.y = event.y
+
+    def on_move(self, event):
+        deltax = event.x - self.x
+        deltay = event.y - self.y
+        x = self.root.winfo_x() + deltax
+        y = self.root.winfo_y() + deltay
+        self.root.geometry(f"+{x}+{y}")
+
     def show_login(self):
-        self.message.config(text="Ingrese Usuario y Contraseña\nEjemplo: USUARIO CONTRASEÑA")
+        self.message.config(text="Ingrese Usuario y Contraseña")
         self.login_frame.pack(fill='x', pady=10)
         self.login_entry.focus()
         
     def attempt_login(self, event=None):
         credentials = self.login_var.get().strip().upper()
         if validate_user(credentials):
-            # Extraer el usuario de las credenciales y guardarlo en la sesión
-            username = credentials.split()[0]  # Obtiene la primera parte (USUARIO)
-            UserSession.set_user(username)  # Guarda el usuario en la sesión
-            self.root.quit()  # Exit mainloop to continue to main app
+            username = credentials.split()[0]
+            UserSession.set_user(username)
+            self.root.quit()
         else:
             self.error_label.config(text="Credenciales inválidas")
             self.login_var.set("")
-    
+            
     def start_progress(self):
         self.progress.start(10)
     
@@ -1676,16 +1837,64 @@ class CobranzaApp:
         self.create_main_content()
         
 
-    def load_image(self, path, size=None):
-        """Método para cargar y mantener referencia a las imágenes"""
+    def load_image(self, path, size=None, keep_aspect=True):
+        """
+        Método mejorado para cargar y redimensionar imágenes manteniendo la calidad
+        
+        Args:
+            path (str): Ruta de la imagen
+            size (tuple): Tupla con el tamaño deseado (width, height)
+            keep_aspect (bool): Mantener la relación de aspecto
+        
+        Returns:
+            PhotoImage: Imagen procesada para Tkinter
+        """
         try:
             image = Image.open(path)
+            
             if size:
-                image = image.resize(size, Image.Resampling.LANCZOS)
-            photo = ImageTk.PhotoImage(image)
+                original_width, original_height = image.size
+                target_width, target_height = size
+                
+                if keep_aspect:
+                    # Calcular la relación de aspecto
+                    aspect_ratio = original_width / original_height
+                    
+                    # Determinar las nuevas dimensiones manteniendo la relación de aspecto
+                    if target_width / target_height > aspect_ratio:
+                        # Ajustar por altura
+                        new_height = target_height
+                        new_width = int(aspect_ratio * new_height)
+                    else:
+                        # Ajustar por ancho
+                        new_width = target_width
+                        new_height = int(new_width / aspect_ratio)
+                    
+                    # Crear un nuevo fondo blanco del tamaño objetivo
+                    background = Image.new('RGBA', size, (255, 255, 255, 0))
+                    
+                    # Redimensionar la imagen original
+                    resized_image = image.resize((new_width, new_height), Image.Resampling.LANCZOS)
+                    
+                    # Calcular la posición para centrar
+                    x = (target_width - new_width) // 2
+                    y = (target_height - new_height) // 2
+                    
+                    # Pegar la imagen redimensionada en el centro del fondo
+                    background.paste(resized_image, (x, y), resized_image if image.mode == 'RGBA' else None)
+                    final_image = background
+                else:
+                    # Redimensionar directamente si no necesitamos mantener la relación de aspecto
+                    final_image = image.resize(size, Image.Resampling.LANCZOS)
+                
+                photo = ImageTk.PhotoImage(final_image)
+            else:
+                photo = ImageTk.PhotoImage(image)
+                
             # Guardar referencia
             self.images[path] = photo
             return photo
+            
         except Exception as e:
             logging.error(f"Error loading image {path}: {e}")
             return None
@@ -1707,16 +1916,16 @@ class CobranzaApp:
         header_frame.pack(fill='x')
         
         # Frame blanco para el logo
-        logo_container = tk.Frame(header_frame, bg=self.COLOR_BLANCO)
+        logo_container = tk.Frame(header_frame, bg=self.COLOR_ROJO)
         logo_container.pack(side='left', pady=10, padx=20)
         
         try:
-            logo_img = Image.open("logo.png")
-            logo_img = logo_img.resize((150, 50), Image.Resampling.LANCZOS)
-            logo_photo = ImageTk.PhotoImage(logo_img)
-            logo_label = tk.Label(logo_container, image=logo_photo, bg=self.COLOR_BLANCO)
-            logo_label.image = logo_photo
-            logo_label.pack(padx=10)
+            # Cargar el logo manteniendo la relación de aspecto
+            logo_photo = self.load_image("Logo-Blanco.png", size=(200, 75), keep_aspect=True)
+            if logo_photo:
+                logo_label = tk.Label(logo_container, image=logo_photo, bg=self.COLOR_ROJO)
+                logo_label.image = logo_photo
+                logo_label.pack(padx=10)
         except:
             logo_label = tk.Label(logo_container, text="GARCIA", 
                                 font=("Arial", 20, "bold"), 
