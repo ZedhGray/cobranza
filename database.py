@@ -641,3 +641,41 @@ def get_clients_without_credit():
         return {}
     finally:
         conn.close()
+        
+
+# User and password validation
+def validate_user(credentials):
+    """
+    Validate user credentials from the Usuarios table
+    credentials format: "USERNAME PASSWORD"
+    """
+    conn = get_db_connection()
+    if not conn:
+        logging.error("No se pudo establecer conexión con la base de datos")
+        return False
+    
+    try:
+        cursor = conn.cursor()
+        # Split credentials into username and password
+        parts = credentials.strip().split(' ', 1)
+        if len(parts) != 2:
+            return False
+            
+        username, password = parts
+        
+        query = """
+            SELECT COUNT(*)
+            FROM Usuarios
+            WHERE Usuario = ? AND Password = ?
+        """
+        
+        cursor.execute(query, (username.upper(), password.upper()))
+        count = cursor.fetchone()[0]
+        
+        return count > 0
+        
+    except pyodbc.Error as e:
+        logging.error(f"Error al validar usuario: {e}")
+        return False
+    finally:
+        conn.close()

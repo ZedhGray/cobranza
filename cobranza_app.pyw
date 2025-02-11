@@ -24,7 +24,7 @@ from tkinter import ttk
 from PIL import Image, ImageTk
 from datetime import date, datetime
 import re
-from database import get_client_states, get_db_connection, get_clients_data, update_promise_date, sync_clients_to_buro, get_clients_without_credit
+from database import validate_user, get_client_states, get_db_connection, get_clients_data, update_promise_date, sync_clients_to_buro, get_clients_without_credit
 import logging
 from tkinter import messagebox
 from typing import Dict, Optional
@@ -46,30 +46,53 @@ def extract_ticket_number(ticket_text):
     # If it's just a number, return it directly
     return ticket_text if ticket_text.isdigit() else "N/A"
 
+class UserSession:
+    """Clase singleton para manejar la sesión del usuario"""
+    _instance = None
+    
+    def __new__(cls):
+        if cls._instance is None:
+            cls._instance = super(UserSession, cls).__new__(cls)
+            cls._instance.username = None
+            cls._instance.login_time = None
+        return cls._instance
+    
+    @classmethod
+    def set_user(cls, username):
+        instance = cls()
+        instance.username = username
+        instance.login_time = datetime.now()
+    
+    @classmethod
+    def get_user(cls):
+        instance = cls()
+        return instance.username
+    
+    @classmethod
+    def is_logged_in(cls):
+        instance = cls()
+        return instance.username is not None
+
 class LoadingSplash:
     def __init__(self, root):
         self.root = root
-        self.root.title("Cargando")
-        # Hacer la ventana más pequeña y centrada
+        self.root.title("Sistema de Cobranza")
+        self.user_session = UserSession()  # Inicializar la sesión
         window_width = 300
-        window_height = 150
+        window_height = 250  # Increased height for login
         screen_width = root.winfo_screenwidth()
         screen_height = root.winfo_screenheight()
         center_x = int(screen_width/2 - window_width/2)
         center_y = int(screen_height/2 - window_height/2)
         self.root.geometry(f'{window_width}x{window_height}+{center_x}+{center_y}')
         
-        # Quitar bordes de ventana
         self.root.overrideredirect(True)
-        
-        # Mantener ventana siempre arriba
         self.root.attributes('-topmost', True)
         
-        # Crear marco principal
         self.frame = ttk.Frame(root)
         self.frame.pack(expand=True, fill='both', padx=20, pady=20)
         
-        # Etiqueta de estado
+        # Loading section
         self.status_label = ttk.Label(
             self.frame, 
             text="Actualizando datos...",
@@ -77,7 +100,6 @@ class LoadingSplash:
         )
         self.status_label.pack(pady=10)
         
-        # Barra de progreso
         self.progress = ttk.Progressbar(
             self.frame,
             mode='indeterminate',
@@ -85,7 +107,6 @@ class LoadingSplash:
         )
         self.progress.pack(pady=10)
         
-        # Mensaje adicional
         self.message = ttk.Label(
             self.frame,
             text="Por favor espere mientras se actualizan los datos",
@@ -95,13 +116,57 @@ class LoadingSplash:
         )
         self.message.pack(pady=10)
         
-        # Referencias para evitar la recolección de basura
+        # Login section
+        self.login_frame = ttk.LabelFrame(self.frame, text="Login")
+        self.login_frame.pack(fill='x', pady=10)
+        
+        self.login_var = tk.StringVar()
+        self.login_entry = ttk.Entry(
+            self.login_frame, 
+            textvariable=self.login_var,
+            font=('Helvetica', 10),
+            show="*"
+        )
+        self.login_entry.pack(pady=5, padx=5, fill='x')
+        
+        self.error_label = ttk.Label(
+            self.login_frame,
+            text="",
+            foreground='red',
+            font=('Helvetica', 8)
+        )
+        self.error_label.pack(pady=2)
+        
+        # Bind Return key to login
+        self.login_entry.bind('<Return>', self.attempt_login)
+        
+        # Initially hide login until loading completes
+        self.login_frame.pack_forget()
+        
         self.root.splash_references = {
             'status_label': self.status_label,
             'progress': self.progress,
-            'message': self.message
+            'message': self.message,
+            'login_frame': self.login_frame,
+            'login_entry': self.login_entry
         }
         
+    def show_login(self):
+        self.message.config(text="Ingrese Usuario y Contraseña\nEjemplo: USUARIO CONTRASEÑA")
+        self.login_frame.pack(fill='x', pady=10)
+        self.login_entry.focus()
+        
+    def attempt_login(self, event=None):
+        credentials = self.login_var.get().strip().upper()
+        if validate_user(credentials):
+            # Extraer el usuario de las credenciales y guardarlo en la sesión
+            username = credentials.split()[0]  # Obtiene la primera parte (USUARIO)
+            UserSession.set_user(username)  # Guarda el usuario en la sesión
+            self.root.quit()  # Exit mainloop to continue to main app
+        else:
+            self.error_label.config(text="Credenciales inválidas")
+            self.login_var.set("")
+    
     def start_progress(self):
         self.progress.start(10)
     
@@ -112,10 +177,10 @@ class LoadingSplash:
         self.status_label.config(text=text)
         
     def destroy(self):
-        # Limpiar referencias antes de destruir
         if hasattr(self.root, 'splash_references'):
             del self.root.splash_references
         self.root.destroy()
+
 
 class DetalleClienteWindow:
     def __init__(self, parent, client_data, client_id):
@@ -855,7 +920,7 @@ class DetalleClienteWindow:
                 conn.close()                
     #================================================================
     def get_client_notes(self, client_id):
-        """Obtiene todas las notas de un cliente específico"""
+        """Obtiene todas las notas de un cliente específico incluyendo el usuario que las creó"""
         conn = get_db_connection()
         if not conn:
             return []
@@ -863,7 +928,7 @@ class DetalleClienteWindow:
         try:
             cursor = conn.cursor()
             query = """
-                SELECT id, note_text, created_at
+                SELECT id, note_text, created_at, user_name
                 FROM Notes
                 WHERE client_id = ?
                 ORDER BY created_at DESC
@@ -874,9 +939,10 @@ class DetalleClienteWindow:
             
             for row in rows:
                 note = {
-                    'id': row[0],  # Acceder por índice en lugar de nombre
+                    'id': row[0],
                     'text': row[1],
-                    'timestamp': row[2]
+                    'timestamp': row[2],
+                    'user_name': row[3]  # Agregamos el usuario
                 }
                 notes.append(note)
             return notes
@@ -905,7 +971,7 @@ class DetalleClienteWindow:
             note_text.pack(side='left', fill='x', expand=True, padx=10)
     
     def refresh_notes_display(self, notes):
-        """Actualiza la visualización de las notas"""
+        """Actualiza la visualización de las notas incluyendo el usuario"""
         # Limpiar el contenedor de notas actual
         for widget in self.notes_container.winfo_children():
             widget.destroy()
@@ -915,9 +981,9 @@ class DetalleClienteWindow:
             # Frame principal de la nota con fondo gris claro
             note_frame = tk.Frame(self.notes_container, bg=self.COLOR_GRIS_CLARO)
             note_frame.pack(fill='x', padx=20, pady=10)
-            note_frame.grid_columnconfigure(1, weight=1)  # Hacer que la columna del texto se expanda
+            note_frame.grid_columnconfigure(1, weight=1)
 
-            # Frame para la marca de tiempo
+            # Frame para la marca de tiempo y usuario
             timestamp_frame = tk.Frame(note_frame, bg=self.COLOR_GRIS_CLARO)
             timestamp_frame.grid(row=0, column=0, padx=10, sticky='nw')
 
@@ -926,6 +992,12 @@ class DetalleClienteWindow:
             tk.Label(timestamp_frame, 
                     text=f"Nota del {timestamp}", 
                     font=("Arial", 10, "bold"), 
+                    bg=self.COLOR_GRIS_CLARO).pack(anchor='w')
+            
+            # Etiqueta de usuario
+            tk.Label(timestamp_frame,
+                    text=f"Por: {note['user_name']}", 
+                    font=("Arial", 9, "italic"),
                     bg=self.COLOR_GRIS_CLARO).pack(anchor='w')
 
             # Frame para el texto de la nota
@@ -940,7 +1012,7 @@ class DetalleClienteWindow:
                             bg=self.COLOR_GRIS_CLARO,
                             justify='left',
                             anchor='w',
-                            wraplength=400)  # Ajustar este valor según sea necesario
+                            wraplength=400)
             note_text.grid(row=0, column=0, sticky='ew')
 
         # Actualizar el canvas para mostrar las nuevas notas
@@ -949,18 +1021,22 @@ class DetalleClienteWindow:
             self.canvas.configure(scrollregion=self.canvas.bbox("all"))
     
     def save_note_to_db(self, client_id, note_text):
-        """Guarda una nueva nota en la base de datos"""
+        """Guarda una nueva nota en la base de datos incluyendo el usuario"""
         conn = get_db_connection()
         if not conn:
             return False
 
         try:
+            # Obtener el usuario actual
+            current_user = UserSession.get_user()
+            user_name = current_user if current_user else "Sistema"  # Usuario por defecto si no hay sesión
+            
             cursor = conn.cursor()
             query = """
-                INSERT INTO Notes (client_id, note_text)
-                VALUES (?, ?)
+                INSERT INTO Notes (client_id, note_text, user_name)
+                VALUES (?, ?, ?)
             """
-            cursor.execute(query, (client_id, note_text))
+            cursor.execute(query, (client_id, note_text, user_name))
             conn.commit()
             return True
         except pyodbc.Error as e:
@@ -2599,9 +2675,7 @@ def iniciar_aplicacion():
         root.mainloop()
 
     def on_closing(root):
-        """Manejador para el cierre de la ventana"""
         try:
-            # Limpiar recursos
             if hasattr(root, 'splash_references'):
                 del root.splash_references
             root.destroy()
@@ -2613,28 +2687,30 @@ def iniciar_aplicacion():
             splash.update_status("Actualizando datos...")
             actualizar_datos()
             splash.update_status("¡Actualización completada!")
-            time.sleep(1)
+            splash.stop_progress()
             
-            # Cerrar splash y iniciar app principal
-            root_splash.after(0, lambda: [
-                splash.stop_progress(),
-                splash.destroy(),
-                launch_main_app()
-            ])
+            # Show login instead of launching main app
+            root_splash.after(0, splash.show_login)
             
         except Exception as e:
             splash.update_status(f"Error: {str(e)}")
             time.sleep(3)
             root_splash.destroy()
 
-    # Iniciar splash screen
+    # Initialize splash screen
     root_splash = tk.Tk()
     splash = LoadingSplash(root_splash)
     splash.start_progress()
 
-    # Iniciar proceso de carga en thread separado
+    # Start loading process in separate thread
     threading.Thread(target=proceso_carga, daemon=True).start()
+    
+    # Wait for login
     root_splash.mainloop()
+    
+    # After successful login, destroy splash and launch main app
+    splash.destroy()
+    launch_main_app()
 
 if __name__ == "__main__":
     iniciar_aplicacion()
