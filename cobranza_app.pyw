@@ -1911,6 +1911,62 @@ class CobranzaApp:
         self.root.geometry(f"{window_width}x{window_height}+{x}+{y}")
         self.root.configure(bg=self.COLOR_BLANCO)
       
+    def calculate_totals(self):
+        """
+        Calcula los totales de deuda para clientes personales, empresariales y buró
+        obteniendo los datos directamente de la base de datos
+        
+        Returns:
+            tuple: (total_clientes, total_empresas, total_buro)
+        """
+        conn = get_db_connection()
+        if not conn:
+            return 0, 0, 0
+            
+        try:
+            # Obtener todos los clientes con saldo pendiente
+            cursor = conn.cursor()
+            query = """
+                SELECT c.Clave, c.Nombre, c.Saldo
+                FROM Clientes4 c
+                WHERE c.Saldo > 0
+            """
+            cursor.execute(query)
+            results = cursor.fetchall()
+            
+            # Obtener estados para verificar qué clientes son empresas
+            estados_clientes = get_client_states()
+            
+            # Obtener clientes en buró
+            clientes_buro = get_clients_without_credit()
+            
+            total_clientes = 0
+            total_empresas = 0
+            total_buro = 0
+            
+            # Calcular totales
+            for row in results:
+                cliente_id = str(row.Clave)
+                saldo = row.Saldo
+                
+                # Verificar si está en buró
+                if cliente_id in clientes_buro:
+                    total_buro += saldo
+                else:
+                    # Verificar si es empresa o cliente personal
+                    if estados_clientes.get(cliente_id, {}).get('company', False):
+                        total_empresas += saldo
+                    else:
+                        total_clientes += saldo
+            
+            return total_clientes, total_empresas, total_buro
+            
+        except Exception as e:
+            logging.error(f"Error al calcular totales: {e}")
+            return 0, 0, 0
+        finally:
+            conn.close()
+
     def create_header(self):
         header_frame = tk.Frame(self.root, bg=self.COLOR_ROJO, height=80)
         header_frame.pack(fill='x')
@@ -1940,17 +1996,10 @@ class CobranzaApp:
                                 fg=self.COLOR_BLANCO)
         cobranza_label.pack(side='left', padx=20)
         
-        # Calcular todos los totales
-        total_clientes = sum(cliente['saldo'] for clave, cliente in self.clientes_data.items() 
-                            if not self.should_show_client(clave))
-        total_empresas = sum(cliente['saldo'] for clave, cliente in self.clientes_data.items() 
-                            if self.should_show_client(clave))
+        # Calcular totales directamente de la base de datos
+        total_clientes, total_empresas, total_buro = self.calculate_totals()
         
-        # Obtener el total de buró
-        clientes_buro = get_clients_without_credit()
-        total_buro = sum(cliente['saldo'] for cliente in clientes_buro.values())
-        
-        # Calcular el total general incluyendo buró
+        # Calcular el total general
         deuda_total = total_clientes + total_empresas + total_buro
         
         # Frame para la deuda total
@@ -2015,7 +2064,6 @@ class CobranzaApp:
                                 cursor="hand2",
                                 command=self.open_whatsapp_bot)
         whatsapp_button.pack(side='right', padx=20)
-
     def calcular_total_categoria(self, categoria: str) -> float:
         """Calcula el total de deuda para una categoría específica"""
         total = 0
