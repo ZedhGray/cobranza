@@ -2584,35 +2584,25 @@ class CobranzaApp:
                     bg=self.COLOR_BLANCO).pack(expand=True)
     def create_main_content(self):
         """
-        Versión modificada de create_main_content que maximiza el espacio
+        Versión corregida de create_main_content que elimina el espacio vacío adicional
         """
+        # Eliminar frame anterior si existe
         if self.main_frame:
             self.main_frame.destroy()
 
-        # Contenedor principal sin padding
-        self.main_frame = tk.Frame(self.root, bg="blue")
+        # Crear un solo frame principal
+        self.main_frame = tk.Frame(self.root, bg=self.COLOR_BLANCO)
         self.main_frame.pack(fill='both', expand=True)
         
-        # Configurar el contenedor como flexbox vertical
-        self.main_frame.grid_columnconfigure(0, weight=1)
-        self.main_frame.grid_rowconfigure(0, weight=1)
-
-        # Contenedor interno para la sección de buro
-        self.buro_section_frame = tk.Frame(self.main_frame)
-        self.buro_section_frame.grid(row=0, column=0, sticky="nsew")
-
         if self.current_view == "buro":
+            # Sincronizar clientes al buró antes de mostrar
             sync_clients_to_buro()
-            self.create_buro_section(self.buro_section_frame)
             
-            # Agregar un espacio vacío al final de la sección de buró
-            empty_space = tk.Frame(self.buro_section_frame, bg=self.buro_section_frame.cget("bg"), height=300)
-            empty_space.pack(fill='both', expand=True)
-            
+            # Crear directamente la sección de buró en el frame principal
+            self.create_buro_section(self.main_frame)
         else:
-            # Contenedor principal que ocupará todo el espacio disponible
-            self.main_frame = tk.Frame(self.root, bg=self.COLOR_BLANCO)
-            self.main_frame.pack(fill='both', expand=True, padx=20, pady=20)
+            # Agregar padding solo para las vistas que no son buró
+            self.main_frame.configure(padx=20, pady=20)
             
             # Lista de clientes (izquierda - 2/3 del ancho)
             clientes_frame = tk.LabelFrame(self.main_frame, text="CLIENTES", 
@@ -2624,7 +2614,7 @@ class CobranzaApp:
             categories_container = tk.Frame(clientes_frame, bg=self.COLOR_BLANCO)
             categories_container.pack(fill='both', expand=True, padx=5, pady=5)
             
-            # Distribuir el espacio vertical equitativamente entre las tres categorías
+            # Distribuir el espacio vertical equitativamente entre las categorías
             categories_container.grid_rowconfigure(0, weight=1)
             categories_container.grid_rowconfigure(1, weight=1)
             categories_container.grid_rowconfigure(2, weight=1)
@@ -2635,7 +2625,7 @@ class CobranzaApp:
             style.configure("Treeview", anchor="center")  # Centra el texto en todas las celdas
             style.configure("Treeview.Heading", anchor="center")  # Centra los encabezados
             
-            # Crear las tres categorías usando grid en lugar de pack
+            # Crear las categorías usando grid en lugar de pack
             self.create_category_section(categories_container, "PROMESA DE PAGO", self.COLOR_AZUL, 0)
             self.create_category_section(categories_container, "MENOS DE 30 DIAS", self.COLOR_VERDE, 1)
             self.create_category_section(categories_container, "30 A 60 DIAS", self.COLOR_AMARILLO, 2)
@@ -2827,7 +2817,7 @@ class CobranzaApp:
                             bg=self.COLOR_BLANCO)
         ventas_title.pack(pady=(0, 10))
         
-        # Frame para la lista de ventas
+        # Frame para la lista de ventas (este debe expandirse)
         ventas_container = tk.Frame(details_container, bg=self.COLOR_BLANCO)
         ventas_container.pack(fill='both', expand=True, padx=5, pady=5)
         
@@ -2836,9 +2826,13 @@ class CobranzaApp:
         style.configure("Treeview", anchor="center")
         style.configure("Treeview.Heading", anchor="center")
         
-        # Crear Treeview para ventas
+        # Frame contenedor para el árbol y la barra de desplazamiento
+        tree_frame = tk.Frame(ventas_container, bg=self.COLOR_BLANCO)
+        tree_frame.pack(fill='both', expand=True)
+        
+        # Crear Treeview para ventas DENTRO del tree_frame
         columns = ('Ticket', 'Fecha', 'Total')
-        ventas_tree = ttk.Treeview(ventas_container, 
+        ventas_tree = ttk.Treeview(tree_frame, 
                                 columns=columns, 
                                 show='headings', 
                                 height=10,
@@ -2852,6 +2846,14 @@ class CobranzaApp:
         # Configurar headings - centrados
         for col in columns:
             ventas_tree.heading(col, text=col, anchor='center')
+        
+        # Scrollbar para las ventas
+        scrollbar = ttk.Scrollbar(tree_frame, orient='vertical', command=ventas_tree.yview)
+        ventas_tree.configure(yscrollcommand=scrollbar.set)
+        
+        # Colocar Treeview y scrollbar
+        ventas_tree.pack(side='left', fill='both', expand=True)
+        scrollbar.pack(side='right', fill='y')
         
         # Obtener y ordenar ventas
         if 'ventas' in cliente:
@@ -2869,18 +2871,6 @@ class CobranzaApp:
                     venta['fecha'],
                     f"${venta['total']:,.2f}"
                 ))
-        
-        # Frame contenedor para el árbol y la barra de desplazamiento
-        tree_frame = tk.Frame(ventas_container, bg=self.COLOR_BLANCO)
-        tree_frame.pack(fill='both', expand=True)
-        
-        # Scrollbar para las ventas
-        scrollbar = ttk.Scrollbar(tree_frame, orient='vertical', command=ventas_tree.yview)
-        ventas_tree.configure(yscrollcommand=scrollbar.set)
-        
-        # Colocar Treeview y scrollbar
-        ventas_tree.pack(side='left', fill='both', expand=True)
-        scrollbar.pack(side='right', fill='y')
         
         # Ajustar el estilo del Treeview
         style = ttk.Style()
