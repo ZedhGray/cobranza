@@ -2,6 +2,7 @@ import os
 import sys
 import subprocess
 
+
 def install_package(package):
     subprocess.check_call([sys.executable, "-m", "pip", "install", package])
 
@@ -34,6 +35,8 @@ import time
 import socketio
 from tkcalendar import Calendar
 from main import actualizar_datos
+import webbrowser
+import re
 
 def extract_ticket_number(ticket_text):
     """Extract ticket number from ticket text using regex"""
@@ -341,8 +344,7 @@ class LoadingSplash:
         if hasattr(self.root, 'splash_references'):
             del self.root.splash_references
         self.root.destroy()
-
-
+            
 class DetalleClienteWindow:
     def __init__(self, parent, client_data, client_id):
         self.top = tk.Toplevel(parent)
@@ -350,24 +352,6 @@ class DetalleClienteWindow:
         self.client_id = client_id
         self.setup_window()
 
-        # Inicializar el socket como None
-        self.sio = None
-        # Verificar si el servidor de WhatsApp está disponible
-        self.whatsapp_available = self.check_whatsapp_server()
-        if self.whatsapp_available:
-            self.setup_socket_connection()
-        
-        # Configurar listeners de socket
-        self.setup_socket_listeners()
-        
-            # Intentar conectar al servidor de socket sin mostrar error
-        try:
-            if self.sio:  # Solo intentar conectar si sio existe
-                self.sio.connect('http://localhost:3000')
-        except Exception as e:
-            logging.debug(f"No se pudo conectar con WhatsApp: {str(e)}")
-            self.whatsapp_available = False
-            self.sio = None
         
         # Colores
         self.COLOR_ROJO = "#E31837"
@@ -402,35 +386,6 @@ class DetalleClienteWindow:
         self.create_adeudo_frame()
         self.create_control_panel()
 
-    def check_whatsapp_server(self):
-            """Verifica si el servidor de WhatsApp está disponible"""
-            try:
-                sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-                sock.settimeout(1)
-                result = sock.connect_ex(('localhost', 3000))
-                sock.close()
-                return result == 0
-            except Exception as e:
-                logging.debug(f"WhatsApp server no disponible: {str(e)}")
-                return False
-    def setup_socket_connection(self):
-        """Configura la conexión del socket si el servidor está disponible"""
-        try:
-            self.sio = socketio.Client()
-            
-            # Configurar listeners solo si self.sio existe
-            if self.sio is not None:
-                @self.sio.on('chat-opened')
-                def on_chat_opened(data):
-                    if data.get('success'):
-                        messagebox.showinfo("Éxito", "Chat de WhatsApp abierto")
-            
-            self.sio.connect('http://localhost:3000')
-            
-        except Exception as e:
-            logging.debug(f"No se pudo establecer conexión con WhatsApp: {str(e)}")
-            self.sio = None
-            self.whatsapp_available = False
     def setup_window(self):
         """Configura la ventana de detalles"""
         self.top.title(f"Detalle Cliente - {self.client_data.get('nombre', 'Sin nombre')}")
@@ -585,29 +540,29 @@ class DetalleClienteWindow:
         separator3.pack(fill='x', pady=10)
 
         # Botón de WhatsApp
-        whatsapp_btn = tk.Button(control_container, 
-                            text="Abrir Chat WhatsApp",
-                            font=("Arial", 10, "bold"),
-                            bg=self.COLOR_BLANCO,
-                            fg=self.COLOR_NEGRO,
-                            bd=0,
-                            relief="flat",
-                            padx=15,
-                            pady=8,
-                            width=15,
-                            cursor="hand2",
-                            command=self.abrir_chat_whatsapp)
-        
+        whatsapp_btn = tk.Button(control_container,
+                                text="Conversación WhatsApp",
+                                font=("Arial", 10, "bold"),
+                                bg=self.COLOR_BLANCO,
+                                fg=self.COLOR_NEGRO,
+                                bd=0,
+                                relief="flat",
+                                padx=15,
+                                pady=8,
+                                width=15,
+                                cursor="hand2",
+                                command=lambda: self.abrir_whatsapp(self.client_data.get('telefono1', '')))
+
         whatsapp_btn.pack(pady=(0,10))
 
         # Eventos hover para el botón de WhatsApp
-        def on_enter(e):
+        def on_enter_whatsapp(e):
             whatsapp_btn['bg'] = self.COLOR_GRIS_HOVER
-        def on_leave(e):
+        def on_leave_whatsapp(e):
             whatsapp_btn['bg'] = self.COLOR_BLANCO
 
-        whatsapp_btn.bind("<Enter>", on_enter)
-        whatsapp_btn.bind("<Leave>", on_leave)
+        whatsapp_btn.bind("<Enter>", on_enter_whatsapp)
+        whatsapp_btn.bind("<Leave>", on_leave_whatsapp)
 
         # Buro state
         buro_state = self.get_buro_state(self.client_id)
@@ -649,6 +604,7 @@ class DetalleClienteWindow:
         # Separador visual
         separator4 = tk.Frame(control_container, height=1, bg=self.COLOR_GRIS_HOVER)
         separator4.pack(fill='x', pady=10)
+    
     def __del__(self):
         """Limpieza al cerrar la ventana"""
         if hasattr(self, 'sio') and self.sio is not None:
@@ -665,39 +621,39 @@ class DetalleClienteWindow:
             self.refresh_notes_display(notes)
         else:
             tk.messagebox.showerror("Error", "No se pudo guardar la nota")
-    def setup_socket_listeners(self):
-        """Configura los listeners del socket solo si está disponible"""
-        if self.sio is None:
-            return
             
-        @self.sio.on('chat-opened')
-        def on_chat_opened(data):
-            if data.get('success'):
-                messagebox.showinfo("Éxito", "Chat de WhatsApp abierto")
-            else:
-                messagebox.showinfo("Información", 
-                                  "No se pudo abrir el chat de WhatsApp.\n" +
-                                  "Por favor, verifique que WhatsApp esté abierto.")
-    def formatear_telefono(self, telefono):
+    def limpiar_numero(self, telefono):
         """
-        Formatea un número de teléfono para uso en WhatsApp Web.
-
-        Elimina todos los caracteres no numéricos y agrega el prefijo de país 521.
-
-        Args:
-            telefono (str): Número de teléfono a formatear.
-
-        Returns:
-            str: Número de teléfono formateado con prefijo 521.
+        Limpia el número de teléfono eliminando caracteres no numéricos
+        y agregando el prefijo de México si es necesario
         """
-        # Elimina todos los caracteres no numéricos
-        cleaned = ''.join(filter(str.isdigit, telefono))
+        # Eliminar caracteres no numéricos
+        numero_limpio = re.sub(r'\D', '', telefono)
         
-        # Agrega el prefijo 521 si no está presente
-        formatted = f"521{cleaned}" if not cleaned.startswith('52') else cleaned
-        
-        return formatted
+        # Asegurar que el número tenga código de país (asumiendo México +52)
+        if not numero_limpio.startswith('52'):
+            # Si el número empieza con 0, lo quitamos
+            if numero_limpio.startswith('0'):
+                numero_limpio = numero_limpio[1:]
+            
+            # Agregar prefijo de México si no lo tiene
+            numero_limpio = '52' + numero_limpio
 
+        return numero_limpio
+
+    def abrir_whatsapp(self, telefono):
+        """
+        Abre una conversación de WhatsApp con el número especificado
+        """
+        # Limpiar el número
+        numero_limpio = self.limpiar_numero(telefono)
+        
+        # Construir URL de WhatsApp Web
+        url = f"https://wa.me/{numero_limpio}"
+        
+        # Abrir en el navegador predeterminado
+        webbrowser.open(url)
+    
     def get_company_state(self, client_id):
         """Obtiene el estado actual de company"""
         try:
@@ -719,6 +675,79 @@ class DetalleClienteWindow:
         finally:
             if conn:
                 conn.close()
+    
+    def toggle_company(self, client_id):
+        """Alterna el estado de company con actualización visual"""
+        conn = get_db_connection()
+        if not conn:
+            return
+
+        try:
+            cursor = conn.cursor()
+            cursor.execute("SELECT company FROM dbo.ClientsStates WHERE client_id = ?", (client_id,))
+            current_state = cursor.fetchone()
+
+            if current_state is not None:
+                new_state = not bool(current_state.company)
+                cursor.execute("""
+                    UPDATE dbo.ClientsStates 
+                    SET company = ?
+                    WHERE client_id = ?
+                """, (new_state, client_id))
+                conn.commit()
+
+                # Actualizar el botón con los nuevos estilos
+                new_text = "No es empresa" if new_state else "Empresa"
+                new_bg_color = self.COLOR_ROJO if new_state else self.COLOR_BLANCO
+                new_fg_color = self.COLOR_BLANCO if new_state else self.COLOR_NEGRO
+                
+                self.company_btn.configure(
+                    text=new_text,
+                    bg=new_bg_color,
+                    fg=new_fg_color
+                )
+
+                # Actualizar los eventos hover
+                def on_enter(e):
+                    if new_state:
+                        self.company_btn['bg'] = self.COLOR_ROJO_HOVER
+                    else:
+                        self.company_btn['bg'] = self.COLOR_GRIS_HOVER
+
+                def on_leave(e):
+                    self.company_btn['bg'] = new_bg_color
+
+                self.company_btn.bind("<Enter>", on_enter)
+                self.company_btn.bind("<Leave>", on_leave)
+
+        except pyodbc.Error as e:
+            logging.error(f"Error al actualizar estado de company: {e}")
+        finally:
+            if conn:
+                conn.close()
+    
+    def get_company_state(self, client_id):
+        """Obtiene el estado actual de company"""
+        try:
+            conn = get_db_connection()
+            if not conn:
+                return False
+            
+            cursor = conn.cursor()
+            cursor.execute("SELECT company FROM dbo.ClientsStates WHERE client_id = ?", (client_id,))
+            result = cursor.fetchone()
+            
+            if result:
+                return bool(result.company)
+            else:
+                return False
+        except pyodbc.Error as e:
+            logging.error(f"Error al obtener estado de company: {e}")
+            return False
+        finally:
+            if conn:
+                conn.close()
+    
     def toggle_company(self, client_id):
         """Alterna el estado de company con actualización visual"""
         conn = get_db_connection()
@@ -840,25 +869,7 @@ class DetalleClienteWindow:
         finally:
             if conn:
                 conn.close()
-    def abrir_chat_whatsapp(self, telefono=None):
-        """Abre un chat de WhatsApp solo si el servidor está disponible"""
-        if telefono is None:
-            telefono = self.client_data.get('telefono1')
-        
-        if not telefono:
-            return
-
-        # Verificar si WhatsApp está disponible
-        if not self.whatsapp_available or self.sio is None:
-            return
-                
-        try:
-            telefono_formateado = self.formatear_telefono(telefono)
-            if self.sio and self.sio.connected:
-                self.sio.emit('open-chat', telefono_formateado)
-        except Exception as e:
-            logging.debug(f"Error al abrir chat: {str(e)}")
-    
+                  
     def create_cliente_frame(self):
             """Crea el frame principal del cliente"""
             client_frame = tk.LabelFrame(self.left_frame, text="CLIENTE", 
