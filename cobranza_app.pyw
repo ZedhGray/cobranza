@@ -37,6 +37,8 @@ from tkcalendar import Calendar
 from main import actualizar_datos
 import webbrowser
 import re
+import requests
+import json
 
 def extract_ticket_number(ticket_text):
     """Extract ticket number from ticket text using regex"""
@@ -564,6 +566,31 @@ class DetalleClienteWindow:
         whatsapp_btn.bind("<Enter>", on_enter_whatsapp)
         whatsapp_btn.bind("<Leave>", on_leave_whatsapp)
 
+        # NUEVO: Botón de Llamada Telefónica
+        phone_btn = tk.Button(control_container,
+                            text="Llamar por teléfono",
+                            font=("Arial", 10, "bold"),
+                            bg=self.COLOR_BLANCO,
+                            fg=self.COLOR_NEGRO,
+                            bd=0,
+                            relief="flat",
+                            padx=15,
+                            pady=8,
+                            width=15,
+                            cursor="hand2",
+                            command=lambda: self.realizar_llamada(self.client_data.get('telefono1', '')))
+
+        phone_btn.pack(pady=(0,10))
+
+        # Eventos hover para el botón de llamada
+        def on_enter_phone(e):
+            phone_btn['bg'] = self.COLOR_GRIS_HOVER
+        def on_leave_phone(e):
+            phone_btn['bg'] = self.COLOR_BLANCO
+
+        phone_btn.bind("<Enter>", on_enter_phone)
+        phone_btn.bind("<Leave>", on_leave_phone)
+
         # Buro state
         buro_state = self.get_buro_state(self.client_id)
         buro_text = "En Buro" if buro_state else "Buro"
@@ -604,6 +631,61 @@ class DetalleClienteWindow:
         # Separador visual
         separator4 = tk.Frame(control_container, height=1, bg=self.COLOR_GRIS_HOVER)
         separator4.pack(fill='x', pady=10)
+
+    # Ahora agregamos la función para realizar llamadas usando KDE Connect
+    def realizar_llamada(self, telefono):
+        """
+        Realiza una llamada telefónica al número especificado usando KDE Connect
+        """
+        # Limpiar el número
+        numero_limpio = self.limpiar_numero(telefono)
+        
+        # Si el número empieza con 52 (México), quitarlo para llamadas locales
+        if numero_limpio.startswith('52'):
+            numero_para_llamada = numero_limpio[2:]
+        else:
+            numero_para_llamada = numero_limpio
+        
+        try:
+            # Intentar usar KDE Connect para iniciar la llamada
+            # Mediante una solicitud HTTP al servidor local de KDE Connect
+            # Se necesitan las siguientes importaciones al inicio del archivo:
+            # import requests
+            # import json
+            
+            # Configuración de KDE Connect (asegúrate de agregar estos imports al inicio del archivo)
+            kde_connect_host = "localhost"  # o la IP del dispositivo con KDE Connect
+            kde_connect_port = 8000  # Puerto predeterminado, ajustar según configuración
+            device_id = "2CECCC87"  # ID del dispositivo en KDE Connect (necesitarás obtenerlo)
+            
+            # URL para la API de KDE Connect
+            url = f"http://{kde_connect_host}:{kde_connect_port}/api/v1/devices/{device_id}/plugin/telephony/requestCall"
+            
+            # Datos para la solicitud
+            payload = {"phoneNumber": "7555565274"}
+            
+            # Realizar la solicitud HTTP
+            response = requests.post(url, json=payload)
+            
+            if response.status_code == 200:
+                # Crear una nota de que se llamó al cliente
+                self.create_quick_note(f"Se realizó llamada al número {telefono}")
+                return True
+            else:
+                # Mostrar mensaje de error
+                tk.messagebox.showerror("Error", f"No se pudo realizar la llamada: {response.text}")
+                return False
+                
+        except Exception as e:
+            # Alternativa: Usar una URL tel: para sistemas que la soporten
+            try:
+                url = f"tel://{numero_para_llamada}"
+                webbrowser.open(url)
+                self.create_quick_note(f"Se inició llamada al número {telefono}")
+                return True
+            except:
+                tk.messagebox.showerror("Error", f"No se pudo realizar la llamada: {str(e)}")
+                return False
     
     def __del__(self):
         """Limpieza al cerrar la ventana"""

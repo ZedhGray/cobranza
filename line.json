@@ -523,5 +523,19 @@
         "day1": false,
         "dueDay": false,
         "promisePage": false
+    },
+    "1500-0124": {
+        "day3": false,
+        "day2": false,
+        "day1": false,
+        "dueDay": false,
+        "promisePage": false
+    },
+    "1500-0296": {
+        "day3": false,
+        "day2": false,
+        "day1": false,
+        "dueDay": false,
+        "promisePage": false
     }
 }
