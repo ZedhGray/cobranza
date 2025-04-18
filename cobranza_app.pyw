@@ -1,6 +1,9 @@
 import os
 import sys
 import subprocess
+import ctypes
+myappid = 'Garcia.Cobranza.version1.0' # Id interno de la app
+ctypes.windll.shell32.SetCurrentProcessExplicitAppUserModelID(myappid)
 
 
 def install_package(package):
@@ -1996,7 +1999,7 @@ class CobranzaApp:
         """Configura las dimensiones y posición de la ventana principal"""
         screen_width = self.root.winfo_screenwidth()
         screen_height = self.root.winfo_screenheight()
-        window_width = 1200
+        window_width = 1300
         window_height = 800
         x = (screen_width - window_width) // 2
         y = (screen_height - window_height) // 2
@@ -3010,6 +3013,7 @@ class CobranzaApp:
 def iniciar_aplicacion():
     def launch_main_app():
         root = tk.Tk()
+        root.iconbitmap('lga2.ico')  # Establece el ícono para la ventana principal
         app = CobranzaApp(root)
         root.protocol("WM_DELETE_WINDOW", lambda: on_closing(root))
         root.mainloop()
@@ -3039,6 +3043,7 @@ def iniciar_aplicacion():
 
     # Initialize splash screen
     root_splash = tk.Tk()
+    root_splash.iconbitmap('lga2.ico')  # Establece el ícono para la pantalla de splash
     splash = LoadingSplash(root_splash)
     splash.start_progress()
 
