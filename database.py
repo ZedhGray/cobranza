@@ -33,6 +33,7 @@ def get_clients_data():
                 ISNULL(Direccion, '') as Direccion,
                 ISNULL(Telefono1, '') as Telefono1,
                 ISNULL(Telefono2, '') as Telefono2,
+                ISNULL(Telefono3, '') as Telefono3,  -- NUEVA LÍNEA
                 ISNULL(Descripcion, '') as Descripcion,
                 ISNULL(Email, '') as Email,
                 ISNULL(Referencia, '') as Referencia,
@@ -51,7 +52,6 @@ def get_clients_data():
                 ISNULL(LineaDeCredito, '') as LineaDeCredito
             FROM Clientes4
             WHERE Saldo > 0
-                   
         """
         
         logging.info(f"Ejecutando consulta SQL: {query}")
@@ -59,12 +59,12 @@ def get_clients_data():
         results = cursor.fetchall()
         
         logging.info(f"Registros encontrados: {len(results)}")
+        
         def format_date(date_value):
             if date_value:
                 if isinstance(date_value, (datetime, date)):
                     return date_value.strftime('%Y-%m-%d')
                 try:
-                    # Intenta convertir si es string
                     return datetime.strptime(str(date_value), '%Y-%m-%d').strftime('%Y-%m-%d')
                 except (ValueError, TypeError):
                     logging.warning(f"Valor de fecha no válido: {date_value}")
@@ -79,6 +79,7 @@ def get_clients_data():
                 "direccion": row.Direccion.strip() if row.Direccion else "",
                 "telefono1": row.Telefono1.strip() if row.Telefono1 else "",
                 "telefono2": row.Telefono2.strip() if row.Telefono2 else "",
+                "telefono3": format_phone_number(row.Telefono3.strip() if row.Telefono3 else ""),
                 "descripcion": row.Descripcion.strip() if row.Descripcion else "",
                 "email": row.Email.strip() if row.Email else "",
                 "referencia": row.Referencia.strip() if row.Referencia else "",
@@ -110,6 +111,7 @@ def get_clients_data():
     finally:
         logging.info("Cerrando conexión a la base de datos")
         conn.close()
+
    
 def get_ventas_data():
     conn = get_db_connection()
@@ -642,6 +644,84 @@ def get_clients_without_credit():
     finally:
         conn.close()
         
+
+def update_telefono3(client_id: str, telefono3: str) -> bool:
+    """
+    Actualiza el campo Telefono3 para un cliente específico con formato.
+    
+    Args:
+        client_id (str): ID del cliente
+        telefono3 (str): Nuevo número de teléfono
+        
+    Returns:
+        bool: True si la actualización fue exitosa, False en caso contrario
+    """
+    conn = get_db_connection()
+    if not conn:
+        logging.error("No se pudo establecer conexión con la base de datos")
+        return False
+    
+    try:
+        # Formatear el teléfono antes de guardarlo
+        telefono_formateado = format_phone_number(telefono3)
+        
+        cursor = conn.cursor()
+        query = """
+            UPDATE Clientes4 
+            SET Telefono3 = ?
+            WHERE Clave = ?
+        """
+        cursor.execute(query, (telefono_formateado, client_id))
+        conn.commit()
+        
+        if cursor.rowcount > 0:
+            logging.info(f"Teléfono3 actualizado para cliente {client_id}: {telefono_formateado}")
+            return True
+        else:
+            logging.warning(f"No se encontró el cliente {client_id}")
+            return False
+        
+    except pyodbc.Error as e:
+        logging.error(f"Error al actualizar teléfono3: {e}")
+        return False
+    finally:
+        conn.close()
+
+def format_phone_number(phone):
+    """
+    Formatea un número de teléfono al estilo (755) 128-5755
+    
+    Args:
+        phone (str): Número de teléfono sin formato
+        
+    Returns:
+        str: Número formateado o el original si no se puede formatear
+    """
+    if not phone or not phone.strip():
+        return ""
+    
+    # Limpiar el número - solo dígitos
+    digits = ''.join(filter(str.isdigit, phone))
+    
+    # Si ya está formateado correctamente, devolverlo tal como está
+    if '(' in phone and ')' in phone and '-' in phone:
+        return phone
+    
+    # Formatear según la longitud
+    if len(digits) == 10:
+        # Formato: (755) 128-5755
+        return f"({digits[:3]}) {digits[3:6]}-{digits[6:]}"
+    elif len(digits) == 11 and digits.startswith('1'):
+        # Si empieza con 1, quitar el 1 y formatear
+        digits = digits[1:]
+        return f"({digits[:3]}) {digits[3:6]}-{digits[6:]}"
+    elif len(digits) == 12 and digits.startswith('52'):
+        # Si empieza con 52 (México), quitar el 52 y formatear
+        digits = digits[2:]
+        return f"({digits[:3]}) {digits[3:6]}-{digits[6:]}"
+    else:
+        # Si no se puede formatear, devolver tal como está
+        return phone
 
 # User and password validation
 def validate_user(credentials):

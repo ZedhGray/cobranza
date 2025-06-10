@@ -28,7 +28,7 @@ from tkinter import ttk
 from PIL import Image, ImageTk
 from datetime import date, datetime
 import re
-from database import validate_user, get_client_states, get_db_connection, get_clients_data, update_promise_date, sync_clients_to_buro, get_clients_without_credit
+from database import validate_user, get_client_states, get_db_connection, get_clients_data, update_promise_date, sync_clients_to_buro, get_clients_without_credit, format_phone_number
 import logging
 from tkinter import messagebox
 from typing import Dict, Optional
@@ -403,7 +403,7 @@ class DetalleClienteWindow:
         self.top.geometry(f"{window_width}x{window_height}+{x}+{y}")
     
     def create_control_panel(self):
-        """Crea el panel de control lateral derecho con estilo mejorado"""
+        """Crea el panel de control lateral derecho con estilo mejorado - VERSIÓN MODIFICADA"""
         # Frame contenedor con borde redondeado
         control_container = tk.Frame(self.right_frame, bg=self.COLOR_GRIS)
         control_container.pack(fill='x', pady=10)
@@ -440,43 +440,9 @@ class DetalleClienteWindow:
         add_note_btn.bind("<Enter>", on_enter_note)
         add_note_btn.bind("<Leave>", on_leave_note)
 
-        # Nuevos botones para notas rápidas
-        quick_notes = [
-            ("Buzón", "Mandó a buzón de voz"),
-            ("No disponible", "El número marcado no está disponible"),
-            ("Notifico a Whats", "Se le notifico via whatsapp")
-        ]
-
-        for btn_text, note_text in quick_notes:
-            btn = tk.Button(control_container,
-                        text=btn_text,
-                        font=("Arial", 10),
-                        bg=self.COLOR_BLANCO,
-                        fg=self.COLOR_NEGRO,
-                        bd=0,
-                        relief="flat",
-                        padx=15,
-                        pady=8,
-                        width=15,
-                        cursor="hand2",
-                        command=lambda t=note_text: self.create_quick_note(t))
-            btn.pack(pady=(0,10))
-
-            # Eventos hover para cada botón
-            def on_enter(e, button=btn):
-                button['bg'] = self.COLOR_GRIS_HOVER
-            def on_leave(e, button=btn):
-                button['bg'] = self.COLOR_BLANCO
-
-            btn.bind("<Enter>", on_enter)
-            btn.bind("<Leave>", on_leave)
-
-        # Separador visual
-        separator = tk.Frame(control_container, height=1, bg=self.COLOR_GRIS_HOVER)
-        separator.pack(fill='x', pady=10)
-
-        calendar_btn = tk.Button(control_container,
-                            text="Fecha Promesa",
+        # NUEVO BOTÓN - Agregar Teléfono3
+        add_phone_btn = tk.Button(control_container,
+                            text="+ Teléfono",
                             font=("Arial", 10, "bold"),
                             bg=self.COLOR_BLANCO,
                             fg=self.COLOR_NEGRO,
@@ -486,18 +452,18 @@ class DetalleClienteWindow:
                             pady=8,
                             width=15,
                             cursor="hand2",
-                            command=self.show_calendar_dialog)
+                            command=self.show_telefono3_dialog)
         
-        calendar_btn.pack(pady=(0,10))
-        
-        # Eventos hover para el botón de calendario
-        def on_enter_calendar(e):
-            calendar_btn['bg'] = self.COLOR_GRIS_HOVER
-        def on_leave_calendar(e):
-            calendar_btn['bg'] = self.COLOR_BLANCO
-        
-        calendar_btn.bind("<Enter>", on_enter_calendar)
-        calendar_btn.bind("<Leave>", on_leave_calendar)
+        add_phone_btn.pack(pady=(0,10))
+
+        # Eventos hover para el botón de teléfono
+        def on_enter_phone(e):
+            add_phone_btn['bg'] = self.COLOR_GRIS_HOVER
+        def on_leave_phone(e):
+            add_phone_btn['bg'] = self.COLOR_BLANCO
+
+        add_phone_btn.bind("<Enter>", on_enter_phone)
+        add_phone_btn.bind("<Leave>", on_leave_phone)
 
         # Separador visual
         separator2 = tk.Frame(control_container, height=1, bg=self.COLOR_GRIS_HOVER)
@@ -955,31 +921,207 @@ class DetalleClienteWindow:
             if conn:
                 conn.close()
                   
+    def show_telefono3_dialog(self):
+        """Muestra un diálogo para agregar/actualizar el teléfono3"""
+        dialog = tk.Toplevel(self.top)
+        dialog.title("Agregar/Actualizar Teléfono")
+        dialog.configure(bg=self.COLOR_BLANCO)
+        
+        # Hacer la ventana modal
+        dialog.transient(self.top)
+        dialog.grab_set()
+        
+        # Establecer el tamaño de la ventana
+        dialog_width = 400
+        dialog_height = 200
+
+        # Centrar respecto a la ventana padre
+        parent_x = self.top.winfo_x()
+        parent_y = self.top.winfo_y()
+        parent_width = self.top.winfo_width()
+        parent_height = self.top.winfo_height()
+        
+        x = parent_x + (parent_width - dialog_width) // 2
+        y = parent_y + (parent_height - dialog_height) // 2
+
+        # Aplicar la geometría
+        dialog.geometry(f"{dialog_width}x{dialog_height}+{x}+{y}")
+        
+        # Frame principal con padding
+        main_frame = tk.Frame(dialog, bg=self.COLOR_BLANCO)
+        main_frame.pack(fill='both', expand=True, padx=20, pady=20)
+        
+        # Título
+        title_label = tk.Label(main_frame,
+                            text="Agregar/Actualizar Teléfono Adicional",
+                            font=("Arial", 12, "bold"),
+                            bg=self.COLOR_BLANCO)
+        title_label.pack(pady=(0,10))
+        
+        # Mostrar teléfono actual si existe
+        telefono_actual = self.client_data.get('telefono3', '')
+        if telefono_actual and telefono_actual.strip():
+            current_label = tk.Label(main_frame,
+                                text=f"Teléfono actual: {telefono_actual}",
+                                font=("Arial", 10),
+                                bg=self.COLOR_BLANCO,
+                                fg=self.COLOR_ROJO)
+            current_label.pack(pady=(0,10))
+        
+        # Campo de entrada para el nuevo teléfono
+        phone_label = tk.Label(main_frame,
+                            text="Nuevo teléfono:",
+                            font=("Arial", 10, "bold"),
+                            bg=self.COLOR_BLANCO)
+        phone_label.pack(anchor='w')
+        
+        phone_entry = tk.Entry(main_frame,
+                            font=("Arial", 12),
+                            width=20)
+        phone_entry.pack(fill='x', pady=(5, 10))
+        
+        # Pre-llenar con el teléfono actual si existe
+        if telefono_actual and telefono_actual.strip():
+            phone_entry.insert(0, telefono_actual)
+        
+        def save_telefono():
+            nuevo_telefono = phone_entry.get().strip()
+            if not nuevo_telefono:
+                tk.messagebox.showwarning("Advertencia", "Por favor ingrese un número de teléfono")
+                return
+            
+            # Importar la función desde database
+            from database import update_telefono3
+            
+            if update_telefono3(self.client_id, nuevo_telefono):
+                # Formatear para mostrar en la interfaz
+                telefono_formateado = format_phone_number(nuevo_telefono)
+                
+                # Actualizar los datos del cliente en memoria
+                self.client_data['telefono3'] = telefono_formateado
+                
+                # Recrear el frame del cliente para mostrar el cambio
+                self.recreate_cliente_frame()
+                
+                # Crear nota automática
+                telefono_actual = self.client_data.get('telefono3', '')
+                note_text = f"Teléfono adicional {'actualizado' if telefono_actual else 'agregado'}: {telefono_formateado}"
+                if self.save_note_to_db(self.client_id, note_text):
+                    notes = self.get_client_notes(self.client_id)
+                    self.refresh_notes_display(notes)
+                
+                dialog.destroy()
+                tk.messagebox.showinfo("Éxito", "Teléfono actualizado correctamente")
+            else:
+                tk.messagebox.showerror("Error", "No se pudo actualizar el teléfono")
+        
+        # Frame para botones con padding
+        button_frame = tk.Frame(main_frame, bg=self.COLOR_BLANCO)
+        button_frame.pack(fill='x', pady=(10, 0))
+        
+        # Botón Cancelar
+        cancel_btn = tk.Button(button_frame,
+                            text="Cancelar",
+                            command=dialog.destroy,
+                            font=("Arial", 10),
+                            bg=self.COLOR_GRIS,
+                            fg=self.COLOR_NEGRO,
+                            bd=0,
+                            padx=15,
+                            pady=5,
+                            relief="flat",
+                            cursor="hand2")
+        cancel_btn.pack(side='right', padx=5)
+        
+        # Botón Guardar
+        save_btn = tk.Button(button_frame,
+                            text="Guardar",
+                            command=save_telefono,
+                            font=("Arial", 10, "bold"),
+                            bg=self.COLOR_ROJO,
+                            fg=self.COLOR_BLANCO,
+                            bd=0,
+                            padx=15,
+                            pady=5,
+                            relief="flat",
+                            cursor="hand2")
+        save_btn.pack(side='right', padx=5)
+
+        # Eventos hover para los botones
+        def on_enter_save(e):
+            save_btn['bg'] = self.COLOR_ROJO_HOVER
+        def on_leave_save(e):
+            save_btn['bg'] = self.COLOR_ROJO
+        def on_enter_cancel(e):
+            cancel_btn['bg'] = self.COLOR_GRIS_HOVER
+        def on_leave_cancel(e):
+            cancel_btn['bg'] = self.COLOR_GRIS
+
+        save_btn.bind("<Enter>", on_enter_save)
+        save_btn.bind("<Leave>", on_leave_save)
+        cancel_btn.bind("<Enter>", on_enter_cancel)
+        cancel_btn.bind("<Leave>", on_leave_cancel)
+
+        # Enfocar el campo de entrada automáticamente
+        phone_entry.focus_set()
+        phone_entry.select_range(0, 'end')  # Seleccionar todo el texto si hay
+
+    def recreate_cliente_frame(self):
+        """Recrear el frame del cliente para mostrar los cambios"""
+        # Buscar y destruir el frame del cliente actual
+        for widget in self.left_frame.winfo_children():
+            if isinstance(widget, tk.LabelFrame) and widget.cget('text') == 'CLIENTE':
+                widget.destroy()
+                break
+        
+        # Recrear el frame del cliente
+        self.create_cliente_frame()
+    
     def create_cliente_frame(self):
-            """Crea el frame principal del cliente"""
-            client_frame = tk.LabelFrame(self.left_frame, text="CLIENTE", 
-                                    font=("Arial", 16, "bold"), bg=self.COLOR_BLANCO)
-            client_frame.pack(fill='x', padx=20, pady=(20,10))
+        """Crea el frame principal del cliente - VERSIÓN FINAL"""
+        client_frame = tk.LabelFrame(self.left_frame, text="CLIENTE", 
+                                font=("Arial", 16, "bold"), bg=self.COLOR_BLANCO)
+        client_frame.pack(fill='x', padx=20, pady=(20,10))
 
-            info_container = tk.Frame(client_frame, bg=self.COLOR_BLANCO)
-            info_container.pack(fill='x', padx=20, pady=10)
+        info_container = tk.Frame(client_frame, bg=self.COLOR_BLANCO)
+        info_container.pack(fill='x', padx=20, pady=10)
 
-            self.create_info_field(info_container, "Número de Cliente:", str(self.client_id))
-            self.create_info_field(info_container, "Nombre:", self.client_data.get('nombre', 'N/A'))
-            self.create_info_field(info_container, "Teléfono:", self.client_data.get('telefono1', 'N/A'))
-            self.create_info_field(info_container, "Telefono Referencia:", self.client_data.get('telefono2', 'N/A'))
-            self.create_info_field(info_container, "Dirección:", self.client_data.get('direccion', 'N/A'))
-            self.create_info_field(info_container, "Saldo:", f"${self.client_data.get('saldo', 0):,.2f}")
-            self.create_info_field(info_container, "Crédito:", "Sí" if self.client_data.get('credito') else "No")
+        self.create_info_field(info_container, "Número de Cliente:", str(self.client_id))
+        self.create_info_field(info_container, "Nombre:", self.client_data.get('nombre', 'N/A'))
+        self.create_info_field(info_container, "Teléfono:", self.client_data.get('telefono1', 'N/A'))
+        self.create_info_field(info_container, "Telefono Referencia:", self.client_data.get('telefono2', 'N/A'))
+        self.create_info_field(info_container, "Dirección:", self.client_data.get('direccion', 'N/A'))
+        self.create_info_field(info_container, "Saldo:", f"${self.client_data.get('saldo', 0):,.2f}")
+        self.create_info_field(info_container, "Crédito:", "Sí" if self.client_data.get('credito') else "No")
 
-            estado_frame = tk.Frame(client_frame, bg=self.COLOR_BLANCO)
-            estado_frame.place(relx=1.0, x=-20, y=10, anchor='ne')
+        # Frame para el estado (esquina superior derecha)
+        estado_frame = tk.Frame(client_frame, bg=self.COLOR_BLANCO)
+        estado_frame.place(relx=1.0, x=-20, y=10, anchor='ne')
 
-            estado_label = tk.Label(estado_frame, text="●", font=("Arial", 12), fg=self.COLOR_ROJO, bg=self.COLOR_BLANCO)
-            estado_label.pack(side='left')
+        estado_label = tk.Label(estado_frame, text="●", font=("Arial", 12), fg=self.COLOR_ROJO, bg=self.COLOR_BLANCO)
+        estado_label.pack(side='left')
 
-            estado_texto = tk.Label(estado_frame, text=self.client_data.get('estado', 'ACTIVO'), font=("Arial", 12), fg=self.COLOR_ROJO, bg=self.COLOR_BLANCO)
-            estado_texto.pack(side='left', padx=5)
+        estado_texto = tk.Label(estado_frame, text=self.client_data.get('estado', 'ACTIVO'), font=("Arial", 12), fg=self.COLOR_ROJO, bg=self.COLOR_BLANCO)
+        estado_texto.pack(side='left', padx=5)
+
+        # NUEVO: Frame para teléfono3 debajo del estado
+        telefono3_text = self.client_data.get('telefono3', '')
+        if telefono3_text and telefono3_text.strip():
+            telefono3_frame = tk.Frame(client_frame, bg=self.COLOR_BLANCO)
+            telefono3_frame.place(relx=1.0, x=-20, y=35, anchor='ne')  # 25px debajo del estado
+            
+            telefono3_label = tk.Label(telefono3_frame, 
+                                    text="📞", 
+                                    font=("Arial", 10), 
+                                    bg=self.COLOR_BLANCO)
+            telefono3_label.pack(side='left')
+            
+            telefono3_numero = tk.Label(telefono3_frame, 
+                                    text=telefono3_text, 
+                                    font=("Arial", 10), 
+                                    fg=self.COLOR_NEGRO, 
+                                    bg=self.COLOR_BLANCO)
+            telefono3_numero.pack(side='left', padx=5)
 
     def create_info_field(self, parent, label, value):
         """Crea un campo de información"""
@@ -1175,7 +1317,9 @@ class DetalleClienteWindow:
         finally:
             if conn:
                 conn.close()                
+    
     #================================================================
+    
     def get_client_notes(self, client_id):
         """Obtiene todas las notas de un cliente específico incluyendo el usuario que las creó"""
         conn = get_db_connection()
@@ -1209,7 +1353,7 @@ class DetalleClienteWindow:
         finally:
             if conn:
                 conn.close()
-    
+  
     def update_timeline(self, notes):
         # Eliminar solo los widgets de notas anteriores
         for widget in self.canvas.winfo_children():
@@ -2149,17 +2293,7 @@ class CobranzaApp:
                             cursor="hand2",
                             command=self.recargar_datos)
         reload_button.pack(side='right', padx=20)
-            
-        # Botón WhatsApp
-        whatsapp_button = tk.Button(header_frame,
-                                text="WhatsApp",
-                                font=("Arial", 10),
-                                bg=self.COLOR_BLANCO,
-                                fg=self.COLOR_NEGRO,
-                                bd=0,
-                                cursor="hand2",
-                                command=self.open_whatsapp_bot)
-        whatsapp_button.pack(side='right', padx=20)
+    
     def calcular_total_categoria(self, categoria: str) -> float:
         """Calcula el total de deuda para una categoría específica"""
         total = 0
@@ -2169,9 +2303,7 @@ class CobranzaApp:
             if self.categorizar_cliente(clave) == categoria:
                 total += cliente['saldo']
         return total
-    def open_whatsapp_bot(self):
-        bat_file = r'C:\Users\USER\Documents\GitHub\chatbotwapp\run_whatsapp_bot.bat'
-        os.startfile(bat_file)
+    
     def load_initial_data(self):
         """Carga los datos iniciales de clientes y sus categorías"""
         try:
@@ -2247,6 +2379,7 @@ class CobranzaApp:
             )
             # Recargar contenido
             self.refresh_ui()
+            
     def obtener_datos_clientes(self) -> Dict:
         """
         Obtiene los datos de clientes desde la base de datos
