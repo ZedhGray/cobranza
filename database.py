@@ -723,6 +723,7 @@ def format_phone_number(phone):
         # Si no se puede formatear, devolver tal como está
         return phone
 
+
 # User and password validation
 def validate_user(credentials):
     """

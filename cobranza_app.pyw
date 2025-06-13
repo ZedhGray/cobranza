@@ -84,7 +84,7 @@ class UserSession:
 class LoadingSplash:
     def __init__(self, root):
         self.root = root
-        self.root.title("Sistema de Cobranza")
+        self.root.title("Sistema de Cobranza v1.2")
         self.user_session = UserSession()
         
         # Configuración de la ventana
@@ -403,7 +403,7 @@ class DetalleClienteWindow:
         self.top.geometry(f"{window_width}x{window_height}+{x}+{y}")
     
     def create_control_panel(self):
-        """Crea el panel de control lateral derecho con estilo mejorado - VERSIÓN MODIFICADA"""
+        """Crea el panel de control lateral derecho con estilo mejorado - VERSIÓN COMPLETA"""
         # Frame contenedor con borde redondeado
         control_container = tk.Frame(self.right_frame, bg=self.COLOR_GRIS)
         control_container.pack(fill='x', pady=10)
@@ -440,7 +440,7 @@ class DetalleClienteWindow:
         add_note_btn.bind("<Enter>", on_enter_note)
         add_note_btn.bind("<Leave>", on_leave_note)
 
-        # NUEVO BOTÓN - Agregar Teléfono3
+        # BOTÓN - Agregar Teléfono3
         add_phone_btn = tk.Button(control_container,
                             text="+ Teléfono",
                             font=("Arial", 10, "bold"),
@@ -464,6 +464,66 @@ class DetalleClienteWindow:
 
         add_phone_btn.bind("<Enter>", on_enter_phone)
         add_phone_btn.bind("<Leave>", on_leave_phone)
+
+        # Nuevos botones para notas rápidas
+        quick_notes = [
+            ("Buzón", "Mandó a buzón de voz"),
+            ("No disponible", "El número marcado no está disponible"),
+            ("Notifico a Whats", "Se le notifico via whatsapp")
+        ]
+
+        for btn_text, note_text in quick_notes:
+            btn = tk.Button(control_container,
+                        text=btn_text,
+                        font=("Arial", 10),
+                        bg=self.COLOR_BLANCO,
+                        fg=self.COLOR_NEGRO,
+                        bd=0,
+                        relief="flat",
+                        padx=15,
+                        pady=8,
+                        width=15,
+                        cursor="hand2",
+                        command=lambda t=note_text: self.create_quick_note(t))
+            btn.pack(pady=(0,10))
+
+            # Eventos hover para cada botón
+            def on_enter(e, button=btn):
+                button['bg'] = self.COLOR_GRIS_HOVER
+            def on_leave(e, button=btn):
+                button['bg'] = self.COLOR_BLANCO
+
+            btn.bind("<Enter>", on_enter)
+            btn.bind("<Leave>", on_leave)
+
+        # Separador visual
+        separator = tk.Frame(control_container, height=1, bg=self.COLOR_GRIS_HOVER)
+        separator.pack(fill='x', pady=10)
+
+        # BOTÓN DE FECHA PROMESA (RESTAURADO)
+        calendar_btn = tk.Button(control_container,
+                            text="Fecha Promesa",
+                            font=("Arial", 10, "bold"),
+                            bg=self.COLOR_BLANCO,
+                            fg=self.COLOR_NEGRO,
+                            bd=0,
+                            relief="flat",
+                            padx=15,
+                            pady=8,
+                            width=15,
+                            cursor="hand2",
+                            command=self.show_calendar_dialog)
+        
+        calendar_btn.pack(pady=(0,10))
+        
+        # Eventos hover para el botón de calendario
+        def on_enter_calendar(e):
+            calendar_btn['bg'] = self.COLOR_GRIS_HOVER
+        def on_leave_calendar(e):
+            calendar_btn['bg'] = self.COLOR_BLANCO
+        
+        calendar_btn.bind("<Enter>", on_enter_calendar)
+        calendar_btn.bind("<Leave>", on_leave_calendar)
 
         # Separador visual
         separator2 = tk.Frame(control_container, height=1, bg=self.COLOR_GRIS_HOVER)
@@ -535,7 +595,7 @@ class DetalleClienteWindow:
         whatsapp_btn.bind("<Enter>", on_enter_whatsapp)
         whatsapp_btn.bind("<Leave>", on_leave_whatsapp)
 
-        # NUEVO: Botón de Llamada Telefónica
+        # Botón de Llamada Telefónica
         phone_btn = tk.Button(control_container,
                             text="Llamar por teléfono",
                             font=("Arial", 10, "bold"),
@@ -552,13 +612,13 @@ class DetalleClienteWindow:
         phone_btn.pack(pady=(0,10))
 
         # Eventos hover para el botón de llamada
-        def on_enter_phone(e):
+        def on_enter_phone_call(e):
             phone_btn['bg'] = self.COLOR_GRIS_HOVER
-        def on_leave_phone(e):
+        def on_leave_phone_call(e):
             phone_btn['bg'] = self.COLOR_BLANCO
 
-        phone_btn.bind("<Enter>", on_enter_phone)
-        phone_btn.bind("<Leave>", on_leave_phone)
+        phone_btn.bind("<Enter>", on_enter_phone_call)
+        phone_btn.bind("<Leave>", on_leave_phone_call)
 
         # Buro state
         buro_state = self.get_buro_state(self.client_id)
@@ -1076,7 +1136,7 @@ class DetalleClienteWindow:
         
         # Recrear el frame del cliente
         self.create_cliente_frame()
-    
+        
     def create_cliente_frame(self):
         """Crea el frame principal del cliente - VERSIÓN FINAL"""
         client_frame = tk.LabelFrame(self.left_frame, text="CLIENTE", 
